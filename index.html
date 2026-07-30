@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Krabben-Lieferungen v0.6.9 Test</title>
+<title>Krabben-Lieferungen v0.7.0 Firebase Test</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -846,12 +846,33 @@ header .version{font-size:.68rem!important}
  background:#dcece3!important;
 }
 
+
+.sync-badge{
+ background:#ffffff18;border:1px solid #ffffff45;border-radius:9px;padding:6px 10px;text-align:right;min-width:145px
+}
+.sync-badge span{display:block;font-size:.65rem;opacity:.75;text-transform:uppercase;letter-spacing:.04em}
+.sync-badge strong{display:block;font-size:.78rem}
+.sync-badge.online{background:#1d7b5d;border-color:#8bd1b7}
+.sync-badge.syncing{background:#8a6818;border-color:#ebcf7c}
+.sync-badge.error{background:#9a3838;border-color:#efaaaa}
+.sync-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.sync-info-grid>div{background:#f5f9fa;border:1px solid var(--line);border-radius:9px;padding:9px}
+.sync-info-grid span{display:block;font-size:.66rem;color:var(--muted);font-weight:800}
+.sync-info-grid strong{display:block;margin-top:3px;font-size:.78rem}
+.firebase-choice-card{width:min(620px,96vw)}
+.firebase-choice-text{margin:12px 0;line-height:1.45}
+.firebase-choice-summary{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.firebase-choice-summary>div{border:1px solid var(--line);border-radius:10px;padding:12px;background:#f6fafb;text-align:center}
+.firebase-choice-summary span{display:block;font-size:.72rem;color:var(--muted);font-weight:800}
+.firebase-choice-summary strong{display:block;margin-top:5px}
+@media(max-width:700px){.sync-info-grid,.firebase-choice-summary{grid-template-columns:1fr}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.6.9 Test · Lieferliste übersichtlicher gruppiert</div></div>
-<div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="pending">Offene Fangreisen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen & Backup</button></nav></div></header>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.0 Firebase Test · Geräteübergreifende Synchronisierung</div></div>
+<div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="pending">Offene Fangreisen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen & Backup</button></nav></div></header>
 <main>
 <section id="dashboard" class="view active">
  <div class="card">
@@ -1035,6 +1056,21 @@ header .version{font-size:.68rem!important}
 <section id="settings" class="view">
  <div class="grid g2">
   <div class="card"><h2>Einstellungen</h2><div class="grid g2"><div><label>Standard-Schiff / Lieferant</label><input id="setSupplier"></div><div><label>Lohnanteil %</label><input id="setWage" type="number" min="0" max="100" step="0.1"></div><div><label>Standard kg je vCatch-Kiste (Fallback)</label><input id="setBoxWeight" type="number" min=".1" step=".1"></div><div><label>Rundung ganze Kisten</label><select id="setBoxRounding"><option value="nearest">kaufmännisch</option><option value="up">immer aufrunden</option><option value="down">immer abrunden</option></select></div></div><div class="actions"><button class="btn primary" id="saveSettings" type="button">Einstellungen speichern</button></div><div id="settingsStatus" class="status"></div></div>
+  <div class="card firebase-sync-card">
+   <h2>Firebase-Synchronisierung</h2>
+   <div class="note">Die Lieferungen, offenen Fangreisen und Einstellungen werden mit dem Firebase-Projekt „Logbuch-Wochenplaner“ synchronisiert.</div>
+   <div class="sync-info-grid">
+    <div><span>Status</span><strong id="firebaseStatusDetail">Verbindung wird aufgebaut …</strong></div>
+    <div><span>Letzte Synchronisierung</span><strong id="firebaseLastSync">–</strong></div>
+    <div><span>Gerät</span><strong id="firebaseDeviceName">–</strong></div>
+   </div>
+   <div class="actions">
+    <button class="btn primary" id="syncNowBtn" type="button">Jetzt synchronisieren</button>
+    <button class="btn secondary" id="uploadLocalBtn" type="button">Lokale Daten hochladen</button>
+    <button class="btn secondary" id="downloadCloudBtn" type="button">Cloud-Daten laden</button>
+   </div>
+   <div id="firebaseStatus" class="status"></div>
+  </div>
   <div class="card"><h2>Backup</h2><div class="note">Die Daten werden lokal im Browser gespeichert. Regelmäßig ein Backup herunterladen.</div><div class="actions"><button class="btn success" id="exportJson" type="button">Backup herunterladen</button><label class="btn secondary">Backup einlesen<input id="importJson" type="file" accept=".json,application/json" hidden></label><button class="btn secondary" id="exportCsv" type="button">CSV exportieren</button></div><div id="backupStatus" class="status"></div></div>
   <div class="card"><h2>Excel-Daten importieren</h2>
   <div class="note">Du kannst deine Lieferschein-Exceldatei mit mehreren Jahresblättern importieren, zum Beispiel 2020 bis 2025. Bereits vorhandene Lieferungen werden über Datum und Werte erkannt und nicht doppelt angelegt.</div>
@@ -1093,7 +1129,12 @@ let records=load(KEY,[]), settings={supplier:'Harmonie ACC 3',wage:17,boxWeight:
 settings.monthlyQuality=settings.monthlyQuality||{};
 Object.entries(EXCEL_MONTH_QUALITY_2025).forEach(([m,v])=>{const k='2025-'+m; if(settings.monthlyQuality[k]===undefined)settings.monthlyQuality[k]=v});
 
-function persist(){localStorage.setItem(KEY,JSON.stringify(records));localStorage.setItem(SETTINGS,JSON.stringify(settings));localStorage.setItem(PENDING_KEY,JSON.stringify(pendingTrips))}
+function persist(){
+ localStorage.setItem(KEY,JSON.stringify(records));
+ localStorage.setItem(SETTINGS,JSON.stringify(settings));
+ localStorage.setItem(PENDING_KEY,JSON.stringify(pendingTrips));
+ if(!window.__krabbenApplyingRemote)window.dispatchEvent(new CustomEvent('krabben-local-change'));
+}
 function parseDate(s){return new Date(s+'T12:00:00')}
 function isoInfo(s){
  const d=parseDate(s), day=(d.getDay()+6)%7;
@@ -1730,7 +1771,7 @@ $('importExcelFile').onchange=async e=>{
 
 $('importExcel2025').onclick=()=>{const existing=new Set(records.map(r=>r.id));let added=0;EXCEL_IMPORT_2025.forEach(r=>{if(!existing.has(r.id)){records.push(normalize(JSON.parse(JSON.stringify(r))));added++}});refresh();status('excelStatus',added?added+' Lieferungen aus Excel 2025 importiert.':'Alle Excel-Daten 2025 sind bereits vorhanden.');};
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.6.9-Test_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.6.9-test',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.0-Firebase-Test_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.0-firebase-test',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -1755,7 +1796,252 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Gesamtfang kg','Kistengewicht kg','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,roundBoxes(r.boxes),r.total,r.wage]})];download('Krabben_Lieferungen_v0.6.9-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Gesamtfang kg','Kistengewicht kg','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,roundBoxes(r.boxes),r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.0-Firebase-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+
+window.KrabbenCloudBridge={
+ getState:()=>({
+  records:JSON.parse(JSON.stringify(records)),
+  pendingTrips:JSON.parse(JSON.stringify(pendingTrips)),
+  settings:JSON.parse(JSON.stringify(settings))
+ }),
+ applyState:(state)=>{
+  window.__krabbenApplyingRemote=true;
+  try{
+   records=Array.isArray(state.records)?state.records.map(normalize):[];
+   pendingTrips=Array.isArray(state.pendingTrips)?state.pendingTrips:[];
+   settings={...settings,...(state.settings||{})};
+   settings.monthlyQuality=settings.monthlyQuality||{};
+   settings.lastPrices=Array.isArray(settings.lastPrices)?settings.lastPrices:[0,0,0];
+   localStorage.setItem(KEY,JSON.stringify(records));
+   localStorage.setItem(SETTINGS,JSON.stringify(settings));
+   localStorage.setItem(PENDING_KEY,JSON.stringify(pendingTrips));
+   refresh();resetForm();showSavedRecord();
+  }finally{
+   window.__krabbenApplyingRemote=false;
+  }
+ },
+ getSummary:()=>({records:records.length,pending:pendingTrips.filter(t=>t.status!=='completed').length}),
+ showMessage:(message,ok=true)=>status('firebaseStatus',message,ok)
+};
+
 $('dashDate').value=today();resetForm();fillSelectors();$('dashYear').value=parseDate($('dashDate').value).getFullYear();$('monthSelect').value=parseDate($('dashDate').value).getMonth();refresh();showSavedRecord();renderPendingTrips();updatePendingQuantityUi();
 </script>
+
+<div id="firebaseChoiceModal" class="note-modal hidden" role="dialog" aria-modal="true">
+ <div class="note-modal-card firebase-choice-card">
+  <div class="note-modal-head"><h3>Erste Firebase-Synchronisierung</h3></div>
+  <div class="firebase-choice-text">
+   Auf diesem Gerät und in der Cloud sind Daten vorhanden. Wähle aus, welcher Datenstand zuerst übernommen werden soll.
+  </div>
+  <div class="firebase-choice-summary">
+   <div><span>Dieses Gerät</span><strong id="localChoiceSummary">–</strong></div>
+   <div><span>Cloud</span><strong id="cloudChoiceSummary">–</strong></div>
+  </div>
+  <div class="actions">
+   <button class="btn primary" id="chooseLocalBtn" type="button">Daten dieses Geräts hochladen</button>
+   <button class="btn secondary" id="chooseCloudBtn" type="button">Cloud-Daten übernehmen</button>
+  </div>
+  <div class="note">Vor der Übernahme wird der jeweils andere Stand automatisch als lokale Sicherheitskopie gespeichert.</div>
+ </div>
+</div>
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCl5bcJErUTZqgaPPIPSYLDB0nftQLjJsg",
+  authDomain: "logbuch-wochenplaner.firebaseapp.com",
+  projectId: "logbuch-wochenplaner",
+  storageBucket: "logbuch-wochenplaner.firebasestorage.app",
+  messagingSenderId: "590029495141",
+  appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
+};
+
+const APP_VERSION = "0.7.0-firebase-test";
+const SYNC_META_KEY = "krabben_firebase_sync_meta_v1";
+const DEVICE_KEY = "krabben_device_id_v1";
+const CLOUD_DOC_PATH = ["krabbenApps", "krabben-lieferungen-main"];
+const bridge = window.KrabbenCloudBridge;
+
+const deviceId = localStorage.getItem(DEVICE_KEY) || crypto.randomUUID();
+localStorage.setItem(DEVICE_KEY, deviceId);
+const deviceName = `${navigator.platform || "Gerät"} · ${deviceId.slice(0, 6)}`;
+let syncMeta = (()=>{try{return JSON.parse(localStorage.getItem(SYNC_META_KEY))||{}}catch{return {}}})();
+let initialized = false;
+let uploadTimer = null;
+let remoteUnsubscribe = null;
+let latestCloudState = null;
+let latestCloudMeta = null;
+
+const $id = id => document.getElementById(id);
+const stateHash = state => JSON.stringify({
+  records: state.records || [],
+  pendingTrips: state.pendingTrips || [],
+  settings: state.settings || {}
+});
+
+function setSyncUi(mode, text, detail=text){
+  const badge=$id("syncBadge");
+  badge.classList.remove("online","syncing","error");
+  if(mode)badge.classList.add(mode);
+  $id("syncStatusText").textContent=text;
+  $id("firebaseStatusDetail").textContent=detail;
+}
+function setLastSync(date=new Date()){
+  const value=date.toLocaleString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
+  $id("firebaseLastSync").textContent=value;
+  syncMeta.lastSync=value;
+  localStorage.setItem(SYNC_META_KEY,JSON.stringify(syncMeta));
+}
+function summaryText(state){
+  return `${(state.records||[]).length} Lieferungen · ${(state.pendingTrips||[]).filter(t=>t.status!=="completed").length} offen`;
+}
+function saveSafetyCopy(label,state){
+  localStorage.setItem(`krabben_sync_safety_${label}_${Date.now()}`,JSON.stringify(state));
+}
+function currentPayload(){
+  const state=bridge.getState();
+  return {
+    ...state,
+    appVersion:APP_VERSION,
+    updatedAt:serverTimestamp(),
+    updatedAtMs:Date.now(),
+    updatedBy:deviceId,
+    deviceName
+  };
+}
+async function uploadState(reason="Automatisch"){
+  if(!initialized)return;
+  setSyncUi("syncing","Synchronisiert …",reason);
+  try{
+    const payload=currentPayload();
+    await setDoc(doc(db,...CLOUD_DOC_PATH),payload);
+    syncMeta.lastUploadedHash=stateHash(payload);
+    syncMeta.lastSeenUpdatedAtMs=payload.updatedAtMs;
+    localStorage.setItem(SYNC_META_KEY,JSON.stringify(syncMeta));
+    setLastSync();
+    setSyncUi("online","Aktuell","Cloud und Gerät sind aktuell");
+  }catch(err){
+    console.error(err);
+    setSyncUi("error","Fehler",err.code==="permission-denied"?"Firestore-Zugriff verweigert – Regeln prüfen":err.message);
+    bridge.showMessage("Firebase-Synchronisierung fehlgeschlagen: "+err.message,false);
+  }
+}
+function scheduleUpload(){
+  if(!initialized || window.__krabbenApplyingRemote)return;
+  clearTimeout(uploadTimer);
+  uploadTimer=setTimeout(()=>uploadState("Lokale Änderung wird hochgeladen"),1200);
+}
+function applyCloud(data){
+  saveSafetyCopy("vor_cloud_import",bridge.getState());
+  bridge.applyState(data);
+  syncMeta.lastSeenUpdatedAtMs=Number(data.updatedAtMs)||Date.now();
+  syncMeta.lastCloudHash=stateHash(data);
+  localStorage.setItem(SYNC_META_KEY,JSON.stringify(syncMeta));
+  setLastSync();
+  setSyncUi("online","Aktuell","Cloud-Daten wurden übernommen");
+}
+function showFirstChoice(localState,cloudState){
+  latestCloudState=cloudState;
+  $id("localChoiceSummary").textContent=summaryText(localState);
+  $id("cloudChoiceSummary").textContent=summaryText(cloudState);
+  $id("firebaseChoiceModal").classList.remove("hidden");
+}
+async function initializeSync(){
+  setSyncUi("syncing","Verbindet …","Verbindung zu Firestore wird aufgebaut");
+  $id("firebaseDeviceName").textContent=deviceName;
+  try{
+    const snap=await getDoc(doc(db,...CLOUD_DOC_PATH));
+    const localState=bridge.getState();
+    if(!snap.exists()){
+      initialized=true;
+      await uploadState("Erster Datenstand wird angelegt");
+    }else{
+      const cloudState=snap.data();
+      latestCloudState=cloudState;
+      latestCloudMeta={updatedAtMs:Number(cloudState.updatedAtMs)||0,updatedBy:cloudState.updatedBy||""};
+      const localHas=(localState.records||[]).length||(localState.pendingTrips||[]).length;
+      const cloudHas=(cloudState.records||[]).length||(cloudState.pendingTrips||[]).length;
+      const same=stateHash(localState)===stateHash(cloudState);
+      if(same){
+        initialized=true;
+        setLastSync();
+        setSyncUi("online","Aktuell","Cloud und Gerät stimmen überein");
+      }else if(!localHas && cloudHas){
+        applyCloud(cloudState);initialized=true;
+      }else if(localHas && !cloudHas){
+        initialized=true;await uploadState("Lokale Daten werden in die leere Cloud übertragen");
+      }else if(syncMeta.lastSeenUpdatedAtMs){
+        if((Number(cloudState.updatedAtMs)||0)>Number(syncMeta.lastSeenUpdatedAtMs)){
+          applyCloud(cloudState);
+        }
+        initialized=true;
+      }else{
+        showFirstChoice(localState,cloudState);
+      }
+    }
+    startRealtimeListener();
+  }catch(err){
+    console.error(err);
+    setSyncUi("error","Fehler",err.code==="permission-denied"?"Firestore-Zugriff verweigert – Regeln prüfen":err.message);
+    bridge.showMessage("Firebase-Verbindung fehlgeschlagen: "+err.message,false);
+  }
+}
+function startRealtimeListener(){
+  remoteUnsubscribe=onSnapshot(doc(db,...CLOUD_DOC_PATH),snap=>{
+    if(!snap.exists()||!initialized)return;
+    const data=snap.data();
+    latestCloudState=data;
+    const remoteTime=Number(data.updatedAtMs)||0;
+    if(data.updatedBy===deviceId)return;
+    if(remoteTime>Number(syncMeta.lastSeenUpdatedAtMs||0)){
+      applyCloud(data);
+      bridge.showMessage("Neue Cloud-Daten wurden automatisch übernommen.");
+    }
+  },err=>{
+    console.error(err);
+    setSyncUi("error","Fehler",err.message);
+  });
+}
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+
+window.addEventListener("krabben-local-change",scheduleUpload);
+$id("syncNowBtn").onclick=()=>uploadState("Manuelle Synchronisierung");
+$id("uploadLocalBtn").onclick=async()=>{
+  if(confirm("Lokale Daten wirklich in die Cloud schreiben? Der bisherige Cloud-Stand wird vorher lokal gesichert.")){
+    if(latestCloudState)saveSafetyCopy("cloud_vor_upload",latestCloudState);
+    initialized=true;await uploadState("Lokale Daten werden hochgeladen");
+  }
+};
+$id("downloadCloudBtn").onclick=async()=>{
+  try{
+    const snap=await getDoc(doc(db,...CLOUD_DOC_PATH));
+    if(!snap.exists())throw new Error("In der Cloud sind noch keine Daten vorhanden.");
+    if(confirm("Cloud-Daten auf dieses Gerät übernehmen? Der lokale Stand wird vorher gesichert."))applyCloud(snap.data());
+  }catch(err){bridge.showMessage(err.message,false)}
+};
+$id("chooseLocalBtn").onclick=async()=>{
+  saveSafetyCopy("cloud_vor_erster_wahl",latestCloudState||{});
+  $id("firebaseChoiceModal").classList.add("hidden");
+  initialized=true;await uploadState("Daten dieses Geräts werden als erster Cloud-Stand verwendet");
+};
+$id("chooseCloudBtn").onclick=()=>{
+  saveSafetyCopy("lokal_vor_erster_wahl",bridge.getState());
+  $id("firebaseChoiceModal").classList.add("hidden");
+  if(latestCloudState)applyCloud(latestCloudState);
+  initialized=true;
+};
+
+window.addEventListener("online",()=>{setSyncUi("syncing","Online","Verbindung wird geprüft");initializeSync()});
+window.addEventListener("offline",()=>setSyncUi("error","Offline","Änderungen bleiben lokal und werden später synchronisiert"));
+
+initializeSync();
+</script>
+
 </body></html>
