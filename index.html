@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Krabben-Lieferungen v0.7.0 Firebase Test</title>
+<title>Krabben-Lieferungen v0.7.1 Firebase Auth Test</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -871,7 +871,7 @@ header .version{font-size:.68rem!important}
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.0 Firebase Test · Geräteübergreifende Synchronisierung</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.1 Firebase Auth Test · Google-Anmeldung & sicherer Benutzerpfad</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="pending">Offene Fangreisen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen & Backup</button></nav></div></header>
 <main>
 <section id="dashboard" class="view active">
@@ -1065,6 +1065,8 @@ header .version{font-size:.68rem!important}
     <div><span>Gerät</span><strong id="firebaseDeviceName">–</strong></div>
    </div>
    <div class="actions">
+    <button class="btn primary" id="googleSignInBtn" type="button">Mit Google anmelden</button>
+    <button class="btn secondary hidden" id="signOutBtn" type="button">Abmelden</button>
     <button class="btn primary" id="syncNowBtn" type="button">Jetzt synchronisieren</button>
     <button class="btn secondary" id="uploadLocalBtn" type="button">Lokale Daten hochladen</button>
     <button class="btn secondary" id="downloadCloudBtn" type="button">Cloud-Daten laden</button>
@@ -1771,7 +1773,7 @@ $('importExcelFile').onchange=async e=>{
 
 $('importExcel2025').onclick=()=>{const existing=new Set(records.map(r=>r.id));let added=0;EXCEL_IMPORT_2025.forEach(r=>{if(!existing.has(r.id)){records.push(normalize(JSON.parse(JSON.stringify(r))));added++}});refresh();status('excelStatus',added?added+' Lieferungen aus Excel 2025 importiert.':'Alle Excel-Daten 2025 sind bereits vorhanden.');};
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.0-Firebase-Test_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.0-firebase-test',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.1-Firebase-Auth-Test_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.1-firebase-auth-test',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -1796,7 +1798,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Gesamtfang kg','Kistengewicht kg','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,roundBoxes(r.boxes),r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.0-Firebase-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Gesamtfang kg','Kistengewicht kg','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,roundBoxes(r.boxes),r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.1-Firebase-Auth-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -1851,6 +1853,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/fireba
 import {
   getFirestore, doc, getDoc, setDoc, onSnapshot, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import {
+  getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
+  setPersistence, browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCl5bcJErUTZqgaPPIPSYLDB0nftQLjJsg",
@@ -1861,21 +1867,29 @@ const firebaseConfig = {
   appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
 };
 
-const APP_VERSION = "0.7.0-firebase-test";
-const SYNC_META_KEY = "krabben_firebase_sync_meta_v1";
+const APP_VERSION = "0.7.1-firebase-auth-test";
+const SYNC_META_KEY = "krabben_firebase_sync_meta_v2";
 const DEVICE_KEY = "krabben_device_id_v1";
-const CLOUD_DOC_PATH = ["krabbenApps", "krabben-lieferungen-main"];
 const bridge = window.KrabbenCloudBridge;
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({prompt:"select_account"});
+await setPersistence(auth, browserLocalPersistence);
 
 const deviceId = localStorage.getItem(DEVICE_KEY) || crypto.randomUUID();
 localStorage.setItem(DEVICE_KEY, deviceId);
-const deviceName = `${navigator.platform || "Gerät"} · ${deviceId.slice(0, 6)}`;
-let syncMeta = (()=>{try{return JSON.parse(localStorage.getItem(SYNC_META_KEY))||{}}catch{return {}}})();
+const deviceName = `${navigator.platform || "Gerät"} · ${deviceId.slice(0,6)}`;
+
+let currentUser = null;
+let cloudRef = null;
 let initialized = false;
 let uploadTimer = null;
 let remoteUnsubscribe = null;
 let latestCloudState = null;
-let latestCloudMeta = null;
+let syncMeta = (()=>{try{return JSON.parse(localStorage.getItem(SYNC_META_KEY))||{}}catch{return {}}})();
 
 const $id = id => document.getElementById(id);
 const stateHash = state => JSON.stringify({
@@ -1884,7 +1898,7 @@ const stateHash = state => JSON.stringify({
   settings: state.settings || {}
 });
 
-function setSyncUi(mode, text, detail=text){
+function setSyncUi(mode,text,detail=text){
   const badge=$id("syncBadge");
   badge.classList.remove("online","syncing","error");
   if(mode)badge.classList.add(mode);
@@ -1896,6 +1910,14 @@ function setLastSync(date=new Date()){
   $id("firebaseLastSync").textContent=value;
   syncMeta.lastSync=value;
   localStorage.setItem(SYNC_META_KEY,JSON.stringify(syncMeta));
+}
+function updateAuthUi(user){
+  currentUser=user||null;
+  $id("googleSignInBtn").classList.toggle("hidden",!!user);
+  $id("signOutBtn").classList.toggle("hidden",!user);
+  $id("firebaseDeviceName").textContent=user
+    ? `${user.email || user.displayName || "Google-Nutzer"} · ${deviceName}`
+    : deviceName;
 }
 function summaryText(state){
   return `${(state.records||[]).length} Lieferungen · ${(state.pendingTrips||[]).filter(t=>t.status!=="completed").length} offen`;
@@ -1911,15 +1933,17 @@ function currentPayload(){
     updatedAt:serverTimestamp(),
     updatedAtMs:Date.now(),
     updatedBy:deviceId,
-    deviceName
+    deviceName,
+    ownerUid:currentUser.uid,
+    ownerEmail:currentUser.email || ""
   };
 }
 async function uploadState(reason="Automatisch"){
-  if(!initialized)return;
+  if(!initialized||!currentUser||!cloudRef)return;
   setSyncUi("syncing","Synchronisiert …",reason);
   try{
     const payload=currentPayload();
-    await setDoc(doc(db,...CLOUD_DOC_PATH),payload);
+    await setDoc(cloudRef,payload);
     syncMeta.lastUploadedHash=stateHash(payload);
     syncMeta.lastSeenUpdatedAtMs=payload.updatedAtMs;
     localStorage.setItem(SYNC_META_KEY,JSON.stringify(syncMeta));
@@ -1927,12 +1951,19 @@ async function uploadState(reason="Automatisch"){
     setSyncUi("online","Aktuell","Cloud und Gerät sind aktuell");
   }catch(err){
     console.error(err);
-    setSyncUi("error","Fehler",err.code==="permission-denied"?"Firestore-Zugriff verweigert – Regeln prüfen":err.message);
-    bridge.showMessage("Firebase-Synchronisierung fehlgeschlagen: "+err.message,false);
+    setSyncUi("error","Fehler",firebaseErrorText(err));
+    bridge.showMessage("Firebase-Synchronisierung fehlgeschlagen: "+firebaseErrorText(err),false);
   }
 }
+function firebaseErrorText(err){
+  if(err?.code==="permission-denied")return "Firestore-Zugriff verweigert";
+  if(err?.code==="auth/unauthorized-domain")return "Diese GitHub-Adresse ist in Firebase noch nicht als autorisierte Domain eingetragen";
+  if(err?.code==="auth/popup-blocked")return "Anmeldefenster wurde vom Browser blockiert";
+  if(err?.code==="auth/popup-closed-by-user")return "Anmeldung wurde abgebrochen";
+  return err?.message || "Unbekannter Firebase-Fehler";
+}
 function scheduleUpload(){
-  if(!initialized || window.__krabbenApplyingRemote)return;
+  if(!initialized||!currentUser||window.__krabbenApplyingRemote)return;
   clearTimeout(uploadTimer);
   uploadTimer=setTimeout(()=>uploadState("Lokale Änderung wird hochgeladen"),1200);
 }
@@ -1951,19 +1982,29 @@ function showFirstChoice(localState,cloudState){
   $id("cloudChoiceSummary").textContent=summaryText(cloudState);
   $id("firebaseChoiceModal").classList.remove("hidden");
 }
-async function initializeSync(){
-  setSyncUi("syncing","Verbindet …","Verbindung zu Firestore wird aufgebaut");
-  $id("firebaseDeviceName").textContent=deviceName;
+function stopRealtime(){
+  if(remoteUnsubscribe){remoteUnsubscribe();remoteUnsubscribe=null}
+}
+async function initializeSyncForUser(user){
+  stopRealtime();
+  initialized=false;
+  updateAuthUi(user);
+  if(!user){
+    cloudRef=null;
+    setSyncUi("error","Nicht angemeldet","Bitte mit dem Google-Konto anmelden");
+    return;
+  }
+  cloudRef=doc(db,"users",user.uid,"krabbenApp","hauptdaten");
+  setSyncUi("syncing","Verbindet …","Sicherer Benutzerpfad wird geöffnet");
   try{
-    const snap=await getDoc(doc(db,...CLOUD_DOC_PATH));
+    const snap=await getDoc(cloudRef);
     const localState=bridge.getState();
     if(!snap.exists()){
       initialized=true;
-      await uploadState("Erster Datenstand wird angelegt");
+      await uploadState("Erster Cloud-Datenstand wird angelegt");
     }else{
       const cloudState=snap.data();
       latestCloudState=cloudState;
-      latestCloudMeta={updatedAtMs:Number(cloudState.updatedAtMs)||0,updatedBy:cloudState.updatedBy||""};
       const localHas=(localState.records||[]).length||(localState.pendingTrips||[]).length;
       const cloudHas=(cloudState.records||[]).length||(cloudState.pendingTrips||[]).length;
       const same=stateHash(localState)===stateHash(cloudState);
@@ -1971,14 +2012,14 @@ async function initializeSync(){
         initialized=true;
         setLastSync();
         setSyncUi("online","Aktuell","Cloud und Gerät stimmen überein");
-      }else if(!localHas && cloudHas){
-        applyCloud(cloudState);initialized=true;
-      }else if(localHas && !cloudHas){
-        initialized=true;await uploadState("Lokale Daten werden in die leere Cloud übertragen");
+      }else if(!localHas&&cloudHas){
+        applyCloud(cloudState);
+        initialized=true;
+      }else if(localHas&&!cloudHas){
+        initialized=true;
+        await uploadState("Lokale Daten werden in die leere Cloud übertragen");
       }else if(syncMeta.lastSeenUpdatedAtMs){
-        if((Number(cloudState.updatedAtMs)||0)>Number(syncMeta.lastSeenUpdatedAtMs)){
-          applyCloud(cloudState);
-        }
+        if((Number(cloudState.updatedAtMs)||0)>Number(syncMeta.lastSeenUpdatedAtMs))applyCloud(cloudState);
         initialized=true;
       }else{
         showFirstChoice(localState,cloudState);
@@ -1987,12 +2028,13 @@ async function initializeSync(){
     startRealtimeListener();
   }catch(err){
     console.error(err);
-    setSyncUi("error","Fehler",err.code==="permission-denied"?"Firestore-Zugriff verweigert – Regeln prüfen":err.message);
-    bridge.showMessage("Firebase-Verbindung fehlgeschlagen: "+err.message,false);
+    setSyncUi("error","Fehler",firebaseErrorText(err));
+    bridge.showMessage("Firebase-Verbindung fehlgeschlagen: "+firebaseErrorText(err),false);
   }
 }
 function startRealtimeListener(){
-  remoteUnsubscribe=onSnapshot(doc(db,...CLOUD_DOC_PATH),snap=>{
+  if(!cloudRef)return;
+  remoteUnsubscribe=onSnapshot(cloudRef,snap=>{
     if(!snap.exists()||!initialized)return;
     const data=snap.data();
     latestCloudState=data;
@@ -2004,32 +2046,52 @@ function startRealtimeListener(){
     }
   },err=>{
     console.error(err);
-    setSyncUi("error","Fehler",err.message);
+    setSyncUi("error","Fehler",firebaseErrorText(err));
   });
 }
 
-const app=initializeApp(firebaseConfig);
-const db=getFirestore(app);
-
 window.addEventListener("krabben-local-change",scheduleUpload);
-$id("syncNowBtn").onclick=()=>uploadState("Manuelle Synchronisierung");
+
+$id("googleSignInBtn").onclick=async()=>{
+  try{
+    setSyncUi("syncing","Anmeldung …","Google-Anmeldung wird geöffnet");
+    await signInWithPopup(auth,provider);
+  }catch(err){
+    console.error(err);
+    setSyncUi("error","Anmeldung fehlgeschlagen",firebaseErrorText(err));
+    bridge.showMessage("Google-Anmeldung fehlgeschlagen: "+firebaseErrorText(err),false);
+  }
+};
+$id("signOutBtn").onclick=async()=>{
+  stopRealtime();
+  initialized=false;
+  await signOut(auth);
+};
+$id("syncNowBtn").onclick=()=>{
+  if(!currentUser){bridge.showMessage("Bitte zuerst mit Google anmelden.",false);return}
+  uploadState("Manuelle Synchronisierung");
+};
 $id("uploadLocalBtn").onclick=async()=>{
+  if(!currentUser){bridge.showMessage("Bitte zuerst mit Google anmelden.",false);return}
   if(confirm("Lokale Daten wirklich in die Cloud schreiben? Der bisherige Cloud-Stand wird vorher lokal gesichert.")){
     if(latestCloudState)saveSafetyCopy("cloud_vor_upload",latestCloudState);
-    initialized=true;await uploadState("Lokale Daten werden hochgeladen");
+    initialized=true;
+    await uploadState("Lokale Daten werden hochgeladen");
   }
 };
 $id("downloadCloudBtn").onclick=async()=>{
+  if(!currentUser||!cloudRef){bridge.showMessage("Bitte zuerst mit Google anmelden.",false);return}
   try{
-    const snap=await getDoc(doc(db,...CLOUD_DOC_PATH));
+    const snap=await getDoc(cloudRef);
     if(!snap.exists())throw new Error("In der Cloud sind noch keine Daten vorhanden.");
     if(confirm("Cloud-Daten auf dieses Gerät übernehmen? Der lokale Stand wird vorher gesichert."))applyCloud(snap.data());
-  }catch(err){bridge.showMessage(err.message,false)}
+  }catch(err){bridge.showMessage(firebaseErrorText(err),false)}
 };
 $id("chooseLocalBtn").onclick=async()=>{
   saveSafetyCopy("cloud_vor_erster_wahl",latestCloudState||{});
   $id("firebaseChoiceModal").classList.add("hidden");
-  initialized=true;await uploadState("Daten dieses Geräts werden als erster Cloud-Stand verwendet");
+  initialized=true;
+  await uploadState("Daten dieses Geräts werden als erster Cloud-Stand verwendet");
 };
 $id("chooseCloudBtn").onclick=()=>{
   saveSafetyCopy("lokal_vor_erster_wahl",bridge.getState());
@@ -2038,10 +2100,12 @@ $id("chooseCloudBtn").onclick=()=>{
   initialized=true;
 };
 
-window.addEventListener("online",()=>{setSyncUi("syncing","Online","Verbindung wird geprüft");initializeSync()});
+window.addEventListener("online",()=>{
+  if(currentUser)initializeSyncForUser(currentUser);
+});
 window.addEventListener("offline",()=>setSyncUi("error","Offline","Änderungen bleiben lokal und werden später synchronisiert"));
 
-initializeSync();
+onAuthStateChanged(auth,user=>initializeSyncForUser(user));
 </script>
 
 </body></html>
