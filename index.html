@@ -1859,7 +1859,7 @@ header .version{font-size:.68rem!important}
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.25 Test · Monatswochen und Bedienung</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.26 Test · Lebendgewicht korrigiert</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2211,7 +2211,10 @@ function sourceTripsForRecord(r){
 }
 function liveWeightForRecord(r){
   const trips=sourceTripsForRecord(r);
-  return trips.length?trips.reduce((sum,t)=>sum+pendingTotalKg(t),0):0
+  if(trips.length)return trips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
+  const crates=Number(r.manualCrates)||0;
+  const estimatedKg=Number(r.estimatedKgPerCrate)||0;
+  return crates>0&&estimatedKg>0?crates*estimatedKg:0
 }
 function liveWeightTextForRecord(r){
   const value=liveWeightForRecord(r);
@@ -2311,9 +2314,13 @@ function formCalc(){
  $('avgPrice').value=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenue').value=eur(total);$('wageShare').value=eur(total*(Number(settings.wage)||0)/100);$('wageLabel').textContent='Lohnanteil ('+num(settings.wage)+' %)';
  $('priceText').textContent=ps.map((p,i)=>'S'+(i+1)+': '+num2(p)+' €').join(' · ');
  const selectedTrips=pendingTrips.filter(t=>getSelectedTripIds().includes(t.id));
- const liveWeight=selectedTrips.length?selectedTrips.reduce((sum,t)=>sum+pendingTotalKg(t),0):0;
+ const liveWeight=selectedTrips.length
+   ?selectedTrips.reduce((sum,t)=>sum+pendingTotalKg(t),0)
+   :(n('manualCrates')>0&&n('entryBoxWeightMeta')>0?n('manualCrates')*n('entryBoxWeightMeta'):0);
  $('liveWeightText').textContent=liveWeight>0?num2(liveWeight)+' kg':'–';
- $('liveWeightHint').textContent=selectedTrips.length?selectedTrips.length+' Herkunftsreise'+(selectedTrips.length>1?'n':''):'aus Herkunftsreisen';
+ $('liveWeightHint').textContent=selectedTrips.length
+   ?selectedTrips.length+' Herkunftsreise'+(selectedTrips.length>1?'n':'')
+   :(liveWeight>0?'Kisten gefangen × geschätzte kg':'aus Herkunftsreisen');
  $('saleWeightText').textContent=kg(sale);$('wasteText').textContent=kg(waste);$('wastePercentText').textContent=num(catchW?waste/catchW*100:0)+' % Anteil';$('totalCatchText').textContent=kg(catchW);$('boxWeightLiveText').textContent=num2(bw)+' kg';$('manualCratesText').textContent=String(Number(n('manualCrates'))||0);$('avgPriceText').textContent=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenueText').textContent=eur(total);$('grossPerCrateText').textContent=n('manualCrates')>0?num2(catchW/n('manualCrates'))+' kg':'–';$('netPerCrateText').textContent=n('manualCrates')>0?num2(sale/n('manualCrates'))+' kg':'–';
  $('kwPill').textContent=$('date').value?'KW '+weekNo($('date').value):'KW –';
  if(!updateInfoPanelFromForm() && savedRecordId) showSavedRecord(savedRecordId);
@@ -3131,7 +3138,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.25-Monatswochen-Bedienung-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.26-Lebendgewicht-korrigiert-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
