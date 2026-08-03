@@ -1,9 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Krabben-Lieferungen v0.7.2 Firebase Stabil Test</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Krabben-Lieferungen v0.7.25 Gewichte getrennt Test</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -616,7 +617,7 @@ body{zoom:.88}
 
 
 /* v0.6.5 kompakte Ein-Seiten-Ansicht */
-body{zoom:.82}
+body{zoom:.90}
 @supports not (zoom:1){
  body{transform:scale(.82);transform-origin:top left;width:121.95%}
 }
@@ -867,251 +868,1243 @@ header .version{font-size:.68rem!important}
 .firebase-choice-summary strong{display:block;margin-top:5px}
 @media(max-width:700px){.sync-info-grid,.firebase-choice-summary{grid-template-columns:1fr}}
 
+
+.dashboard-pending{padding:8px 10px!important;margin-top:8px!important}
+.dashboard-pending-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dashboard-pending-head h3{margin:0;font-size:.92rem}
+.dashboard-pending-head .muted-small{font-size:.62rem}
+.dashboard-pending-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.8fr);gap:9px;margin-top:6px}
+.dashboard-pending-form{min-width:0}
+.dashboard-trip-grid{display:grid;grid-template-columns:1.15fr .75fr 1.15fr .85fr .8fr .72fr .75fr 1fr;gap:5px;align-items:end}
+.dashboard-trip-grid label{font-size:.6rem;margin-bottom:2px}
+.dashboard-trip-grid input,.dashboard-trip-grid select{padding:5px 6px;font-size:.72rem}
+.dashboard-trip-grid #pendingTotalKg{font-weight:950;background:#e7f2f6;text-align:center}
+.dashboard-pending-actions{margin-top:5px!important;gap:5px!important}
+.dashboard-pending-actions .btn{padding:5px 8px!important;font-size:.66rem!important}
+.dashboard-open-trips{border-left:1px solid var(--line);padding-left:8px;min-width:0}
+.dashboard-open-trips-title{font-size:.7rem;font-weight:900;margin-bottom:4px}
+.dashboard-pending-cards{display:flex;gap:5px;overflow-x:auto;margin-top:0!important;padding-bottom:2px}
+.dashboard-trip-card{flex:0 0 230px;padding:6px!important}
+.dashboard-trip-card .pending-card-head{font-size:.68rem}
+.dashboard-trip-card-line{font-size:.61rem;margin-top:3px;white-space:nowrap}
+.dashboard-trip-card .actions{margin-top:4px!important}
+.dashboard-trip-card .actions .btn{padding:4px 6px!important;font-size:.6rem!important}
+.compact-empty{padding:9px!important;font-size:.65rem}
+.status-badge.landed{background:#e4f0e9;color:#23563f}
+@media(max-width:950px){
+ .dashboard-pending-layout{grid-template-columns:1fr}
+ .dashboard-open-trips{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:6px}
+ .dashboard-trip-grid{grid-template-columns:repeat(4,1fr)}
+}
+
+
+/* v0.7.4 Bedienung */
+.entry-main-grid{
+ grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ align-items:stretch!important;
+}
+.entry-main-grid>.grid,.saved-record-card{min-width:0!important}
+.dashboard-pending-layout{
+ grid-template-columns:minmax(0,1.15fr) minmax(420px,1fr)!important;
+}
+.dashboard-open-trips{padding-left:12px!important}
+.dashboard-open-trips-title{font-size:.82rem!important;margin-bottom:7px!important}
+.dashboard-pending-cards{gap:8px!important;min-height:98px}
+.dashboard-trip-card{
+ flex:0 0 310px!important;
+ padding:9px!important;
+ border:1px solid #a9c9d5!important;
+ box-shadow:0 3px 10px rgba(22,76,96,.08);
+}
+.dashboard-trip-card .pending-card-head{font-size:.78rem!important}
+.dashboard-trip-card-line{font-size:.7rem!important;line-height:1.42;white-space:normal!important}
+.trip-still-open{
+ display:inline-block;
+ background:#fff0c9;
+ color:#715000;
+ border-radius:999px;
+ padding:2px 7px;
+ font-weight:900;
+}
+.week-price-strip{
+ display:flex!important;
+ align-items:end!important;
+ gap:8px!important;
+ padding:9px 11px!important;
+ background:#fff5d7!important;
+ border:2px solid #dfb848!important;
+ border-radius:11px!important;
+ margin:8px 0 10px!important;
+}
+.week-price-title{
+ font-weight:950;
+ color:#684900;
+ align-self:center;
+ margin-right:3px;
+}
+.week-price-edit{
+ display:grid;
+ grid-template-columns:auto 82px auto;
+ align-items:center;
+ gap:5px;
+ margin:0!important;
+ color:#634900;
+ font-size:.72rem;
+ font-weight:900;
+}
+.week-price-edit input{
+ padding:6px 7px!important;
+ text-align:center;
+ font-weight:950;
+ background:white;
+ border:1px solid #d0ac43;
+}
+.week-price-edit small{font-size:.64rem}
+.week-price-save{padding:7px 10px!important;font-size:.7rem!important}
+.today-head{
+ background:#ffe59b!important;
+ color:#654600!important;
+ box-shadow:inset 0 0 0 3px #e2b835;
+}
+.today-label{
+ display:inline-block;
+ margin-top:2px;
+ padding:1px 6px;
+ border-radius:999px;
+ background:#8b6700;
+ color:white;
+ font-size:.56rem;
+ font-weight:950;
+}
+.today-col{
+ box-shadow:inset 3px 0 0 #e2b835,inset -3px 0 0 #e2b835!important;
+}
+#dashboard.today-focus .dashboard-controls,
+#dashboard.today-focus .month-controls{
+ animation:todayPulse .8s ease 2;
+}
+@keyframes todayPulse{
+ 0%,100%{box-shadow:none}
+ 50%{box-shadow:0 0 0 4px rgba(226,184,53,.28)}
+}
+@media(max-width:1050px){
+ .dashboard-pending-layout{grid-template-columns:1fr!important}
+ .dashboard-open-trips{border-left:0!important;border-top:1px solid var(--line);padding-left:0!important;padding-top:8px}
+}
+
+
+/* v0.7.5 Übersicht */
+.entry-meta-grid{
+ grid-template-columns:74px 1.15fr .9fr .85fr .85fr 92px 1fr 1.25fr!important;
+}
+.entry-date-search-field{min-width:0}
+.dashboard-open-trips{
+ background:#f4fafc;
+ border:2px solid #88b8cb;
+ border-radius:12px;
+ padding:10px!important;
+}
+.dashboard-open-trips-title{
+ font-size:.92rem!important;
+ color:#15485c;
+}
+.dashboard-trip-card{
+ flex:0 0 360px!important;
+ border:2px solid #6ea8be!important;
+ background:#ffffff!important;
+ box-shadow:0 5px 16px rgba(21,72,92,.14)!important;
+}
+.dashboard-trip-card .pending-card-head strong{
+ font-size:.88rem!important;
+ color:#123f52;
+}
+.dashboard-trip-actions{
+ display:grid!important;
+ grid-template-columns:1fr auto auto;
+ gap:6px!important;
+}
+.take-trip-btn{
+ padding:6px 8px!important;
+ font-size:.66rem!important;
+}
+.pending-edit-focus{
+ animation:pendingEditPulse .85s ease 2;
+}
+@keyframes pendingEditPulse{
+ 0%,100%{box-shadow:none}
+ 50%{box-shadow:0 0 0 5px rgba(20,111,145,.28)}
+}
+.source-focus{
+ animation:sourceFocusPulse .85s ease 2;
+}
+@keyframes sourceFocusPulse{
+ 0%,100%{box-shadow:none}
+ 50%{box-shadow:0 0 0 5px rgba(20,111,145,.28)}
+}
+.saved-record-card{
+ background:linear-gradient(180deg,#f8fcfd 0%,#eef7fa 100%)!important;
+ border:2px solid #5b9db7!important;
+ box-shadow:0 8px 22px rgba(21,72,92,.16)!important;
+}
+.saved-record-head-strong{
+ background:#dceff6;
+ margin:-9px -9px 8px!important;
+ padding:10px 11px!important;
+ border-radius:10px 10px 0 0;
+ border-bottom:2px solid #7eb2c6!important;
+}
+.saved-record-head-strong>div:first-child>strong{
+ font-size:1.02rem!important;
+ color:#123f52;
+}
+.saved-record-body-strong .saved-date{
+ background:#164f67;
+ color:white!important;
+ border-radius:9px;
+ padding:8px 10px;
+ margin-bottom:8px!important;
+}
+.saved-record-body-strong .saved-line{
+ padding:6px 4px!important;
+ font-size:.78rem!important;
+}
+.saved-record-body-strong .saved-line:nth-child(even){
+ background:rgba(255,255,255,.6);
+}
+.saved-record-body-strong .saved-sales{
+ background:#d8ecdf!important;
+ border:2px solid #7eb394!important;
+}
+.saved-record-body-strong .saved-revenue{
+ background:#fff0c2!important;
+ border:2px solid #d7ad35!important;
+}
+.today-head{
+ scroll-margin-inline:120px;
+}
+@media(max-width:1200px){
+ .entry-meta-grid{grid-template-columns:70px repeat(3,1fr) 90px 1fr 1.2fr!important}
+ .entry-date-search-field{grid-column:span 2}
+}
+
+
+/* v0.7.6 Fangreisen */
+.dashboard-trip-grid{
+ grid-template-columns:70px 1.15fr .78fr 1.15fr .82fr .8fr .72fr .75fr 1fr!important;
+}
+.pending-trip-number-field input{
+ text-align:center;
+ font-weight:950;
+ background:#e2f0f5!important;
+ color:#12485e;
+}
+.dashboard-pending-layout{
+ grid-template-columns:minmax(0,1fr) minmax(560px,1.25fr)!important;
+}
+.dashboard-pending-cards{
+ display:grid!important;
+ grid-template-columns:repeat(auto-fit,minmax(330px,1fr))!important;
+ overflow:visible!important;
+ width:100%;
+}
+.dashboard-trip-card{
+ width:auto!important;
+ max-width:none!important;
+ flex:none!important;
+}
+.source-trip-choices{
+ display:grid!important;
+ grid-template-columns:repeat(auto-fit,minmax(360px,1fr))!important;
+ overflow:visible!important;
+ max-height:none!important;
+ gap:8px!important;
+}
+.source-trip-choice{
+ min-width:0!important;
+ max-width:none!important;
+ width:100%;
+ padding:8px 10px!important;
+ align-items:flex-start!important;
+}
+.source-trip-choice-content{
+ display:block;
+ width:100%;
+ min-width:0;
+}
+.source-trip-choice-title{
+ display:block;
+ font-size:.78rem;
+ font-weight:950;
+ color:#123f52;
+ margin-bottom:5px;
+}
+.source-trip-choice-grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:4px 12px;
+ font-size:.67rem;
+ line-height:1.35;
+ color:#46616d;
+}
+.source-trip-choice-grid span{display:block}
+.source-trips-panel{
+ padding:9px 11px!important;
+}
+.source-trips-head>div>div{
+ display:block!important;
+ font-size:.66rem!important;
+}
+.today-head{
+ scroll-margin-top:95px;
+}
+@media(max-width:1250px){
+ .dashboard-pending-layout{grid-template-columns:1fr!important}
+ .dashboard-trip-grid{grid-template-columns:70px repeat(4,1fr)!important}
+}
+
+
+/* v0.7.7 Layout-Korrektur */
+.dashboard-pending-layout{
+ grid-template-columns:minmax(720px,1.25fr) minmax(420px,.75fr)!important;
+ align-items:stretch!important;
+}
+.dashboard-pending-form{
+ min-width:720px!important;
+}
+.dashboard-open-trips{
+ min-width:0!important;
+ width:100%!important;
+ padding:10px!important;
+ display:flex;
+ flex-direction:column;
+}
+.dashboard-pending-cards{
+ display:block!important;
+ width:100%!important;
+ min-height:0!important;
+ overflow:visible!important;
+}
+.dashboard-trip-card{
+ width:100%!important;
+ max-width:100%!important;
+ min-width:0!important;
+ box-sizing:border-box!important;
+}
+.dashboard-trip-card .pending-card-head{
+ gap:10px;
+}
+.dashboard-trip-card-line{
+ white-space:normal!important;
+}
+.dashboard-trip-actions{
+ grid-template-columns:minmax(180px,1fr) auto auto!important;
+}
+@media(max-width:1280px){
+ .dashboard-pending-layout{
+  grid-template-columns:minmax(650px,1.15fr) minmax(380px,.85fr)!important;
+ }
+ .dashboard-pending-form{min-width:650px!important}
+}
+@media(max-width:1050px){
+ .dashboard-pending-layout{grid-template-columns:1fr!important}
+ .dashboard-pending-form{min-width:0!important}
+}
+
+
+/* v0.7.8 offene Fangreisen unter der Eingabe */
+.dashboard-pending-layout{
+ display:block!important;
+}
+.dashboard-pending-form{
+ min-width:0!important;
+ width:100%!important;
+}
+.dashboard-open-trips{
+ margin-top:10px!important;
+ width:100%!important;
+ min-width:0!important;
+ padding:12px!important;
+ border:2px solid #6ea8be!important;
+ border-radius:12px!important;
+ background:#f2f9fb!important;
+ display:block!important;
+}
+.dashboard-open-trips-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:12px;
+ margin-bottom:9px;
+ padding-bottom:7px;
+ border-bottom:1px solid #bad3dd;
+}
+.dashboard-open-trips-title{
+ font-size:1rem!important;
+ font-weight:950!important;
+ color:#123f52!important;
+ margin:0!important;
+}
+.dashboard-open-trips-subtitle{
+ margin-top:2px;
+ font-size:.66rem;
+ color:var(--muted);
+}
+.dashboard-open-count{
+ flex:0 0 auto;
+}
+.dashboard-pending-cards{
+ display:grid!important;
+ grid-template-columns:repeat(auto-fit,minmax(360px,1fr))!important;
+ gap:10px!important;
+ width:100%!important;
+ min-height:0!important;
+ overflow:visible!important;
+}
+.dashboard-trip-card{
+ width:100%!important;
+ max-width:none!important;
+ min-width:0!important;
+ box-sizing:border-box!important;
+ padding:11px!important;
+ border:2px solid #6ea8be!important;
+ background:#fff!important;
+ box-shadow:0 5px 15px rgba(18,63,82,.12)!important;
+}
+.dashboard-trip-card .pending-card-head{
+ font-size:.82rem!important;
+ margin-bottom:5px;
+}
+.dashboard-trip-card-line{
+ font-size:.72rem!important;
+ line-height:1.45!important;
+}
+.dashboard-trip-actions{
+ margin-top:8px!important;
+}
+.dashboard-trip-actions .take-trip-btn{
+ font-size:.7rem!important;
+}
+
+
+/* v0.7.9 merken-speichern */
+.dashboard-open-trips{
+ min-height:240px!important;
+}
+.dashboard-pending-cards{
+ min-height:140px!important;
+}
+.dashboard-trip-card{
+ min-height:132px!important;
+ padding:14px!important;
+}
+.dashboard-trip-actions{
+ grid-template-columns:minmax(210px,1fr) auto auto!important;
+}
+.dashboard-pending-actions{
+ gap:8px!important;
+}
+.dashboard-pending-actions .btn{
+ min-width:94px;
+}
+#pendingRemember{
+ box-shadow:0 2px 8px rgba(16,108,145,.16);
+}
+#pendingSave{
+ background:#dce7ed!important;
+ color:#18485d!important;
+ border:1px solid #8bb3c3!important;
+}
+
+
+/* v0.7.11 dynamische Leerzustände */
+.dashboard-open-trips{
+ transition:max-height .2s ease,padding .2s ease,margin .2s ease;
+}
+.dashboard-open-trips.is-empty{
+ min-height:0!important;
+ max-height:58px!important;
+ padding:7px 10px!important;
+ margin-top:7px!important;
+ overflow:hidden!important;
+ background:#f7fbfc!important;
+ border-style:dashed!important;
+}
+.dashboard-open-trips.is-empty .dashboard-open-trips-head{
+ margin:0!important;
+ padding:0!important;
+ border-bottom:0!important;
+ min-height:30px;
+}
+.dashboard-open-trips.is-empty .dashboard-open-trips-title{
+ font-size:.82rem!important;
+}
+.dashboard-open-trips.is-empty .dashboard-open-trips-subtitle{
+ display:none!important;
+}
+.dashboard-open-trips.is-empty .dashboard-pending-cards{
+ display:none!important;
+ min-height:0!important;
+}
+.dashboard-open-trips.is-empty .dashboard-open-count{
+ background:#edf3f5!important;
+ color:#58707b!important;
+}
+
+
+/* v0.7.12 Arbeitsstand */
+.entry-meta-grid{
+ grid-template-columns:72px 1.05fr 1.05fr .78fr .78fr .75fr 90px 1fr 1.2fr!important;
+}
+.work-mode-banner{
+ margin:9px 0 0;
+ padding:9px 12px;
+ border-radius:10px;
+ background:#dff2f8;
+ border:2px solid #3992b3;
+ color:#123f52;
+ font-weight:950;
+ text-align:center;
+}
+#entryForm.work-in-progress{
+ border:3px solid #3992b3!important;
+ box-shadow:0 0 0 5px rgba(57,146,179,.13),var(--shadow)!important;
+}
+.source-trip-choice.is-selected{
+ border:3px solid #1680a8!important;
+ background:#e4f4fa!important;
+ box-shadow:0 4px 12px rgba(22,128,168,.16)!important;
+}
+.source-trip-choice.is-selected .source-trip-choice-title{
+ color:#0f5873!important;
+}
+.source-trip-choice.is-selected::after{
+ content:'IN ARBEIT';
+ margin-left:auto;
+ align-self:center;
+ padding:3px 7px;
+ border-radius:999px;
+ background:#1680a8;
+ color:#fff;
+ font-size:.56rem;
+ font-weight:950;
+}
+@media(max-width:1250px){
+ .entry-meta-grid{grid-template-columns:70px repeat(4,1fr)!important}
+ .entry-date-search-field{grid-column:span 2}
+}
+
+
+/* v0.7.13 offene Reisen sperren */
+.open-trip-warning{
+ background:#fff2f2!important;
+ border:2px solid #d99797!important;
+ box-shadow:none!important;
+}
+.open-trip-warning .source-trip-choice-title{
+ color:#7d2727!important;
+}
+.open-trip-warning .source-trip-check{
+ accent-color:#b34c4c;
+ cursor:not-allowed;
+}
+.open-trip-text{
+ display:inline-block;
+ padding:2px 7px;
+ border-radius:999px;
+ background:#f6d7d7;
+ color:#892626;
+ font-weight:900;
+}
+.open-trip-note{
+ grid-column:1/-1;
+ display:block;
+ margin-top:3px;
+ font-size:.66rem;
+ color:#8a2c2c;
+}
+
+
+
+/* v0.7.15 Eingabe links, Kontrolle rechts */
+.entry-main-grid{
+ display:grid!important;
+ grid-template-columns:minmax(360px,.88fr) minmax(430px,1.12fr)!important;
+ gap:14px!important;
+ align-items:start!important;
+}
+.entry-left-stack{
+ display:grid;
+ gap:10px;
+ align-content:start;
+}
+.entry-left-stack .price-edit-head{
+ max-width:none!important;
+ width:100%!important;
+ margin:0!important;
+ padding:10px 12px!important;
+ background:#f8fbfc;
+ border:1px solid #d6e5eb;
+ border-radius:12px;
+}
+.layout-helper-note{
+ margin-top:4px;
+ font-size:.68rem;
+ color:var(--muted);
+ font-weight:700;
+}
+.entry-product-row{
+ max-width:none!important;
+ width:100%!important;
+ margin:0!important;
+ grid-template-columns:92px minmax(0,1fr) 96px!important;
+ gap:8px!important;
+ background:#f9fbfc;
+ border:1px solid #d6e5eb;
+ border-radius:12px;
+ padding:10px;
+ align-items:end!important;
+}
+.entry-product-row > strong{
+ font-size:.96rem;
+ align-self:center;
+}
+.sieve-entry-row{
+ grid-template-columns:92px minmax(0,1fr) 120px 118px!important;
+}
+.price-window{
+ background:#eef4f6!important;
+ border:1px solid #cddbe1!important;
+ border-radius:10px!important;
+ padding:4px 6px!important;
+}
+.price-window label{
+ color:#5c727c!important;
+ font-size:.58rem!important;
+}
+.price-window input{
+ font-size:.90rem!important;
+ font-weight:850!important;
+ text-align:right!important;
+ background:white!important;
+ border:1px solid #bfd0d7!important;
+ color:var(--ink)!important;
+ padding:7px 8px!important;
+}
+.entry-actions-under{
+ margin-top:2px!important;
+ justify-content:flex-start!important;
+ gap:8px!important;
+}
+.entry-actions-under .btn{
+ padding:10px 16px!important;
+}
+.entry-right-stack{
+ display:grid;
+ gap:12px;
+ align-content:start;
+}
+.calculation-summary{
+ max-width:none!important;
+ width:100%!important;
+ margin:0!important;
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:8px!important;
+ background:#edf5f7!important;
+ border:1px solid #d1e0e6!important;
+ border-radius:12px!important;
+ padding:10px!important;
+}
+.calculation-summary div{
+ background:#fff!important;
+ border:1px solid #d5e3e8!important;
+ border-radius:10px!important;
+ padding:10px!important;
+}
+.calculation-summary span{
+ display:block!important;
+ font-size:.67rem!important;
+ color:var(--muted)!important;
+ font-weight:800!important;
+}
+.calculation-summary strong{
+ display:block!important;
+ margin-top:3px!important;
+ font-size:1rem!important;
+}
+.calc-side-card{
+ background:#f8fbfc;
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:12px;
+ box-shadow:var(--shadow);
+}
+.calc-side-head strong{
+ font-size:1.03rem;
+ color:var(--ink);
+}
+.calc-side-sub{
+ font-size:.68rem;
+ color:var(--muted);
+ font-weight:700;
+ margin-top:2px;
+}
+.calc-revenue-grid{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:8px;
+ margin-top:10px;
+}
+.calc-revenue-item{
+ background:white;
+ border:1px solid #d5e3e8;
+ border-radius:10px;
+ padding:9px;
+}
+.calc-revenue-sort{
+ font-size:.72rem;
+ font-weight:900;
+ color:#536a75;
+ margin-bottom:4px;
+}
+.calc-revenue-price{
+ font-size:.63rem;
+ color:#6b818b;
+ margin-bottom:4px;
+}
+.calc-revenue-item label{
+ font-size:.62rem!important;
+ color:#5a7079!important;
+}
+.calc-revenue-item input{
+ background:#fff8e8!important;
+ border:1px solid #e0c77f!important;
+ text-align:right!important;
+ font-size:1rem!important;
+ font-weight:900!important;
+}
+.calc-revenue-info input{
+ background:#f5fafb!important;
+ border:1px solid #cddbe1!important;
+}
+.saved-card-right{
+ margin-top:0!important;
+}
+@media(max-width:1180px){
+ .entry-main-grid{
+  grid-template-columns:1fr!important;
+ }
+}
+@media(max-width:780px){
+ .entry-product-row,
+ .sieve-entry-row,
+ .calculation-summary,
+ .calc-revenue-grid{
+  grid-template-columns:1fr!important;
+ }
+}
+
+
+/* v0.7.16 rechte Werte bleiben sichtbar */
+.calc-state-caption{
+ display:inline-block;
+ margin-top:7px;
+ padding:3px 8px;
+ border-radius:999px;
+ background:#dff1f7;
+ color:#13536c;
+ font-size:.63rem;
+ font-weight:900;
+}
+.entry-right-stack .saved-record-card{
+ order:2;
+}
+.entry-right-stack .calc-side-card{
+ order:3;
+}
+.entry-right-stack .calculation-summary{
+ order:1;
+}
+.saved-record-card{
+ min-height:0!important;
+}
+.calc-side-card{
+ margin-top:0!important;
+}
+.calc-revenue-price{
+ font-weight:800;
+ color:#526c78!important;
+}
+
+/* v0.7.17 Ein Informationsfenster rechts */
+.entry-right-stack .calculation-summary,
+.entry-right-stack .calc-side-card{
+ display:none !important;
+}
+.entry-right-stack{
+ display:block !important;
+}
+.saved-record-card,
+.saved-record-head,
+.saved-record-body{
+ max-width:none !important;
+ width:100% !important;
+}
+.saved-record-card{
+ min-height:100% !important;
+}
+.saved-record-head{
+ display:flex;
+ align-items:flex-start;
+ justify-content:space-between;
+ gap:10px;
+}
+.saved-record-body{
+ padding-top:8px;
+}
+.info-mode-badge{
+ display:inline-block;
+ margin-bottom:10px;
+ padding:5px 10px;
+ border-radius:999px;
+ font-size:.68rem;
+ font-weight:900;
+ letter-spacing:.02em;
+}
+.info-mode-badge.live{
+ background:#dff1f7;
+ color:#125a74;
+ border:1px solid #9fcde0;
+}
+.info-mode-badge.saved{
+ background:#e7f3ea;
+ color:#1c6845;
+ border:1px solid #a8cfb6;
+}
+.info-main-title{
+ background:#155973;
+ color:#fff;
+ border-radius:10px;
+ padding:10px 14px;
+ font-size:1.05rem;
+ font-weight:900;
+ margin-bottom:8px;
+}
+.info-subline{
+ font-size:.73rem;
+ color:var(--muted);
+ line-height:1.45;
+ margin-bottom:10px;
+}
+.saved-line.info-total{
+ background:#edf5f7;
+ border:1px solid #cbdde4 !important;
+}
+.saved-line.info-strong{
+ background:#dcefe5 !important;
+ border:1px solid #9bc8ae !important;
+}
+.saved-line.info-revenue{
+ background:#fff0c9 !important;
+ border:1px solid #e3c46e !important;
+}
+.info-source-head{
+ margin-top:10px;
+ margin-bottom:5px;
+ font-size:.72rem;
+ font-weight:900;
+ color:#56707d;
+ text-transform:uppercase;
+ letter-spacing:.03em;
+}
+
+
+/* v0.7.18 Liefer-Info im Feldstil */
+.calc-side-card{display:none !important;}
+.entry-right-stack{display:flex !important;flex-direction:column;gap:12px;}
+.saved-record-card,.saved-record-head,.saved-record-body{max-width:none !important;width:100% !important;}
+.saved-record-body{display:block !important;}
+.info-panel{display:flex;flex-direction:column;gap:10px;}
+.info-state{display:inline-flex;align-self:flex-start;padding:6px 12px;border-radius:999px;font-size:.72rem;font-weight:900;letter-spacing:.02em;border:1px solid #9ec9b0;background:#e7f3ea;color:#1f6847;}
+.info-state.live{background:#e1f0f7;border-color:#9ec9dc;color:#175b73;}
+.info-titlebar{background:#155973;color:#fff;border-radius:10px;padding:10px 14px;font-size:1.05rem;font-weight:900;line-height:1.25;}
+.info-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+.info-box{background:#f7fbfc;border:1px solid #bfd5df;border-radius:10px;padding:8px 10px;min-height:56px;display:flex;flex-direction:column;justify-content:center;}
+.info-box span{font-size:.68rem;font-weight:800;color:#5b7480;margin-bottom:3px;text-transform:none;}
+.info-box strong{font-size:.92rem;color:#163747;line-height:1.25;}
+.info-line-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.info-line-card{background:#fff;border:1px solid #d6e4ea;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:6px;}
+.info-line-head{display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.info-line-head strong{font-size:.98rem;color:#173b49;}
+.info-line-pill{background:#eef6f9;border:1px solid #c8dce5;border-radius:999px;padding:4px 9px;font-size:.73rem;font-weight:800;color:#456372;}
+.info-line-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
+.info-mini{background:#f9fcfd;border:1px solid #d9e8ee;border-radius:8px;padding:7px 8px;text-align:center;}
+.info-mini span{display:block;font-size:.64rem;font-weight:800;color:#6a818c;margin-bottom:3px;}
+.info-mini strong{font-size:.92rem;color:#183847;}
+.info-source-box,.info-note-box{background:#f7fbfc;border:1px solid #bfd5df;border-radius:10px;padding:10px;}
+.info-source-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+.info-source-item{background:#eef6f9;border:1px solid #c8dce5;border-radius:9px;padding:7px 10px;font-size:.8rem;font-weight:800;color:#1d5469;}
+.info-note-box em{font-style:normal;color:#6d818b;}
+.saved-record-subcard{margin-top:10px;}
+.saved-record-subcard .saved-record-body{padding-top:12px;}
+.saved-record-subcard .saved-empty{padding:20px 16px;}
+@media(max-width:900px){
+ .info-meta-grid,.info-line-grid{grid-template-columns:1fr;}
+ .info-line-values{grid-template-columns:1fr 1fr 1fr;}
+}
+
+
+/* v0.7.19 Infofeld erweitert */
+.info-line-grid{grid-template-columns:1fr !important;}
+.info-summary-list{display:flex;flex-direction:column;gap:0;margin-top:2px;}
+.info-summary-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f7fbfc;border:1px solid #bfd5df;border-top:none;padding:10px 12px;font-size:.92rem;}
+.info-summary-row:first-child{border-top:1px solid #bfd5df;border-top-left-radius:10px;border-top-right-radius:10px;}
+.info-summary-row:last-child{border-bottom-left-radius:10px;border-bottom-right-radius:10px;}
+.info-summary-row span{color:#244654;}
+.info-summary-row strong{color:#163747;font-size:.95rem;}
+.info-summary-row.total-green{background:#dcefe5;border-color:#9bc8ae;}
+.info-summary-row.total-yellow{background:#fff0c9;border-color:#e3c46e;}
+.info-summary-row.total-net{background:#eef7ef;border-color:#a9cfb7;}
+.info-summary-head{margin-top:6px;margin-bottom:6px;font-size:.72rem;font-weight:900;color:#56707d;text-transform:uppercase;letter-spacing:.03em;}
+
+
+
+/* v0.7.19c – ausschließlich Layoutänderung */
+.entry-main-grid{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:14px!important;
+  align-items:start!important;
+}
+
+.entry-left-stack{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:10px!important;
+  align-items:start!important;
+}
+
+.entry-left-stack>.price-edit-head,
+.entry-left-stack>.entry-actions-under,
+.entry-left-stack>.hidden{
+  grid-column:1/-1!important;
+}
+
+.entry-left-stack>.entry-product-row{
+  grid-template-columns:1fr!important;
+  gap:6px!important;
+  min-height:100%;
+  align-content:start!important;
+}
+
+.entry-lower-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  align-items:start;
+}
+
+.entry-lower-grid>.saved-record-card{
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+}
+
+.entry-right-stack{
+  display:none!important;
+}
+
+@media(max-width:1100px){
+  .entry-left-stack{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .entry-lower-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+  .entry-left-stack{
+    grid-template-columns:1fr!important;
+  }
+}
+
+/* v0.7.20 vCatch Darstellung */
+.vcatch-panel{background:#eef6f8;border:1px solid #b8d2dc;border-radius:12px;padding:10px;box-shadow:var(--shadow)}
+.vcatch-panel-head strong{display:block;color:#123f52;font-size:1rem}
+.vcatch-panel-sub{color:var(--muted);font-size:.75rem;margin-top:2px}
+.vcatch-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.vcatch-grid>div{background:#fff;border:1px solid #d5e2e7;border-radius:10px;padding:9px 10px}
+.vcatch-grid span{display:block;font-size:.72rem;color:var(--muted);font-weight:800}
+.vcatch-grid strong{display:block;margin-top:2px;font-size:.98rem;color:#17384a}
+.vcatch-grid small{display:block;margin-top:3px;color:var(--muted);font-size:.7rem}
+.vcatch-grid .vcatch-focus{background:#fff5cf;border-color:#e2c46c}
+.vcatch-grid .sales-weight-highlight{background:#dcefe5;border-color:#9bc8ae}
+.vcatch-grid .box-input-highlight{background:#e7f2f6;border-color:#abc8d2}
+.vcatch-boxes-input{width:100%;margin-top:4px;border:1px solid #9fc2d1;border-radius:8px;padding:7px 9px;font-size:1rem;font-weight:800;color:#17384a;background:#fff;text-align:center}
+.own-metrics-strip{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.own-metrics-strip>div{min-height:74px;display:flex;flex-direction:column;justify-content:center}
+.vcatch-summary-list .vcatch-focus-row{background:#fff5cf;border-color:#e2c46c}
+.vcatch-summary-list .vcatch-box-row{background:#e7f2f6;border-color:#abc8d2}
+.vcatch-summary-list .vcatch-box-row strong small{display:block;color:#5d7280;font-size:.76rem;font-weight:700}
+@media(max-width:900px){.vcatch-grid{grid-template-columns:1fr}.own-metrics-strip{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+/* v0.7.25 Bedienung und Monatstabelle */
+.week-title-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.week-title-row h3{margin:0}
+.week-nav-buttons{display:flex;gap:8px}
+.month-mode-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.month-mode-buttons .btn.active{background:#0f6f91;color:#fff;border-color:#0f6f91}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.2 Firebase Stabil Test · Verbindung und Datenwahl abgesichert</div></div>
-<div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="pending">Offene Fangreisen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen & Backup</button></nav></div></header>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.25 Test · Monatswochen und Bedienung</div></div>
+<div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
-<section id="dashboard" class="view active">
- <div class="card">
-  <div class="dashboard-controls">
-   <div><label>Jahr für Schnellansicht</label><select id="dashYear"></select></div>
-   <div><label>Datum</label><div style="display:flex;gap:7px"><input id="dashDate" type="date"><button class="btn secondary" id="todayBtn" type="button">Heute</button></div></div>
-   <div><label>Kalenderwoche auswählen</label><select id="dashWeekSelect"></select></div>
-   <div><label>Zeitraum der Woche</label><input id="dashWeekRange" readonly></div>
-   <div><label>KW vor / zurück</label><div style="display:flex;gap:8px"><button class="btn secondary" id="prevWeek" type="button">← KW</button><button class="btn secondary" id="nextWeek" type="button">KW →</button></div></div>
-  </div>
- </div>
- <div class="kpis">
-  <div class="kpi"><div class="n">Jahresumsatz</div><div class="v" id="yearRevenue">0 €</div></div>
-  <div class="kpi"><div class="n">Monatsumsatz</div><div class="v" id="monthRevenue">0 €</div></div>
-  <div class="kpi"><div class="n">Wochenumsatz</div><div class="v" id="weekRevenue">0 €</div></div>
-  <div class="kpi"><div class="n">Wochengewicht</div><div class="v" id="weekWeight">0 kg</div><div class="s">nur Sorte 1–3</div></div>
-  <div class="kpi"><div class="n">Lohnanteil Monat</div><div class="v" id="monthWage">0 €</div></div>
- </div>
- <div class="card"><h3>Wochenübersicht <span class="pill" id="weekPill">KW –</span></h3>
-  <div id="weekPriceStrip" class="week-price-strip"></div>
-  <div class="tablewrap"><div id="weekGrid" class="weekgrid"></div></div>
- </div>
- <div class="card">
-  <h3>Monatstabelle <span class="pill" id="monthPill">–</span></h3>
-  <div class="month-controls">
-   <div><label>Monat auswählen</label><select id="monthSelect"></select></div>
-   <div><label>Ansicht</label><select id="monthMode"><option value="single">Einzelner Monat</option><option value="all">Alle Monate – Schnellansicht</option></select></div>
-   <div id="monthQualityBox"><label>Qualitätszuschlag Monat €</label><div class="month-quality-input"><input id="monthQualityInput" type="number" min="0" step="0.01" inputmode="decimal"><button class="btn secondary" id="saveMonthQuality" type="button">Speichern</button></div></div>
-  </div>
-  <div id="monthQualityStatus" class="status"></div>
-  <div id="monthTable" class="tablewrap"></div>
- </div>
+<section class="view active" id="dashboard">
+<div class="card">
+<div class="dashboard-controls">
+<div><label>Jahr für Schnellansicht</label><select id="dashYear"></select></div>
+<div><label>Datum</label><div style="display:flex;gap:7px"><input id="dashDate" type="date"/><button class="btn secondary" id="todayBtn" type="button">Heute</button></div></div>
+<div><label>Kalenderwoche auswählen</label><select id="dashWeekSelect"></select></div>
+<div><label>Zeitraum der Woche</label><input id="dashWeekRange" readonly=""/></div>
+</div>
+</div>
+<div class="kpis">
+<div class="kpi"><div class="n">Jahresumsatz</div><div class="v" id="yearRevenue">0 €</div></div>
+<div class="kpi"><div class="n">Monatsumsatz</div><div class="v" id="monthRevenue">0 €</div></div>
+<div class="kpi"><div class="n">Wochenumsatz</div><div class="v" id="weekRevenue">0 €</div></div>
+<div class="kpi"><div class="n">Wochengewicht</div><div class="v" id="weekWeight">0 kg</div><div class="s">nur Sorte 1–3</div></div>
+<div class="kpi"><div class="n">Lohnanteil Monat</div><div class="v" id="monthWage">0 €</div></div>
+</div>
+<div class="dashboard-pending card">
+<div class="dashboard-pending-head">
+<div><h3>Fangreise erfassen</h3><div class="muted-small">Noch ohne Siebgewichte – später in „Lieferung erfassen“ übernehmen.</div></div>
+</div>
+<div class="dashboard-pending-layout">
+<form class="dashboard-pending-form" id="pendingForm">
+<input id="pendingEditId" type="hidden"/>
+<div class="dashboard-trip-grid">
+<div class="pending-trip-number-field"><label>Reise-Nr.</label><input id="pendingTripNumber" readonly="" value="–"/></div>
+<div><label>Auslaufen</label><input id="pendingDeparture" required="" type="datetime-local"/></div>
+<div><label>DEU-Nummer</label><input id="pendingDeu" placeholder="z. B. 583350" required=""/></div>
+<div><label>Einlaufen</label><input id="pendingReturn" type="datetime-local"/></div>
+<div><label>Fang</label><select id="pendingStorageType">
+<option value="landed">Anlandung</option>
+<option value="coldstore">Hafen-Kühlhaus</option>
+<option value="onboard">An Bord gelassen</option>
+</select></div>
+<div><label>Kistenzahl gefangen</label><input id="pendingQuantity" min="0" placeholder="später möglich" step="0.5" type="number"/></div>
+<div><label>Geschätzte kg pro Kiste</label><input id="pendingKgPerCrate" min="0.1" step="0.1" type="number"/></div>
+<div><label>kg gesamt</label><input id="pendingTotalKg" readonly="" value="0,00 kg"/></div>
+<div class="dashboard-trip-note"><label>Bemerkung</label><input id="pendingNote" placeholder="optional"/></div>
+</div>
+<input id="pendingQuantityType" type="hidden" value="crates"/>
+<input id="pendingStorageLocation" type="hidden" value=""/>
+<div class="actions dashboard-pending-actions">
+<button class="btn primary" id="pendingRemember" type="button">Merken</button>
+<button class="btn secondary" id="pendingSave" type="submit">Speichern</button>
+<button class="btn secondary" id="pendingReset" type="button">Leeren</button>
+</div>
+<div class="status" id="pendingStatus"></div>
+</form>
+<div class="dashboard-open-trips">
+<div class="dashboard-open-trips-head">
+<div>
+<div class="dashboard-open-trips-title">Offene Fangreisen</div>
+<div class="dashboard-open-trips-subtitle">Noch nicht vollständig als Lieferung abgeschlossen</div>
+</div>
+<span class="pill dashboard-open-count" id="pendingCount">0 offen</span>
+</div>
+<div class="pending-cards dashboard-pending-cards" id="pendingCards"></div>
+</div>
+</div>
+</div>
+<div class="card"><div class="week-title-row"><h3>Wochenübersicht <span class="pill" id="weekPill">KW –</span></h3><div class="week-nav-buttons"><button class="btn secondary" id="prevWeek" type="button">← KW</button><button class="btn secondary" id="nextWeek" type="button">KW →</button></div></div>
+<div class="week-price-strip" id="weekPriceStrip"></div>
+<div class="tablewrap"><div class="weekgrid" id="weekGrid"></div></div>
+</div>
+<div class="card">
+<h3>Monatstabelle <span class="pill" id="monthPill">–</span></h3>
+<div class="month-controls">
+<div><label>Monat auswählen</label><select id="monthSelect"></select></div>
+<div><label>Ansicht</label><input id="monthMode" type="hidden" value="single"/><div class="month-mode-buttons"><button class="btn secondary active" id="monthModeSingle" type="button">Einzelner Monat</button><button class="btn secondary" id="monthModeAll" type="button">Alle Monate – Schnellansicht</button></div></div>
+<div id="monthQualityBox"><label>Qualitätszuschlag Monat €</label><div class="month-quality-input"><input id="monthQualityInput" inputmode="decimal" min="0" step="0.01" type="number"/><button class="btn secondary" id="saveMonthQuality" type="button">Speichern</button></div></div>
+</div>
+<div class="status" id="monthQualityStatus"></div>
+<div class="tablewrap" id="monthTable"></div>
+</div>
 </section>
+<section class="view" id="entry">
+<form class="card" id="entryForm">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:start;flex-wrap:wrap">
+<div><h2 id="formTitle" style="margin:0">Neue Lieferung</h2><div style="color:var(--muted);font-size:.88rem">Gewichte und bei Bedarf Preise mit Enter schnell nacheinander eingeben.</div></div>
+<span class="pill" id="kwPill">KW –</span>
+</div>
+<input id="editId" type="hidden"/><div class="edit-mode-banner hidden" id="editModeBanner"></div><div class="work-mode-banner hidden" id="workModeBanner"></div>
+<div class="grid entry-meta-grid" style="margin-top:15px">
+<div class="trip-number-field compact-meta-field">
+<label>Reise-Nr.</label>
+<input id="entryTripNumber" readonly="" value="–"/>
+</div>
+<div><label>Ausgelaufen</label><input id="departureAt" type="datetime-local"/></div>
+<div><label>Eingelaufen</label><input id="arrivalAt" type="datetime-local"/></div>
+<div><label>Anlandedatum</label><input id="supplier" type="date"/></div>
+<div><label>DEU-Nummer</label><input id="receipt" placeholder="z. B. DEU-..."/></div>
+<div><label>Siebdatum</label><input id="sieveDate" type="date"/></div>
+<div class="manual-crates-field compact-meta-field"><label>Kisten gefangen</label><input id="manualCrates" inputmode="decimal" min="0" step="0.5" type="number"/></div>
+<div class="manual-crates-field compact-meta-field"><label>Geschätzte kg pro Kiste</label><input id="entryBoxWeightMeta" inputmode="decimal" min="0.1" step="0.1" type="number"/></div>
+<div class="remark-meta-field"><label>Bemerkung</label><input id="note" placeholder="optional"/></div>
+<div class="entry-date-search-field">
+<label>Gespeicherte Lieferung suchen</label>
+<div class="date-search-controls">
+<input id="date" required="" type="date"/>
+<button class="btn secondary" id="entryDateSearch" type="button">Suchen</button>
+</div>
+</div>
+</div>
+<div class="source-trips-panel">
+<div class="source-trips-head">
+<div><strong>Offene Fangreisen übernehmen</strong><div>Eine oder mehrere vorgemerkte Reisen auswählen. Bei gemeinsamer Siebung werden alle unter dieser Lieferung abgeschlossen.</div></div>
+<span class="pill" id="selectedTripsCount">0 ausgewählt</span>
+</div>
+<div class="source-trip-choices" id="sourceTripChoices"></div>
+<div class="grid g2 source-mode-row">
+<div><label>Verarbeitung</label><select id="sourceProcessingMode"><option value="single">Getrennt gesiebt / einzelne Reise</option><option value="combined">Zusammen gesiebt / gemeinsame Lieferung</option></select></div>
+<div><label>Hinweis</label><input id="sourceSummary" readonly=""/></div>
+</div>
+</div>
+<hr style="border:0;border-top:1px solid var(--line);margin:17px 0"/>
+<div class="entry-main-grid"><div class="entry-left-stack">
+<div class="price-edit-head">
+<div><strong>Gewichte und Preise</strong><div class="price-memory-note">Die zuletzt übernommenen Preise bleiben bei jeder neuen Lieferung stehen.</div><div class="layout-helper-note">Gewichte hier schnell eingeben. vCatch-Daten und Umsätze rechts.</div></div>
+<button class="btn secondary" id="togglePrices" type="button">Preise ändern</button>
+</div>
+<div class="entryrow entry-product-row">
+<strong>Sorte 1</strong>
+<div><label>Gewicht kg</label><input class="weight-quick calc" id="w1" inputmode="decimal" min="0" step="0.01" type="number"/></div>
+<div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p1" min="0" readonly="" step="0.01" type="number"/></div>
+</div>
+<div class="entryrow entry-product-row">
+<strong>Sorte 2</strong>
+<div><label>Gewicht kg</label><input class="weight-quick calc" id="w2" inputmode="decimal" min="0" step="0.01" type="number"/></div>
+<div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p2" min="0" readonly="" step="0.01" type="number"/></div>
+</div>
+<div class="entryrow entry-product-row">
+<strong>Sorte 3</strong>
+<div><label>Gewicht kg</label><input class="weight-quick calc" id="w3" inputmode="decimal" min="0" step="0.01" type="number"/></div>
+<div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p3" min="0" readonly="" step="0.01" type="number"/></div>
+</div>
+<div class="entryrow entry-product-row sieve-entry-row">
+<strong>Sieb</strong>
+<div><label>Gewicht kg</label><input class="weight-quick calc" id="waste" inputmode="decimal" min="0" step="0.01" type="number"/></div>
+<div><label>kg je vCatch-Kiste</label><input class="calc vcatch-weight-input" id="entryBoxWeight" inputmode="decimal" min="0.1" step="0.1" type="number"/></div>
+<div><label>Sieb-Anteil</label><input id="wasteShare" readonly=""/></div>
+</div><div class="actions entry-actions-under">
+<button class="btn primary" type="submit">Lieferung speichern</button>
+<button class="btn secondary" id="resetForm" type="button">Eingabe leeren</button><button class="btn danger hidden" id="cancelEdit" type="button">Bearbeiten abbrechen</button>
+</div>
+<!-- Versteckte Kompatibilitätsfelder für bestehende Berechnung -->
+<div class="hidden">
+<input id="saleWeight"/><input id="totalCatch"/><input id="boxExact"/><input id="boxWhole"/>
+<input id="avgPrice"/><input id="grandRevenue"/><label id="wageLabel"></label><input id="wageShare"/>
+<div id="priceText"></div>
+</div>
+</div><div class="entry-lower-grid"><aside class="saved-record-card saved-card-right">
+<div class="saved-record-head saved-record-head-strong">
+<div><strong>Liefer-Info</strong><div class="saved-record-counter" id="savedRecordCounter">–</div></div>
+<div class="saved-nav"><button class="btn secondary" id="savedPrev" type="button">←</button><button class="btn secondary" id="savedLast" type="button">Letzte Eintragung</button><button class="btn secondary" id="savedEdit" type="button">Bearbeiten</button><button class="btn secondary" id="savedNext" type="button">→</button></div>
+</div>
+<div class="saved-record-body saved-record-body-strong" id="savedRecordBodyTop">
+<div class="saved-empty">Noch keine Lieferung gespeichert.</div>
+</div>
+</aside><aside class="saved-record-card saved-card-right saved-record-subcard">
+<div class="saved-record-body saved-record-body-strong" id="savedRecordBodyBottom">
+<div class="saved-empty">Noch keine Lieferung gespeichert.</div>
+</div>
+</aside></div>
 
-<section id="entry" class="view">
- <form id="entryForm" class="card">
-  <div style="display:flex;justify-content:space-between;gap:10px;align-items:start;flex-wrap:wrap">
-   <div><h2 id="formTitle" style="margin:0">Neue Lieferung</h2><div style="color:var(--muted);font-size:.88rem">Gewichte und bei Bedarf Preise mit Enter schnell nacheinander eingeben.</div></div>
-   <span class="pill" id="kwPill">KW –</span>
-  </div>
-  <input id="editId" type="hidden"><div id="editModeBanner" class="edit-mode-banner hidden"></div>
-
-  <div class="grid entry-meta-grid" style="margin-top:15px">
-   <div class="trip-number-field compact-meta-field">
-    <label>Reise-Nr.</label>
-    <input id="entryTripNumber" readonly value="–">
-   </div>
-   <div>
-    <label>Lieferung nach Datum suchen</label>
-    <div class="date-search-controls">
-     <input id="date" type="date" required>
-     <button class="btn secondary" id="entryDateSearch" type="button">Suchen</button>
-    </div>
-   </div>
-   <div><label>Ausgelaufen</label><input id="departureAt" type="datetime-local"></div><div><label>Anlandedatum</label><input id="supplier" type="date"></div>
-   <div><label>DEU-Nummer</label><input id="receipt" placeholder="z. B. DEU-..."></div>
-   <div><label>Siebdatum</label><input id="sieveDate" type="date"></div>
-   <div class="manual-crates-field compact-meta-field"><label>Kistenzahl manuell</label><input id="manualCrates" type="number" min="0" step="0.5" inputmode="decimal"></div>
-   <div class="remark-meta-field"><label>Bemerkung</label><input id="note" placeholder="optional"></div>
-  </div>
-
-  
-  <div class="source-trips-panel">
-   <div class="source-trips-head">
-    <div><strong>Offene Fangreisen übernehmen</strong><div>Eine oder mehrere vorgemerkte Reisen auswählen. Bei gemeinsamer Siebung werden alle unter dieser Lieferung abgeschlossen.</div></div>
-    <span class="pill" id="selectedTripsCount">0 ausgewählt</span>
-   </div>
-   <div id="sourceTripChoices" class="source-trip-choices"></div>
-   <div class="grid g2 source-mode-row">
-    <div><label>Verarbeitung</label><select id="sourceProcessingMode"><option value="single">Getrennt gesiebt / einzelne Reise</option><option value="combined">Zusammen gesiebt / gemeinsame Lieferung</option></select></div>
-    <div><label>Hinweis</label><input id="sourceSummary" readonly></div>
-   </div>
-  </div>
-
-<hr style="border:0;border-top:1px solid var(--line);margin:17px 0">
-
-  <div class="entry-main-grid">
-   <div class="grid">
-    <div class="price-edit-head">
-     <div><strong>Gewichte und Preise</strong><div class="price-memory-note">Die zuletzt übernommenen Preise bleiben bei jeder neuen Lieferung stehen.</div></div>
-     <button type="button" class="btn secondary" id="togglePrices">Preise ändern</button>
-    </div>
-
-    <div class="entryrow entry-product-row">
-     <strong>Sorte 1</strong>
-     <div><label>Gewicht kg</label><input class="weight-quick calc" id="w1" type="number" min="0" step="0.01" inputmode="decimal"></div>
-     <div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p1" type="number" min="0" step="0.01" readonly></div>
-     <div><label>Umsatz</label><input id="r1" readonly></div>
-    </div>
-    <div class="entryrow entry-product-row">
-     <strong>Sorte 2</strong>
-     <div><label>Gewicht kg</label><input class="weight-quick calc" id="w2" type="number" min="0" step="0.01" inputmode="decimal"></div>
-     <div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p2" type="number" min="0" step="0.01" readonly></div>
-     <div><label>Umsatz</label><input id="r2" readonly></div>
-    </div>
-    <div class="entryrow entry-product-row">
-     <strong>Sorte 3</strong>
-     <div><label>Gewicht kg</label><input class="weight-quick calc" id="w3" type="number" min="0" step="0.01" inputmode="decimal"></div>
-     <div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p3" type="number" min="0" step="0.01" readonly></div>
-     <div><label>Umsatz</label><input id="r3" readonly></div>
-    </div>
-    <div class="entryrow entry-product-row sieve-entry-row">
-     <strong>Sieb</strong>
-     <div><label>Gewicht kg</label><input class="weight-quick calc" id="waste" type="number" min="0" step="0.01" inputmode="decimal"></div>
-     <div><label>kg je vCatch-Kiste</label><input class="calc vcatch-weight-input" id="entryBoxWeight" type="number" min="0.1" step="0.1" inputmode="decimal"></div>
-     <div><label>Sieb-Anteil</label><input id="wasteShare" readonly></div>
-    </div>
-
-    <div class="live-summary-strip">
-     <div class="sales-weight-highlight"><span>Verkaufsgewicht</span><strong id="saleWeightText">0 kg</strong></div>
-     <div><span>Gesamtfang inkl. Sieb</span><strong id="totalCatchText">0 kg</strong></div>
-     <div class="box-input-highlight"><span>vCatch-Kisten automatisch</span><strong id="boxWholeText">0 Kisten</strong><small id="boxExactText">0,00 rechnerisch</small></div>
-     
-     <div><span>Ø Preis</span><strong id="avgPriceText">0,00 €/kg</strong></div>
-     <div><span>Gesamtumsatz</span><strong id="grandRevenueText">0,00 €</strong></div><div class="gross-crate-highlight"><span>Bruttogewicht je Kiste</span><strong id="grossPerCrateText">–</strong></div><div class="net-crate-highlight"><span>Nettogewicht je Kiste</span><strong id="netPerCrateText">–</strong></div>
-    </div>
-
-    <!-- Versteckte Kompatibilitätsfelder für bestehende Berechnung -->
-    <div class="hidden">
-     <input id="saleWeight"><input id="totalCatch"><input id="boxExact"><input id="boxWhole">
-     <input id="avgPrice"><input id="grandRevenue"><label id="wageLabel"></label><input id="wageShare">
-     <div id="priceText"></div>
-    </div>
-   </div>
-
-   <aside class="saved-record-card">
-    <div class="saved-record-head">
-     <div><strong>Gespeicherte Lieferung</strong><div id="savedRecordCounter" class="saved-record-counter">–</div></div>
-     <div class="saved-nav"><button class="btn secondary" id="savedPrev" type="button">←</button><button class="btn secondary" id="savedLast" type="button">Letzte Eintragung</button><button class="btn secondary" id="savedEdit" type="button">Bearbeiten</button><button class="btn secondary" id="savedNext" type="button">→</button></div>
-    </div>
-    <div id="savedRecordBody" class="saved-record-body">
-     <div class="saved-empty">Noch keine Lieferung gespeichert.</div>
-    </div>
-   </aside>
-  </div>
-
-  <div class="actions">
-   <button class="btn primary" type="submit">Lieferung speichern</button>
-   <button class="btn secondary" id="resetForm" type="button">Eingabe leeren</button><button class="btn danger hidden" id="cancelEdit" type="button">Bearbeiten abbrechen</button>
-  </div>
-  <div id="formStatus" class="status"></div>
- </form>
+<div class="entry-right-stack"><div class="vcatch-panel">
+<div class="vcatch-panel-head"><strong>vCatch-Anlandeerklärung</strong><div class="vcatch-panel-sub">Diese Werte sind für die Anlandeerklärung besonders wichtig.</div></div>
+<div class="vcatch-grid">
+<div class="vcatch-focus"><span>Lebendgewicht geschätzt</span><strong id="liveWeightText">–</strong><small id="liveWeightHint">aus Herkunftsreisen</small></div>
+<div><span>Anlandegewicht inkl. Sieb</span><strong id="totalCatchText">0 kg</strong></div>
+<div class="sales-weight-highlight"><span>Produktgewicht</span><strong id="saleWeightText">0 kg</strong></div>
+<div><span>Sieb</span><strong id="wasteText">0 kg</strong><small id="wastePercentText">0,00 % Anteil</small></div>
+<div><span>kg je vCatch-Kiste</span><strong id="boxWeightLiveText">17,00 kg</strong></div>
+<div class="box-input-highlight"><span>vCatch-Kisten gerundet</span><input id="vcatchBoxesRounded" class="vcatch-boxes-input" inputmode="numeric" min="0" step="1" type="number" value="0"/><small id="boxExactText">0,00 rechnerisch</small></div>
+<div><span>Gelöschte Kisten</span><strong id="manualCratesText">0</strong></div>
+</div>
+</div>
+<div class="live-summary-strip calculation-summary own-metrics-strip">
+<div><span>Ø Preis</span><strong id="avgPriceText">0,00 €/kg</strong></div>
+<div><span>Gesamtumsatz</span><strong id="grandRevenueText">0,00 €</strong></div>
+<div class="gross-crate-highlight"><span>Bruttogewicht je Kiste</span><strong id="grossPerCrateText">–</strong></div>
+<div class="net-crate-highlight"><span>Nettogewicht je Kiste</span><strong id="netPerCrateText">–</strong></div>
+</div>
+<div class="calc-side-card"><div class="calc-side-head"><strong>Aktuelle Berechnung</strong><div class="calc-side-sub">Umsätze und Kennzahlen während der Eingabe</div><div class="calc-state-caption" id="calcStateCaption">Live-Eingabe</div></div><div class="calc-revenue-grid"><div class="calc-revenue-item"><div class="calc-revenue-sort">Sorte 1</div><div class="calc-revenue-price" id="calcPriceInfo1">Preis: 0,00 €/kg</div><label>Umsatz</label><input id="r1" readonly=""/></div><div class="calc-revenue-item"><div class="calc-revenue-sort">Sorte 2</div><div class="calc-revenue-price" id="calcPriceInfo2">Preis: 0,00 €/kg</div><label>Umsatz</label><input id="r2" readonly=""/></div><div class="calc-revenue-item"><div class="calc-revenue-sort">Sorte 3</div><div class="calc-revenue-price" id="calcPriceInfo3">Preis: 0,00 €/kg</div><label>Umsatz</label><input id="r3" readonly=""/></div><div class="calc-revenue-item calc-revenue-info"><div class="calc-revenue-sort">Sieb</div><div class="calc-revenue-price">Anteil</div><div><label>Sieb-Anteil</label><input id="wasteShareMirror" readonly="True"/></div></div></div></div></div></div>
+<div class="status" id="formStatus"></div>
+</form>
 </section>
-
-
-<section id="pending" class="view">
- <div class="grid g2">
-  <form id="pendingForm" class="card">
-   <h2>Fangreise vormerken</h2>
-   <div class="note">Hier werden nur die Reisedaten und die Kistenzahl erfasst. Siebgewichte und Preise kommen erst später bei der tatsächlichen Lieferung hinzu.</div>
-   <input id="pendingEditId" type="hidden">
-   <div class="grid g2" style="margin-top:12px">
-    <div><label>Ausgelaufen</label><input id="pendingDeparture" type="datetime-local" required></div>
-    <div><label>Eingelaufen</label><input id="pendingReturn" type="datetime-local" required></div>
-    <div><label>DEU-Nummer der Reise</label><input id="pendingDeu" required placeholder="z. B. DEU-..."></div>
-    <div><label>Menge erfassen als</label><select id="pendingQuantityType"><option value="crates">Kistenzahl</option><option value="kg">Kilogramm</option></select></div>
-    <div><label id="pendingQuantityLabel">Kistenzahl</label><input id="pendingQuantity" type="number" min="0.1" step="0.5" required></div>
-    <div><label>Aufbewahrung</label><select id="pendingStorageType"><option value="onboard">Bleibt an Bord</option><option value="coldstore">Im Kühlhaus zwischengelagert</option></select></div>
-    <div><label>Lagerort (nur Kühlhaus)</label><input id="pendingStorageLocation" placeholder="z. B. Kühlraum Hafen"></div>
-    <div style="grid-column:1/-1"><label>Bemerkung</label><input id="pendingNote" placeholder="optional"></div>
-   </div>
-   <div class="actions">
-    <button class="btn primary" type="submit">Fangreise vormerken</button>
-    <button class="btn secondary" id="pendingReset" type="button">Eingabe leeren</button>
-   </div>
-   <div id="pendingStatus" class="status"></div>
-  </form>
-
-  <div class="card">
-   <div class="pending-head"><div><h2>Offene Fangreisen</h2><div class="muted-small">Diese Reisen warten noch auf eine spätere Siebung/Lieferung.</div></div><span class="pill" id="pendingCount">0 offen</span></div>
-   <div id="pendingCards" class="pending-cards"></div>
-  </div>
- </div>
+<section class="view" id="list">
+<div class="card"><div class="grid g4"><div><label>Jahr</label><select id="listYear"></select></div><div><label>Monat</label><select id="listMonth"></select></div><div><label>Suche</label><input id="search" placeholder="Datum, DEU-Nummer, Bemerkung"/></div></div></div>
+<div class="card"><div class="tablewrap" id="allTable"></div></div>
 </section>
-
-<section id="list" class="view">
- <div class="card"><div class="grid g4"><div><label>Jahr</label><select id="listYear"></select></div><div><label>Monat</label><select id="listMonth"></select></div><div><label>Suche</label><input id="search" placeholder="Datum, DEU-Nummer, Bemerkung"></div></div></div>
- <div class="card"><div id="allTable" class="tablewrap"></div></div>
-</section>
-
-<section id="settings" class="view">
- <div class="grid g2">
-  <div class="card"><h2>Einstellungen</h2><div class="grid g2"><div><label>Standard-Schiff / Lieferant</label><input id="setSupplier"></div><div><label>Lohnanteil %</label><input id="setWage" type="number" min="0" max="100" step="0.1"></div><div><label>Standard kg je vCatch-Kiste (Fallback)</label><input id="setBoxWeight" type="number" min=".1" step=".1"></div><div><label>Rundung ganze Kisten</label><select id="setBoxRounding"><option value="nearest">kaufmännisch</option><option value="up">immer aufrunden</option><option value="down">immer abrunden</option></select></div></div><div class="actions"><button class="btn primary" id="saveSettings" type="button">Einstellungen speichern</button></div><div id="settingsStatus" class="status"></div></div>
-  <div class="card firebase-sync-card">
-   <h2>Firebase-Synchronisierung</h2>
-   <div class="note">Die Lieferungen, offenen Fangreisen und Einstellungen werden mit dem Firebase-Projekt „Logbuch-Wochenplaner“ synchronisiert.</div>
-   <div class="sync-info-grid">
-    <div><span>Status</span><strong id="firebaseStatusDetail">Verbindung wird aufgebaut …</strong></div>
-    <div><span>Letzte Synchronisierung</span><strong id="firebaseLastSync">–</strong></div>
-    <div><span>Gerät</span><strong id="firebaseDeviceName">–</strong></div>
-   </div>
-   <div class="actions">
-    <button class="btn primary" id="googleSignInBtn" type="button">Mit Google anmelden</button>
-    <button class="btn secondary hidden" id="signOutBtn" type="button">Abmelden</button>
-    <button class="btn primary" id="syncNowBtn" type="button">Jetzt synchronisieren</button><button class="btn secondary" id="reconnectBtn" type="button">Verbindung neu aufbauen</button>
-    <button class="btn secondary" id="uploadLocalBtn" type="button">Lokale Daten hochladen</button>
-    <button class="btn secondary" id="downloadCloudBtn" type="button">Cloud-Daten laden</button>
-   </div>
-   <div id="firebaseStatus" class="status"></div>
-  </div>
-  <div class="card"><h2>Backup</h2><div class="note">Die Daten werden lokal im Browser gespeichert. Regelmäßig ein Backup herunterladen.</div><div class="actions"><button class="btn success" id="exportJson" type="button">Backup herunterladen</button><label class="btn secondary">Backup einlesen<input id="importJson" type="file" accept=".json,application/json" hidden></label><button class="btn secondary" id="exportCsv" type="button">CSV exportieren</button></div><div id="backupStatus" class="status"></div></div>
-  <div class="card"><h2>Excel-Daten importieren</h2>
-  <div class="note">Du kannst deine Lieferschein-Exceldatei mit mehreren Jahresblättern importieren, zum Beispiel 2020 bis 2025. Bereits vorhandene Lieferungen werden über Datum und Werte erkannt und nicht doppelt angelegt.</div>
-  <div class="actions">
-    <label class="btn primary">Excel-Datei auswählen<input id="importExcelFile" type="file" accept=".xlsx,.xls" hidden></label>
-    <button class="btn secondary" id="importExcel2025" type="button">Eingebaute Daten 2025 importieren</button>
-    <button class="btn danger" id="removeExcelImports" type="button">Alle Excel-Importe entfernen</button>
-  </div>
-  <div class="import-help">Der direkte Excel-Import benötigt beim ersten Öffnen eine Internetverbindung, damit die Excel-Lesefunktion geladen wird. Danach bleibt die App selbst lokal.</div>
-  <div id="excelStatus" class="status"></div>
- </div>
- </div>
+<section class="view" id="settings">
+<div class="grid g2">
+<div class="card"><h2>Einstellungen</h2><div class="grid g2"><div><label>Standard-Schiff / Lieferant</label><input id="setSupplier"/></div><div><label>Lohnanteil %</label><input id="setWage" max="100" min="0" step="0.1" type="number"/></div><div><label>Standard kg je vCatch-Kiste (Fallback)</label><input id="setBoxWeight" min=".1" step=".1" type="number"/></div><div><label>Rundung ganze Kisten</label><select id="setBoxRounding"><option value="nearest">kaufmännisch</option><option value="up">immer aufrunden</option><option value="down">immer abrunden</option></select></div></div><div class="actions"><button class="btn primary" id="saveSettings" type="button">Einstellungen speichern</button></div><div class="status" id="settingsStatus"></div></div>
+<div class="card firebase-sync-card">
+<h2>Firebase-Synchronisierung</h2>
+<div class="note">Die Lieferungen, offenen Fangreisen und Einstellungen werden mit dem Firebase-Projekt „Logbuch-Wochenplaner“ synchronisiert.</div>
+<div class="sync-info-grid">
+<div><span>Status</span><strong id="firebaseStatusDetail">Verbindung wird aufgebaut …</strong></div>
+<div><span>Letzte Synchronisierung</span><strong id="firebaseLastSync">–</strong></div>
+<div><span>Gerät</span><strong id="firebaseDeviceName">–</strong></div>
+</div>
+<div class="actions">
+<button class="btn primary" id="googleSignInBtn" type="button">Mit Google anmelden</button>
+<button class="btn secondary hidden" id="signOutBtn" type="button">Abmelden</button>
+<button class="btn primary" id="syncNowBtn" type="button">Jetzt synchronisieren</button><button class="btn secondary" id="reconnectBtn" type="button">Verbindung neu aufbauen</button>
+<button class="btn secondary" id="uploadLocalBtn" type="button">Lokale Daten hochladen</button>
+<button class="btn secondary" id="downloadCloudBtn" type="button">Cloud-Daten laden</button>
+</div>
+<div class="status" id="firebaseStatus"></div>
+</div>
+<div class="card"><h2>Backup</h2><div class="note">Die Daten werden lokal im Browser gespeichert. Regelmäßig ein Backup herunterladen.</div><div class="actions"><button class="btn success" id="exportJson" type="button">Backup herunterladen</button><label class="btn secondary">Backup einlesen<input accept=".json,application/json" hidden="" id="importJson" type="file"/></label><button class="btn secondary" id="exportCsv" type="button">CSV exportieren</button></div><div class="status" id="backupStatus"></div></div>
+<div class="card"><h2>Excel-Daten importieren</h2>
+<div class="note">Du kannst deine Lieferschein-Exceldatei mit mehreren Jahresblättern importieren, zum Beispiel 2020 bis 2025. Bereits vorhandene Lieferungen werden über Datum und Werte erkannt und nicht doppelt angelegt.</div>
+<div class="actions">
+<label class="btn primary">Excel-Datei auswählen<input accept=".xlsx,.xls" hidden="" id="importExcelFile" type="file"/></label>
+<button class="btn secondary" id="importExcel2025" type="button">Eingebaute Daten 2025 importieren</button>
+<button class="btn danger" id="removeExcelImports" type="button">Alle Excel-Importe entfernen</button>
+</div>
+<div class="import-help">Der direkte Excel-Import benötigt beim ersten Öffnen eine Internetverbindung, damit die Excel-Lesefunktion geladen wird. Danach bleibt die App selbst lokal.</div>
+<div class="status" id="excelStatus"></div>
+</div>
+</div>
 </section>
 </main>
-
-<div id="noteModal" class="note-modal hidden" role="dialog" aria-modal="true" aria-labelledby="noteModalTitle">
- <div class="note-modal-card">
-  <div class="note-modal-head">
-   <h3 id="noteModalTitle">Bemerkung</h3>
-   <button class="btn secondary" id="closeNoteModal" type="button">Schließen</button>
-  </div>
-  <div id="noteModalMeta" class="note-modal-meta"></div>
-  <div id="noteModalText" class="note-modal-text"></div>
- </div>
+<div aria-labelledby="noteModalTitle" aria-modal="true" class="note-modal hidden" id="noteModal" role="dialog">
+<div class="note-modal-card">
+<div class="note-modal-head">
+<h3 id="noteModalTitle">Bemerkung</h3>
+<button class="btn secondary" id="closeNoteModal" type="button">Schließen</button>
 </div>
-
-
-<div id="sourceTripModal" class="note-modal hidden" role="dialog" aria-modal="true">
- <div class="note-modal-card source-trip-modal-card">
-  <div class="note-modal-head">
-   <h3>Herkunftsreise</h3>
-   <button class="btn secondary" id="closeSourceTripModal" type="button">Schließen</button>
-  </div>
-  <div id="sourceTripModalMeta" class="note-modal-meta"></div>
-  <div id="sourceTripModalBody" class="special-modal-body"></div>
- </div>
+<div class="note-modal-meta" id="noteModalMeta"></div>
+<div class="note-modal-text" id="noteModalText"></div>
 </div>
-
-
+</div>
+<div aria-modal="true" class="note-modal hidden" id="sourceTripModal" role="dialog">
+<div class="note-modal-card source-trip-modal-card">
+<div class="note-modal-head">
+<h3>Herkunftsreise</h3>
+<button class="btn secondary" id="closeSourceTripModal" type="button">Schließen</button>
+</div>
+<div class="note-modal-meta" id="sourceTripModalMeta"></div>
+<div class="special-modal-body" id="sourceTripModalBody"></div>
+</div>
+</div>
 <script>
 const KEY='krabben_lieferungen_v010', SETTINGS='krabben_lieferungen_settings_v010';
 const $=id=>document.getElementById(id), n=id=>Number($(id).value)||0;
@@ -1127,7 +2120,7 @@ let savedRecordId=null;
 const PENDING_KEY='krabben_pending_trips_v061';
 let pendingTrips=load(PENDING_KEY,[]);
 let backupMeta=load('krabben_backup_meta',{version:'–',date:''});
-let records=load(KEY,[]), settings={supplier:'Harmonie ACC 3',wage:17,boxWeight:17,boxRounding:'nearest',monthlyQuality:{},lastPrices:[0,0,0],...load(SETTINGS,{})};
+let records=load(KEY,[]), settings={supplier:'Harmonie ACC 3',wage:17,boxWeight:17,boxRounding:'nearest',monthlyQuality:{},lastPrices:[0,0,0],lastEstimatedKgPerCrate:0,...load(SETTINGS,{})};
 settings.monthlyQuality=settings.monthlyQuality||{};
 Object.entries(EXCEL_MONTH_QUALITY_2025).forEach(([m,v])=>{const k='2025-'+m; if(settings.monthlyQuality[k]===undefined)settings.monthlyQuality[k]=v});
 
@@ -1160,11 +2153,13 @@ function normalize(r){
  r.total=r.revenue+r.quality;r.avg=r.weight?r.revenue/r.weight:0;
  r.wageRate=Number.isFinite(Number(r.wageRate))?Number(r.wageRate):Number(settings.wage)||0;
  r.wage=r.total*r.wageRate/100;
+ r.estimatedKgPerCrate=Number(r.estimatedKgPerCrate)||0;
  r.boxWeight=Number(r.boxWeight)||Number(settings.boxWeight)||17;
  r.boxes=r.boxWeight?r.catchWeight/r.boxWeight:0;
+ r.vcatchBoxesRounded=Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes);
  r.grossPerManualCrate=Number(r.manualCrates)>0?r.catchWeight/Number(r.manualCrates):0;
  r.netPerManualCrate=Number(r.manualCrates)>0?r.weight/Number(r.manualCrates):0;
- r.sourceTripIds=Array.isArray(r.sourceTripIds)?r.sourceTripIds:[];r.sourceProcessingMode=r.sourceProcessingMode||'';
+ r.arrivalAt=r.arrivalAt||'';r.sourceTripIds=Array.isArray(r.sourceTripIds)?r.sourceTripIds:[];r.sourceProcessingMode=r.sourceProcessingMode||'';
  return r
 }
 records=records.map(normalize);persist();
@@ -1179,15 +2174,149 @@ function latestPrices(){
  return prices
 }
 function roundBoxes(x){return settings.boxRounding==='up'?Math.ceil(x):settings.boxRounding==='down'?Math.floor(x):Math.round(x)}
+
+function infoPanelHasLiveInput(){
+  return [n('w1'),n('w2'),n('w3'),n('waste'),n('manualCrates'),n('vcatchBoxesRounded')].some(v=>Number(v)>0)
+      || !!$('receipt').value.trim()
+      || !!$('note').value.trim()
+      || !!$('departureAt').value
+      || !!$('arrivalAt').value
+      || getSelectedTripIds().length>0;
+}
+function currentFormRecord(){
+  return normalize({
+    id:$('editId').value||'preview',
+    date:$('date').value||$('supplier').value||new Date().toISOString().slice(0,10),
+    departureAt:$('departureAt').value,
+    arrivalAt:$('arrivalAt').value,
+    supplier:$('supplier').value.trim(),
+    receipt:$('receipt').value.trim(),
+    note:$('note').value.trim(),
+    sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),
+    waste:n('waste'),
+    quality:0,
+    manualCrates:n('manualCrates'),
+    sieveDate:$('sieveDate').value,
+    sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{}):[])),
+    sourceProcessingMode:$('sourceProcessingMode').value,
+    wageRate:Number(settings.wage)||0,
+    estimatedKgPerCrate:n('entryBoxWeightMeta'),
+    boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,
+    vcatchBoxesRounded:n('vcatchBoxesRounded'),
+    updatedAt:new Date().toISOString()
+  });
+}
+function sourceTripsForRecord(r){
+  return effectiveSourceTripIds(r).map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean)
+}
+function liveWeightForRecord(r){
+  const trips=sourceTripsForRecord(r);
+  return trips.length?trips.reduce((sum,t)=>sum+pendingTotalKg(t),0):0
+}
+function liveWeightTextForRecord(r){
+  const value=liveWeightForRecord(r);
+  return value>0?num2(value)+' kg':'–'
+}
+function estimatedKgPerCrateForRecord(r){
+  if(Number(r.estimatedKgPerCrate)>0)return Number(r.estimatedKgPerCrate);
+  const trips=sourceTripsForRecord(r);
+  const crates=trips.reduce((sum,t)=>sum+pendingAmount(t),0);
+  const kg=trips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
+  return crates>0?kg/crates:0;
+}
+function infoPanelSections(r, mode='saved'){
+  r=normalize(r);
+  const isLive=mode==='live';
+  const tripLabel=displayTripNumbersForRecord(r)||'–';
+  const dateText=r.date?parseDate(r.date).toLocaleDateString('de-DE'):'–';
+  const sourceTrips=sourceTripsForRecord(r);
+  const liveWeightText=liveWeightTextForRecord(r);
+  const meta=(label,value)=>`<div class="info-box"><span>${label}</span><strong>${value||'–'}</strong></div>`;
+  const lineCard=(title,weight,middle,revenue,extra='',middleLabel='Preis')=>`<div class="info-line-card"><div class="info-line-head"><strong>${title}</strong>${extra?`<span class="info-line-pill">${extra}</span>`:''}</div><div class="info-line-values"><div class="info-mini"><span>Gewicht</span><strong>${weight}</strong></div><div class="info-mini"><span>${middleLabel}</span><strong>${middle}</strong></div><div class="info-mini"><span>Umsatz</span><strong>${revenue}</strong></div></div></div>`;
+  const sortCards=r.sorts.map((s,i)=>lineCard(`Sorte ${i+1}`,`${num(s.weight)} kg`,`${num2(s.price)} €/kg`,eur((Number(s.weight)||0)*(Number(s.price)||0)))).join('');
+  const siebCard=lineCard('Sieb',`${num(r.waste)} kg`,`${num2(r.catchWeight?r.waste/r.catchWeight*100:0)} %`,'–','Anteil','Anteil');
+  const summary = `
+    <div class="info-summary-head">vCatch-Anlandeerklärung</div>
+    <div class="info-summary-list vcatch-summary-list">
+      <div class="info-summary-row vcatch-focus-row"><span>Lebendgewicht geschätzt</span><strong>${liveWeightText}</strong></div>
+      <div class="info-summary-row"><span>Anlandegewicht inkl. Sieb</span><strong>${num(r.catchWeight)} kg</strong></div>
+      <div class="info-summary-row total-green"><span>Produktgewicht</span><strong>${num(r.weight)} kg</strong></div>
+      <div class="info-summary-row"><span>Sieb</span><strong>${num2(r.catchWeight?r.waste/r.catchWeight*100:0)} % · ${num(r.waste)} kg</strong></div>
+      <div class="info-summary-row"><span>kg je vCatch-Kiste</span><strong>${num2(r.boxWeight)} kg</strong></div>
+      <div class="info-summary-row vcatch-box-row"><span>vCatch-Kisten gerundet</span><strong>${Number(r.vcatchBoxesRounded)||0} Kisten <small>(${num2(r.boxes)} rechnerisch)</small></strong></div>
+      <div class="info-summary-row"><span>Gelöschte Kisten</span><strong>${Number(r.manualCrates)||0}</strong></div>
+    </div>
+    <div class="info-summary-head">Eigene Kennzahlen</div>
+    <div class="info-summary-list own-summary-list">
+      <div class="info-summary-row"><span>Ø Preis</span><strong>${num2(r.avg)} €/kg</strong></div>
+      <div class="info-summary-row total-yellow"><span>Gesamtumsatz</span><strong>${eur(r.total)}</strong></div>
+      <div class="info-summary-row"><span>Bruttogewicht je Kiste</span><strong>${Number(r.manualCrates)>0?num2(r.grossPerManualCrate)+' kg':'–'}</strong></div>
+      <div class="info-summary-row total-net"><span>Nettogewicht je Kiste</span><strong>${Number(r.manualCrates)>0?num2(r.netPerManualCrate)+' kg':'–'}</strong></div>
+    </div>`;
+  const sources=sourceTrips.length?`<div class="info-source-box"><strong>Herkunftsreisen / DEU-Kontrolle</strong><div class="info-source-list">${sourceTrips.map(t=>`<button class="source-trip-link info-source-item" type="button" onclick="openSourceTrip('${t.id}')">${t.deu}</button>`).join('')}</div></div>`:'';
+  const note=r.note?`<div class="info-note-box"><strong>Bemerkung</strong><div style="margin-top:6px"><button class="note-open-btn" type="button" onclick="openNote('${r.id}')">📝 Bemerkung öffnen</button></div></div>`:`<div class="info-note-box"><strong>Bemerkung</strong><div style="margin-top:6px"><em>Keine Bemerkung hinterlegt</em></div></div>`;
+  const top = `
+    <div class="info-panel">
+      <div class="info-state ${isLive?'live':'saved'}">${isLive?'Live-Daten / In Arbeit':'Letzte gespeicherte Lieferung'}</div>
+      <div class="info-titlebar">Reise ${tripLabel} · DEU ${r.receipt||'–'} · ${dateText}${r.date?' · KW '+weekNo(r.date):''}</div>
+      <div class="info-meta-grid">
+        ${meta('Ausgelaufen',r.departureAt?new Date(r.departureAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'–')}
+        ${meta('Eingelaufen',r.arrivalAt?new Date(r.arrivalAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'–')}
+        ${meta('Anlandedatum',r.supplier?parseDate(r.supplier).toLocaleDateString('de-DE'):'–')}
+        ${meta('Siebdatum',r.sieveDate?parseDate(r.sieveDate).toLocaleDateString('de-DE'):'–')}
+        ${meta('Kisten gefangen',String(Number(r.manualCrates)||0))}
+        ${meta('Geschätzte kg pro Kiste',estimatedKgPerCrateForRecord(r)>0?num2(estimatedKgPerCrateForRecord(r))+' kg':'–')}
+        ${meta('Produktgewicht',num(r.weight)+' kg')}
+      </div>
+      <div class="info-line-grid">
+        ${sortCards}
+        ${siebCard}
+      </div>
+    </div>`;
+  const bottom = `
+    <div class="info-panel">
+      ${summary}
+      ${sources}
+      ${note}
+    </div>`;
+  return {top,bottom};
+}
+
+function setInfoPanels(record, mode='saved'){
+  const parts=infoPanelSections(record, mode);
+  $('savedRecordBodyTop').innerHTML=parts.top;
+  $('savedRecordBodyBottom').innerHTML=parts.bottom;
+}
+
+function renderInfoPanelFromSaved(record){
+  setInfoPanels(record,'saved');
+}
+function updateInfoPanelFromForm(){
+  if(infoPanelHasLiveInput()){
+    setInfoPanels(currentFormRecord(),'live');
+    return true;
+  }
+  return false;
+}
+
+
 function formCalc(){
  const ws=[n('w1'),n('w2'),n('w3')], ps=[n('p1'),n('p2'),n('p3')], rev=ws.map((w,i)=>w*ps[i]), waste=n('waste'), sale=ws.reduce((a,b)=>a+b,0), catchW=sale+waste, total=rev.reduce((a,b)=>a+b,0), bw=n('entryBoxWeight')||Number(settings.boxWeight)||17;
  ['r1','r2','r3'].forEach((id,i)=>$(id).value=eur(rev[i]));
  $('saleWeight').value=kg(sale);$('totalCatch').value=kg(catchW);$('wasteShare').value=num(catchW?waste/catchW*100:0)+' %';
- const boxes=bw?catchW/bw:0;$('boxExact').value=num2(boxes)+' Kisten';$('boxWhole').value=roundBoxes(boxes)+' Kisten';$('boxWholeText').textContent=roundBoxes(boxes)+' Kisten';$('boxExactText').textContent=num2(boxes)+' rechnerisch';
+ const boxes=bw?catchW/bw:0;const roundedAuto=roundBoxes(boxes);$('boxExact').value=num2(boxes)+' Kisten';$('boxWhole').value=roundedAuto+' Kisten';
+ const vcatchInput=$('vcatchBoxesRounded');
+ if(vcatchInput.dataset.manual!=='1' || vcatchInput.value==='') vcatchInput.value=String(roundedAuto);
+ $('boxExactText').textContent=num2(boxes)+' rechnerisch';
  $('avgPrice').value=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenue').value=eur(total);$('wageShare').value=eur(total*(Number(settings.wage)||0)/100);$('wageLabel').textContent='Lohnanteil ('+num(settings.wage)+' %)';
  $('priceText').textContent=ps.map((p,i)=>'S'+(i+1)+': '+num2(p)+' €').join(' · ');
- $('saleWeightText').textContent=kg(sale);$('totalCatchText').textContent=kg(catchW);$('avgPriceText').textContent=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenueText').textContent=eur(total);$('grossPerCrateText').textContent=n('manualCrates')>0?num2(catchW/n('manualCrates'))+' kg':'–';$('netPerCrateText').textContent=n('manualCrates')>0?num2(sale/n('manualCrates'))+' kg':'–';
- $('kwPill').textContent=$('date').value?'KW '+weekNo($('date').value):'KW –'
+ const selectedTrips=pendingTrips.filter(t=>getSelectedTripIds().includes(t.id));
+ const liveWeight=selectedTrips.length?selectedTrips.reduce((sum,t)=>sum+pendingTotalKg(t),0):0;
+ $('liveWeightText').textContent=liveWeight>0?num2(liveWeight)+' kg':'–';
+ $('liveWeightHint').textContent=selectedTrips.length?selectedTrips.length+' Herkunftsreise'+(selectedTrips.length>1?'n':''):'aus Herkunftsreisen';
+ $('saleWeightText').textContent=kg(sale);$('wasteText').textContent=kg(waste);$('wastePercentText').textContent=num(catchW?waste/catchW*100:0)+' % Anteil';$('totalCatchText').textContent=kg(catchW);$('boxWeightLiveText').textContent=num2(bw)+' kg';$('manualCratesText').textContent=String(Number(n('manualCrates'))||0);$('avgPriceText').textContent=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenueText').textContent=eur(total);$('grossPerCrateText').textContent=n('manualCrates')>0?num2(catchW/n('manualCrates'))+' kg':'–';$('netPerCrateText').textContent=n('manualCrates')>0?num2(sale/n('manualCrates'))+' kg':'–';
+ $('kwPill').textContent=$('date').value?'KW '+weekNo($('date').value):'KW –';
+ if(!updateInfoPanelFromForm() && savedRecordId) showSavedRecord(savedRecordId);
 }
 
 function sortedRecords(){
@@ -1197,7 +2326,8 @@ function showSavedRecord(id=null){
  const arr=sortedRecords();
  if(!arr.length){
    savedRecordId=null;$('savedRecordCounter').textContent='–';
-   $('savedRecordBody').innerHTML='<div class="saved-empty">Noch keine Lieferung gespeichert.</div>';
+   $('savedRecordBodyTop').innerHTML='<div class="saved-empty">Noch keine Lieferung gespeichert.</div>';
+   $('savedRecordBodyBottom').innerHTML='<div class="saved-empty">Noch keine Lieferung gespeichert.</div>';
    $('savedPrev').disabled=true;$('savedNext').disabled=true;return;
  }
  let idx=id?arr.findIndex(r=>r.id===id):arr.findIndex(r=>r.id===savedRecordId);
@@ -1205,15 +2335,7 @@ function showSavedRecord(id=null){
  const r=normalize(arr[idx]);savedRecordId=r.id;
  $('savedRecordCounter').textContent=(idx+1)+' von '+arr.length;
  $('savedPrev').disabled=idx<=0;$('savedNext').disabled=idx>=arr.length-1;
- $('savedRecordBody').innerHTML=`
-   <div class="saved-date">Reise ${displayTripNumbersForRecord(r)} · ${parseDate(r.date).toLocaleDateString('de-DE')} · KW ${weekNo(r.date)}</div><div class="saved-subdate">Ausgelaufen: ${r.departureAt?new Date(r.departureAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'–'} · Anlandung: ${r.supplier?parseDate(r.supplier).toLocaleDateString('de-DE'):'–'} · Siebdatum: ${r.sieveDate?parseDate(r.sieveDate).toLocaleDateString('de-DE'):'–'} · DEU: ${r.receipt||'–'}</div>
-   ${r.sorts.map((s,i)=>`<div class="saved-line"><span>Sorte ${i+1}</span><strong>${num(s.weight)} kg · ${num2(s.price)} €/kg</strong></div>`).join('')}
-   <div class="saved-line"><span>Sieb</span><strong>${num(r.waste)} kg · ${num2(r.catchWeight?r.waste/r.catchWeight*100:0)} %</strong></div>
-   <div class="saved-line"><span>Kistenzahl manuell</span><strong>${Number(r.manualCrates)||0}</strong></div><div class="saved-line"><span>Bruttogewicht je Kiste</span><strong>${Number(r.manualCrates)>0?num2(r.grossPerManualCrate)+" kg":"–"}</strong></div><div class="saved-line saved-net"><span>Nettogewicht je Kiste</span><strong>${Number(r.manualCrates)>0?num2(r.netPerManualCrate)+" kg":"–"}</strong></div><div class="saved-line"><span>vCatch-Kisten</span><strong>${roundBoxes(r.boxes)} (${num2(r.boxes)} rechnerisch)</strong></div><div class="saved-line"><span>kg je vCatch-Kiste</span><strong>${num2(r.boxWeight)} kg</strong></div>${renderSourceTripsSaved(r)}
-   <div class="saved-line saved-total saved-sales"><span>Verkaufsgewicht Sorte 1–3</span><strong>${num(r.weight)} kg</strong></div>
-   <div class="saved-line"><span>Ø Preis</span><strong>${num2(r.avg)} €/kg</strong></div>
-   <div class="saved-line saved-revenue"><span>Gesamtumsatz</span><strong>${eur(r.total)}</strong></div>
-   ${r.note?`<button class="note-open-btn" type="button" onclick="openNote('${r.id}')">📝 Bemerkung vorhanden – öffnen</button>`:`<div class="no-note-hint">Keine Bemerkung hinterlegt</div>`}`;
+ renderInfoPanelFromSaved(r);
 }
 function showLastSavedRecord(){
  const arr=sortedRecords();
@@ -1221,15 +2343,39 @@ function showLastSavedRecord(){
 }
 
 
-function pendingUnit(t){return (t.quantityType||'crates')==='kg'?'kg':'Kisten'}
+function pendingUnit(t){return 'Kisten'}
 function pendingAmount(t){return Number(t.quantity!==undefined?t.quantity:t.crates)||0}
+function pendingKgPerCrate(t){return Number(t.kgPerCrate)||0}
+function pendingTotalKg(t){return Number(t.totalKg)||pendingAmount(t)*pendingKgPerCrate(t)}
 function updatePendingQuantityUi(){
- const isKg=$('pendingQuantityType').value==='kg';
- $('pendingQuantityLabel').textContent=isKg?'Gewicht kg':'Kistenzahl';
- $('pendingQuantity').step=isKg?'0.1':'0.5';
- $('pendingQuantity').min=isKg?'0.1':'0.5';
+ const total=n('pendingQuantity')*n('pendingKgPerCrate');
+ $('pendingTotalKg').value=num2(total)+' kg';
 }
 
+function updatePendingTripNumber(){
+ const field=$('pendingTripNumber');if(!field)return;
+ const editId=$('pendingEditId').value;
+ if(editId){
+   const trip=pendingTrips.find(t=>t.id===editId);
+   if(trip){field.value=tripNumberForPending(trip);return}
+ }
+ const departure=$('pendingDeparture').value;
+ if(!departure){field.value='–';return}
+ const when=new Date(departure);
+ const year=when.getFullYear();
+ const times=[];
+ pendingTrips.forEach(t=>{
+   if(t.departure&&new Date(t.departure).getFullYear()===year)times.push(new Date(t.departure).getTime());
+ });
+ records.forEach(r=>{
+   if(r.departureAt&&new Date(r.departureAt).getFullYear()===year)times.push(new Date(r.departureAt).getTime());
+ });
+ field.value=String(times.filter(time=>time<when.getTime()).length+1);
+}
+function tripNumberForPending(t){
+ const year=tripYearFromDeparture(t.departure,t.returnAt||today());
+ return buildTripNumberMap(year).get('p:'+t.id)||'–';
+}
 function tripYearFromDeparture(v,fallbackDate){
  const d=v?new Date(v):parseDate(fallbackDate||today());
  return d.getFullYear();
@@ -1242,7 +2388,7 @@ function buildTripNumberMap(year){
    if(y===year)items.push({key:'p:'+t.id,time:new Date(t.departure).getTime()});
  });
  records.forEach(r=>{
-   if(!r.departureAt)return;
+   if(!r.departureAt||effectiveSourceTripIds(r).length)return;
    const y=new Date(r.departureAt).getFullYear();
    if(y===year)items.push({key:'r:'+r.id,time:new Date(r.departureAt).getTime()});
  });
@@ -1251,14 +2397,21 @@ function buildTripNumberMap(year){
  items.forEach((item,i)=>map.set(item.key,i+1));
  return map;
 }
+function effectiveSourceTripIds(r){
+ const ids=new Set(Array.isArray(r.sourceTripIds)?r.sourceTripIds:[]);
+ pendingTrips.forEach(t=>{if(t.completedBy===r.id)ids.add(t.id)});
+ return [...ids];
+}
 function displayTripNumbersForRecord(r){
  const year=tripYearFromDeparture(r.departureAt,r.date);
  const map=buildTripNumberMap(year);
  const nums=[];
- (r.sourceTripIds||[]).forEach(id=>{
-   const n=map.get('p:'+id);if(n)nums.push(n);
- });
- const own=map.get('r:'+r.id);if(own)nums.push(own);
+ const sourceIds=effectiveSourceTripIds(r);
+ if(sourceIds.length){
+   sourceIds.forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
+ }else{
+   const own=map.get('r:'+r.id);if(own)nums.push(own);
+ }
  const unique=[...new Set(nums)].sort((a,b)=>a-b);
  return unique.length?unique.join('+'):'–';
 }
@@ -1267,17 +2420,21 @@ function prospectiveTripNumbers(){
  const fallback=$('date').value||today();
  const year=tripYearFromDeparture(departure,fallback);
  const map=buildTripNumberMap(year);
+ const selected=getSelectedTripIds();
  const nums=[];
- getSelectedTripIds().forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
- const editId=$('editId').value;
- if(editId){
-   const own=map.get('r:'+editId);if(own)nums.push(own);
- }else if(departure){
-   const times=[];
-   pendingTrips.forEach(t=>{if(t.departure&&new Date(t.departure).getFullYear()===year)times.push(new Date(t.departure).getTime())});
-   records.forEach(r=>{if(r.departureAt&&new Date(r.departureAt).getFullYear()===year)times.push(new Date(r.departureAt).getTime())});
-   const current=new Date(departure).getTime();
-   nums.push(times.filter(t=>t<current).length+1);
+ if(selected.length){
+   selected.forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
+ }else{
+   const editId=$('editId').value;
+   if(editId){
+     const own=map.get('r:'+editId);if(own)nums.push(own);
+   }else if(departure){
+     const times=[];
+     pendingTrips.forEach(t=>{if(t.departure&&new Date(t.departure).getFullYear()===year)times.push(new Date(t.departure).getTime())});
+     records.forEach(r=>{if(r.departureAt&&new Date(r.departureAt).getFullYear()===year)times.push(new Date(r.departureAt).getTime())});
+     const current=new Date(departure).getTime();
+     nums.push(times.filter(t=>t<current).length+1);
+   }
  }
  const unique=[...new Set(nums)].sort((a,b)=>a-b);
  return unique.length?unique.join('+'):'–';
@@ -1295,45 +2452,144 @@ function getSelectedTripIds(){
 }
 function renderSourceTripChoices(selected=[]){
  const box=$('sourceTripChoices');if(!box)return;
- const open=openPendingTrips();
- if(!open.length){box.innerHTML='<div class="empty-source">Keine offenen Fangreisen vorhanden.</div>';$('selectedTripsCount').textContent='0 ausgewählt';$('sourceSummary').value='';return}
- box.innerHTML=open.map(t=>`<label class="source-trip-choice"><input class="source-trip-check" type="checkbox" value="${t.id}" ${selected.includes(t.id)?'checked':''}><span><strong>${t.deu}</strong> · ${num(pendingAmount(t))} ${pendingUnit(t)} · ${t.storageType==='onboard'?'an Bord':'Kühlhaus'}<small>${fmtDateTime(t.departure)} → ${fmtDateTime(t.returnAt)}</small></span></label>`).join('');
+ const selectedSet=new Set(selected||[]);
+ const choices=pendingTrips.filter(t=>t.status!=='completed'||selectedSet.has(t.id));
+ if(!choices.length){box.innerHTML='<div class="empty-source">Keine offenen Fangreisen vorhanden.</div>';$('selectedTripsCount').textContent='0 ausgewählt';$('sourceSummary').value='';return}
+ box.innerHTML=choices.map(t=>{
+  const selectable=!!t.returnAt||selectedSet.has(t.id);
+  return `<label class="source-trip-choice ${!selectable?'open-trip-warning':''}">
+   <input class="source-trip-check" type="checkbox" value="${t.id}" ${selected.includes(t.id)&&selectable?'checked':''} ${!selectable?'disabled':''}>
+   <span class="source-trip-choice-content">
+    <span class="source-trip-choice-title">Reise ${tripNumberForPending(t)} · DEU ${t.deu}</span>
+    <span class="source-trip-choice-grid">
+     <span><b>Aus:</b> ${fmtDateTime(t.departure)}</span>
+     <span><b>Ein:</b> ${t.returnAt?fmtDateTime(t.returnAt):'<span class="open-trip-text">noch offen</span>'}</span>
+     <span><b>Fang:</b> ${t.storageType==='onboard'?'An Bord':t.storageType==='coldstore'?'Kühlhaus':'Anlandung'}</span>
+     <span><b>Menge:</b> ${num(pendingAmount(t))} Kisten · ${num2(pendingTotalKg(t))} kg</span>
+     ${!selectable?'<span class="open-trip-note"><b>Hinweis:</b> Noch nicht eingelaufen – noch nicht für Anlandung/Lieferung verfügbar.</span>':''}
+    </span>
+   </span>
+  </label>`;
+ }).join('');
  box.querySelectorAll('.source-trip-check').forEach(c=>c.addEventListener('change',updateSourceSummary));
- updateSourceSummary();
 }
 function updateSourceSummary(){
- const ids=getSelectedTripIds(), trips=pendingTrips.filter(t=>ids.includes(t.id));
+ const ids=getSelectedTripIds(), trips=pendingTrips.filter(t=>ids.includes(t.id)&&t.returnAt);
  $('selectedTripsCount').textContent=ids.length+' ausgewählt';
- $('sourceSummary').value=trips.length?trips.map(t=>t.deu+' ('+num(pendingAmount(t))+' '+pendingUnit(t)+')').join(' + '):'';updateEntryTripNumber();
+ $('sourceSummary').value=trips.length?trips.map(t=>t.deu+' ('+num(pendingAmount(t))+' Kisten / '+num2(pendingTotalKg(t))+' kg)').join(' + '):'';
+
+ document.querySelectorAll('.source-trip-choice').forEach(card=>{
+   const input=card.querySelector('.source-trip-check');
+   card.classList.toggle('is-selected',!!input?.checked);
+ });
+
+ if(trips.length){
+   const byDeparture=[...trips].sort((a,b)=>(a.departure||'').localeCompare(b.departure||''));
+   const latestDeparture=byDeparture.at(-1);
+   const withReturn=trips.filter(t=>t.returnAt).sort((a,b)=>a.returnAt.localeCompare(b.returnAt));
+   const latestReturn=withReturn.at(-1);
+   const tripNumbers=trips.map(t=>tripNumberForPending(t)).filter(Boolean).join('+');
+
+   const estimatedCrates=trips.reduce((sum,t)=>sum+pendingAmount(t),0);
+   const estimatedKg=trips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
+   $('manualCrates').value=estimatedCrates;
+   $('entryBoxWeightMeta').value=estimatedCrates>0?(estimatedKg/estimatedCrates).toFixed(2):'';
+   if(latestDeparture?.departure)$('departureAt').value=latestDeparture.departure;
+   if(latestDeparture?.deu)$('receipt').value=latestDeparture.deu;
+
+   if(latestReturn?.returnAt){
+     $('arrivalAt').value=latestReturn.returnAt;
+     const landingDate=latestReturn.returnAt.slice(0,10);
+     $('supplier').value=landingDate;
+     $('sieveDate').value=landingDate;
+     $('date').value=landingDate;
+   }else{
+     $('arrivalAt').value='';
+   }
+
+   $('workModeBanner').textContent='In Arbeit: Reise '+tripNumbers+' · '+trips.length+' Fangreise'+(trips.length>1?'n':'')+' ausgewählt';
+   $('workModeBanner').classList.remove('hidden');
+   $('entryForm').classList.add('work-in-progress');
+   formCalc();
+ }else{
+   $('workModeBanner').classList.add('hidden');
+   $('entryForm').classList.remove('work-in-progress');
+ }
+ updateEntryTripNumber();
 }
 function renderSourceTripsSaved(r){
- if(!r.sourceTripIds||!r.sourceTripIds.length)return '';
- const trips=pendingTrips.filter(t=>r.sourceTripIds.includes(t.id));
- return `<div class="saved-line source-saved"><span>Herkunftsreisen</span><strong>${trips.map(t=>`<button class="source-trip-link" type="button" onclick="openSourceTrip('${t.id}')">${t.deu} · ${num(pendingAmount(t))} ${pendingUnit(t)}</button>`).join('')}</strong></div>`;
+ const ids=effectiveSourceTripIds(r);
+ if(!ids.length)return '';
+ const trips=pendingTrips.filter(t=>ids.includes(t.id));
+ return `<div class="saved-line source-saved"><span>Herkunftsreisen</span><strong>${trips.map(t=>`<button class="source-trip-link" type="button" onclick="openSourceTrip('${t.id}')">${t.deu}</button>`).join('')}</strong></div>`;
 }
 function renderSourceTripsList(r){
- if(!r.sourceTripIds||!r.sourceTripIds.length)return '–';
- const trips=pendingTrips.filter(t=>r.sourceTripIds.includes(t.id));
- return trips.map(t=>`<button class="source-trip-link list-source-link" type="button" onclick="openSourceTrip('${t.id}')">${t.deu} (${num(pendingAmount(t))} ${pendingUnit(t)})</button>`).join('');
+ const ids=effectiveSourceTripIds(r);
+ if(!ids.length)return '–';
+ const trips=pendingTrips.filter(t=>ids.includes(t.id));
+ return trips.map(t=>`<button class="source-trip-link list-source-link" type="button" onclick="openSourceTrip('${t.id}')">${t.deu}</button>`).join('');
 }
 function renderPendingTrips(){
  const wrap=$('pendingCards');if(!wrap)return;
- const open=openPendingTrips();$('pendingCount').textContent=open.length+' offen';
- if(!open.length){wrap.innerHTML='<div class="empty-source">Keine offenen Fangreisen.</div>';renderSourceTripChoices();return}
- wrap.innerHTML=open.map(t=>`<div class="pending-card">
-  <div class="pending-card-head"><strong>${t.deu}</strong><span class="status-badge ${t.storageType}">${t.storageType==='onboard'?'An Bord':'Kühlhaus'}</span></div>
-  <div class="pending-card-grid"><span>Aus: <b>${fmtDateTime(t.departure)}</b></span><span>Ein: <b>${fmtDateTime(t.returnAt)}</b></span><span>Menge: <b>${num(pendingAmount(t))} ${pendingUnit(t)}</b></span><span>Lagerort: <b>${t.storageLocation||'–'}</b></span></div>
+ const section=document.querySelector('.dashboard-open-trips');
+ const open=openPendingTrips();
+ $('pendingCount').textContent=open.length+' offen';
+
+ if(!open.length){
+   section?.classList.add('is-empty');
+   wrap.innerHTML='<div class="empty-source compact-empty">Keine offenen Fangreisen.</div>';
+   renderSourceTripChoices();
+   return;
+ }
+
+ section?.classList.remove('is-empty');
+ wrap.innerHTML=open.map(t=>`<div class="pending-card dashboard-trip-card">
+  <div class="pending-card-head"><strong>Reise ${tripNumberForPending(t)} · ${t.deu}</strong><span class="status-badge ${t.storageType}">${t.storageType==='onboard'?'An Bord':t.storageType==='coldstore'?'Kühlhaus':'Anlandung'}</span></div>
+  <div class="dashboard-trip-card-line"><b>Aus:</b> ${fmtDateTime(t.departure)}<br><b>Ein:</b> ${t.returnAt?fmtDateTime(t.returnAt):'<span class="trip-still-open">noch unterwegs</span>'}</div>
+  <div class="dashboard-trip-card-line"><b>${num(pendingAmount(t))} Kisten</b> · ${num2(pendingKgPerCrate(t))} kg geschätzt/Kiste · <b>${num2(pendingTotalKg(t))} kg</b></div>
   ${t.note?`<div class="pending-note">${t.note}</div>`:''}
-  <div class="actions"><button class="btn secondary" onclick="editPending('${t.id}')">Bearbeiten</button><button class="btn danger" onclick="deletePending('${t.id}')">Löschen</button></div>
+  <div class="actions dashboard-trip-actions"><button class="btn primary take-trip-btn" onclick="takePendingToDelivery('${t.id}')">Für Lieferung übernehmen</button><button class="btn secondary" onclick="editPending('${t.id}')">Bearbeiten</button><button class="btn danger" onclick="deletePending('${t.id}')">Löschen</button></div>
  </div>`).join('');
  renderSourceTripChoices();
 }
 function resetPendingForm(){
- $('pendingForm').reset();$('pendingEditId').value='';$('pendingStorageType').value='onboard';$('pendingQuantityType').value='crates';updatePendingQuantityUi();
+ $('pendingForm').reset();$('pendingEditId').value='';
+ $('pendingStorageType').value='landed';
+ $('pendingQuantityType').value='crates';
+ $('pendingKgPerCrate').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';
+ $('pendingTotalKg').value='0,00 kg';
+ $('pendingTripNumber').value='–';
+ updatePendingQuantityUi();
+}
+function takePendingToDelivery(id){
+ const t=pendingTrips.find(x=>x.id===id);if(!t)return;
+ show('entry');
+ resetForm();
+ renderSourceTripChoices([id]);
+ const check=document.querySelector(`.source-trip-check[value="${id}"]`);
+ if(check){check.checked=true;updateSourceSummary()}
+ $('sourceProcessingMode').value='single';
+ document.querySelector('#entryForm').scrollIntoView({behavior:'smooth',block:'start'});
+ setTimeout(()=>document.querySelector('.source-trips-panel')?.classList.add('source-focus'),200);
+ setTimeout(()=>document.querySelector('.source-trips-panel')?.classList.remove('source-focus'),1800);
 }
 function editPending(id){
  const t=pendingTrips.find(x=>x.id===id);if(!t)return;
- show('pending');$('pendingEditId').value=t.id;$('pendingDeparture').value=t.departure;$('pendingReturn').value=t.returnAt;$('pendingDeu').value=t.deu;$('pendingQuantityType').value=t.quantityType||'crates';updatePendingQuantityUi();$('pendingQuantity').value=pendingAmount(t);$('pendingStorageType').value=t.storageType;$('pendingStorageLocation').value=t.storageLocation||'';$('pendingNote').value=t.note||'';
+ show('dashboard');
+ $('pendingEditId').value=t.id;
+ $('pendingDeparture').value=t.departure;
+ $('pendingDeu').value=t.deu;
+ $('pendingReturn').value=t.returnAt;
+ $('pendingStorageType').value=t.storageType||'landed';
+ $('pendingQuantityType').value='crates';
+ $('pendingQuantity').value=pendingAmount(t);
+ $('pendingKgPerCrate').value=pendingKgPerCrate(t).toFixed(1);
+ $('pendingNote').value=t.note||'';
+ updatePendingQuantityUi();
+ updatePendingTripNumber();
+ document.querySelector('.dashboard-pending').classList.add('pending-edit-focus');
+ window.scrollTo({top:Math.max(0,document.querySelector('.dashboard-pending').getBoundingClientRect().top+window.scrollY-70),behavior:'smooth'});
+ setTimeout(()=>document.querySelector('.dashboard-pending').classList.remove('pending-edit-focus'),1800);
 }
 function deletePending(id){
  if(confirm('Diese vorgemerkte Fangreise wirklich löschen?')){pendingTrips=pendingTrips.filter(t=>t.id!==id);persist();renderPendingTrips()}
@@ -1341,12 +2597,14 @@ function deletePending(id){
 
 function openSourceTrip(id){
  const t=pendingTrips.find(x=>x.id===id);if(!t)return;
- $('sourceTripModalMeta').textContent=t.deu+' · '+(t.storageType==='onboard'?'Fang an Bord':'Kühlhaus');
+ $('sourceTripModalMeta').textContent='Reise '+tripNumberForPending(t)+' · DEU '+t.deu+' · '+(t.storageType==='onboard'?'An Bord gelassen':t.storageType==='coldstore'?'Hafen-Kühlhaus':'Anlandung');
  $('sourceTripModalBody').innerHTML=`
   <div class="saved-line"><span>Ausgelaufen</span><strong>${fmtDateTime(t.departure)}</strong></div>
   <div class="saved-line"><span>Eingelaufen</span><strong>${fmtDateTime(t.returnAt)}</strong></div>
-  <div class="saved-line"><span>Menge</span><strong>${num(pendingAmount(t))} ${pendingUnit(t)}</strong></div>
-  <div class="saved-line"><span>Aufbewahrung</span><strong>${t.storageType==='onboard'?'Fang an Bord':'Im Kühlhaus'}</strong></div>
+  <div class="saved-line"><span>Kistenzahl</span><strong>${num(pendingAmount(t))} Kisten</strong></div>
+  <div class="saved-line"><span>Geschätzte kg pro Kiste</span><strong>${pendingKgPerCrate(t)>0?num2(pendingKgPerCrate(t))+' kg':'–'}</strong></div>
+  <div class="saved-line"><span>kg gesamt</span><strong>${num2(pendingTotalKg(t))} kg</strong></div>
+  <div class="saved-line"><span>Aufbewahrung</span><strong>${t.storageType==='onboard'?'An Bord gelassen':t.storageType==='coldstore'?'Hafen-Kühlhaus':'Anlandung'}</strong></div>
   <div class="saved-line"><span>Lagerort</span><strong>${t.storageLocation||'–'}</strong></div>
   <div class="saved-line"><span>Status</span><strong>${t.status==='completed'?'Abgeschlossen':'Offen'}</strong></div>
   ${t.note?`<div class="special-note">${t.note}</div>`:''}`;
@@ -1379,7 +2637,7 @@ function formatPriceInput(el){
 }
 
 function resetForm(){
- $('entryForm').reset();$('editId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('date').value=today();$('departureAt').value='';$('sourceProcessingMode').value='single';$('supplier').value=today();$('sieveDate').value=today();$('note').value='';$('manualCrates').value='';$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);
+ $('entryForm').reset();$('editId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value=today();$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value=today();$('sieveDate').value=today();$('note').value='';$('manualCrates').value='';$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
  ['w1','w2','w3','waste'].forEach(id=>$(id).value='');latestPrices().forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
  [1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=true;e.classList.add('locked')});$('togglePrices').textContent='Preise ändern';renderSourceTripChoices();formCalc();updateEntryTripNumber();showSavedRecord(savedRecordId);setTimeout(()=>$('w1').focus(),50)
 }
@@ -1427,27 +2685,44 @@ function weeksInIsoYear(year){
  }
  return weeks;
 }
+function planInfoForDate(value){
+ const selected=parseDate(value);
+ const sunday=new Date(selected);
+ sunday.setDate(selected.getDate()-selected.getDay());
+ const monday=new Date(sunday);
+ monday.setDate(sunday.getDate()+1);
+ const saturday=new Date(sunday);
+ saturday.setDate(sunday.getDate()+6);
+ return {selected,sunday,monday,saturday,info:isoInfo(dateKey(monday))};
+}
 function setDashboardWeek(year,week){
  const item=weeksInIsoYear(Number(year)).find(x=>x.week===Number(week));
  if(!item)return;
- $('dashDate').value=dateKey(item.monday);
+ const sunday=new Date(item.monday);
+ sunday.setDate(item.monday.getDate()-1);
+ $('dashDate').value=dateKey(sunday);
  renderDashboard();
 }
 
 function renderDashboard(){
  if(!$('dashDate').value)$('dashDate').value=today();
  let selectedDate=parseDate($('dashDate').value);
- let calendarYear=Number($('dashYear').value)||selectedDate.getFullYear();
+ let plan=planInfoForDate($('dashDate').value);
+ let calendarYear=Number($('dashYear').value)||plan.info.isoYear;
 
- if(selectedDate.getFullYear()!==calendarYear){
-   const currentInfo=isoInfo($('dashDate').value);
-   const targetWeek=Math.min(currentInfo.week,weeksInIsoYear(calendarYear).length);
+ if(plan.info.isoYear!==calendarYear){
+   const targetWeek=Math.min(plan.info.week,weeksInIsoYear(calendarYear).length);
    const target=weeksInIsoYear(calendarYear).find(x=>x.week===targetWeek)||weeksInIsoYear(calendarYear)[0];
-   $('dashDate').value=dateKey(target.monday);
+   const targetSunday=new Date(target.monday);
+   targetSunday.setDate(target.monday.getDate()-1);
+   $('dashDate').value=dateKey(targetSunday);
    selectedDate=parseDate($('dashDate').value);
+   plan=planInfoForDate($('dashDate').value);
  }
 
- const info=isoInfo($('dashDate').value);
+ const info=plan.info;
+ const planSunday=plan.sunday;
+ const planSaturday=plan.saturday;
  const availableWeeks=weeksInIsoYear(calendarYear);
  const currentWeek=Math.min(info.week,availableWeeks.length);
  $('dashWeekSelect').innerHTML=availableWeeks.map(w=>`<option value="${w.week}">KW ${w.week}</option>`).join('');
@@ -1460,39 +2735,40 @@ function renderDashboard(){
  const mo=totals(filtered(calendarYear,String(month)));
  const wa=records.filter(r=>{
    const d=parseDate(r.date);
-   return d>=info.monday && d<=info.sunday;
+   return d>=planSunday && d<=planSaturday;
  });
  const wt=totals(wa);
 
- $('dashWeekRange').value=info.range;
+ $('dashWeekRange').value=planSunday.toLocaleDateString('de-DE')+' – '+planSaturday.toLocaleDateString('de-DE');
  $('monthRevenue').textContent=eur(mo.revenue);
  $('yearRevenue').textContent=eur(yr.revenue);
  $('weekRevenue').textContent=eur(wt.revenue);
  $('weekWeight').textContent=kg(wt.sale);
  $('monthWage').textContent=eur(mo.wage);
- $('weekPill').textContent='KW '+info.week+' · '+info.range;
- const weekPriceSets=[0,1,2].map(i=>{
-   const vals=[...new Set(wa.map(r=>Number(normalize(r).sorts[i].price)||0).filter(v=>v>0).map(v=>v.toFixed(2)))];
-   return vals;
- });
- const priceLabels=weekPriceSets.map((vals,i)=>{
-   if(!vals.length)return `<span class="week-price-chip"><strong>Sorte ${i+1}:</strong> –</span>`;
-   if(vals.length===1)return `<span class="week-price-chip"><strong>Sorte ${i+1}:</strong> ${num(Number(vals[0]))} €/kg</span>`;
-   return `<span class="week-price-chip"><strong>Sorte ${i+1}:</strong> ${vals.map(v=>num(Number(v))).join(' / ')} €/kg</span>`;
- }).join('');
- $('weekPriceStrip').innerHTML=priceLabels+`<span class="week-price-note">${wa.length?'Preise der ausgewählten Woche':'Noch keine Preise in dieser Woche'}</span>`;
-
+ $('weekPill').textContent='Planwoche So–Sa · KW '+info.week+' ab Montag';
+ const currentPrices=latestPrices();
+ $('weekPriceStrip').innerHTML=`
+  <div class="week-price-title">Aktuelle Preise</div>
+  ${[1,2,3].map((n,i)=>`<label class="week-price-edit"><span>Sorte ${n}</span><input id="dashPrice${n}" type="number" min="0" step="0.01" value="${Number(currentPrices[i]||0).toFixed(2)}"><small>€/kg</small></label>`).join('')}
+  <button class="btn primary week-price-save" id="saveWeekPrices" type="button">Preise übernehmen</button>`;
+ $('saveWeekPrices').onclick=()=>{
+   settings.lastPrices=[1,2,3].map(i=>Number($('dashPrice'+i).value)||0);
+   settings.lastPrices.forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
+   persist();formCalc();
+   const btn=$('saveWeekPrices');btn.textContent='Gespeichert ✓';
+   setTimeout(()=>{btn.textContent='Preise übernehmen'},1200);
+ };
  $('prevWeek').textContent='← KW '+(info.week>1?info.week-1:weeksInIsoYear(info.isoYear-1).length);
  $('nextWeek').textContent='KW '+(info.week<weeksInIsoYear(info.isoYear).length?info.week+1:1)+' →';
 
- const days=['Mo','Di','Mi','Do','Fr','Sa','So'], dates=[];
- for(let i=0;i<7;i++){const d=new Date(info.monday);d.setDate(info.monday.getDate()+i);dates.push(d)}
+ const days=['So','Mo','Di','Mi','Do','Fr','Sa'], dates=[];
+ for(let i=0;i<7;i++){const d=new Date(planSunday);d.setDate(planSunday.getDate()+i);dates.push(d)}
 
  const rows=[
    {name:'Sorte 1',key:0,kind:'sort'},
    {name:'Sorte 2',key:1,kind:'sort'},
    {name:'Sorte 3',key:2,kind:'sort'},
-   {name:'Sieb kg / %',key:'waste',kind:'sieve'},
+   {name:'Sieb % / kg',key:'waste',kind:'sieve'},
    {name:'Gesamtgewicht',key:'weight',kind:'total'},
    {name:'Umsatz',key:'total',kind:'revenue'},
    {name:'Ø Preis/kg',key:'dailyAvg',kind:'avg'},
@@ -1503,7 +2779,8 @@ function renderDashboard(){
    const has=wa.some(r=>r.date===dateKey(d));
    const dayRecords=wa.filter(r=>r.date===dateKey(d));
    const tripNos=[...new Set(dayRecords.flatMap(r=>displayTripNumbersForRecord(r).split('+')).filter(x=>x&&x!=='–'))].join('+');
-   return `<div class="head ${has?'filled-head':''}">${days[i]}<br><span style="font-weight:600">${d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</span>${tripNos?`<br><span class="week-trip-number">Reise ${tripNos}</span>`:''}</div>`
+   const isToday=dateKey(d)===today();
+   return `<div class="head ${has?'filled-head':''} ${isToday?'today-head':''}">${days[i]}<br><span style="font-weight:600">${d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</span>${isToday?'<br><span class="today-label">Heute</span>':''}${tripNos?`<br><span class="week-trip-number">Reise ${tripNos}</span>`:''}</div>`
  }).join('');
 
  rows.forEach(row=>{
@@ -1511,7 +2788,8 @@ function renderDashboard(){
    dates.forEach(d=>{
      const keyDate=dateKey(d);
      const rs=wa.filter(r=>r.date===keyDate);
-     const cls=`${rs.length?'filled-day':'empty-day'} ${row.kind}-cell`;
+     const isTodayCol=keyDate===today();
+     const cls=`${rs.length?'filled-day':'empty-day'} ${row.kind}-cell ${isTodayCol?'today-col':''}`;
 
      if(row.key==='dailyAvg'){
        const sw=rs.reduce((a,r)=>a+normalize(r).weight,0);
@@ -1536,7 +2814,7 @@ function renderDashboard(){
        const waste=rs.reduce((a,r)=>a+normalize(r).waste,0);
        const totalCatch=rs.reduce((a,r)=>a+normalize(r).catchWeight,0);
        const share=totalCatch?waste/totalCatch*100:0;
-       h+=`<div class="${cls}">${rs.length?num(waste)+' kg · '+num(share)+' %':'–'}</div>`;
+       h+=`<div class="${cls}">${rs.length?num(share)+' % · '+num(waste)+' kg':'–'}</div>`;
        return;
      }
 
@@ -1551,19 +2829,20 @@ function renderDashboard(){
  $('weekGrid').innerHTML=h;
 
  const mode=$('monthMode').value||'single';
+ $('monthModeSingle')?.classList.toggle('active',mode==='single');
+ $('monthModeAll')?.classList.toggle('active',mode==='all');
  if(mode==='all'){
    $('monthQualityBox').classList.add('hidden');
    $('monthPill').textContent='Schnellansicht '+calendarYear;
 
    const monthWeekBuckets=Array.from({length:12},(_,mi)=>{
-     const byWeek=new Map();
+     const buckets=Array.from({length:5},(_,row)=>({row,records:[],start:new Date(calendarYear,mi,row*7+1,12)}));
      filtered(calendarYear,String(mi)).forEach(r=>{
-       const inf=isoInfo(r.date);
-       const key=inf.isoYear+'-'+String(inf.week).padStart(2,'0');
-       if(!byWeek.has(key))byWeek.set(key,{week:inf.week,start:inf.monday,records:[]});
-       byWeek.get(key).records.push(r);
+       const d=parseDate(r.date);
+       const row=Math.min(4,Math.floor((d.getDate()-1)/7));
+       buckets[row].records.push(r);
      });
-     return [...byWeek.values()].sort((a,b)=>a.start-b.start);
+     return buckets;
    });
 
    let grid='<div class="month-quick-grid">';
@@ -1574,8 +2853,10 @@ function renderDashboard(){
      for(let mi=0;mi<12;mi++){
        const bucket=monthWeekBuckets[mi][row];
        const revenue=bucket?totals(bucket.records).revenue:0;
-       const kw=bucket?` title="KW ${bucket.week}"`:'';
-       grid+=`<div class="${revenue?'mq-cell has-value month-week-link':'mq-empty'}"${kw}${bucket?` data-year="${bucket.start.getFullYear()}" data-week="${bucket.week}"`:''}>${revenue?eur(revenue):'–'}</div>`;
+       const refDate=bucket&&bucket.records.length?bucket.records[0].date:dateKey(bucket.start);
+       const bucketInfo=isoInfo(refDate);
+       const kw=bucket?` title="${row+1}. Monatswoche · KW ${bucketInfo.week}"`:'';
+       grid+=`<div class="${revenue?'mq-cell has-value month-week-link':'mq-empty'}"${kw}${bucket?` data-year="${bucketInfo.isoYear}" data-week="${bucketInfo.week}"`:''}>${revenue?eur(revenue):'–'}</div>`;
      }
    }
 
@@ -1611,17 +2892,18 @@ function renderDashboard(){
    const monthQuality=Number(settings.monthlyQuality[calendarYear+'-'+month]||0);
    const totalMonth=goodsSubtotal+monthQuality;
    const totalWeight=weeks.reduce((a,w)=>a+totals(w.records).sale,0);
+   const totalWage=weeks.reduce((a,w)=>a+totals(w.records).wage,0);
    $('monthPill').textContent=months[month]+' '+calendarYear;
 
-   let mt='<table><thead><tr><th>Kalenderwoche</th><th>Zeitraum</th><th>Gewicht</th><th>Warenumsatz</th><th>Ø Preis/kg</th></tr></thead><tbody>';
-   if(!weeks.length)mt+='<tr><td colspan="5" class="empty">Für diesen Monat liegen keine Lieferungen vor.</td></tr>';
+   let mt='<table><thead><tr><th>Kalenderwoche</th><th>Zeitraum</th><th>Gewicht</th><th>Warenumsatz</th><th>Lohn</th><th>Ø Preis/kg</th></tr></thead><tbody>';
+   if(!weeks.length)mt+='<tr><td colspan="6" class="empty">Für diesen Monat liegen keine Lieferungen vor.</td></tr>';
    weeks.forEach(w=>{
      const t=totals(w.records);
-     mt+=`<tr class="single-month-week-row ${w.week===info.week&&w.isoYear===info.isoYear?'active-week-row':''}" data-year="${w.isoYear}" data-week="${w.week}"><td>KW ${w.week}</td><td>${w.start.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})} – ${w.end.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</td><td>${kg(t.sale)}</td><td>${eur(t.revenue)}</td><td>${t.sale?num(t.revenue/t.sale)+' €/kg':'–'}</td></tr>`
+     mt+=`<tr class="single-month-week-row ${w.week===info.week&&w.isoYear===info.isoYear?'active-week-row':''}" data-year="${w.isoYear}" data-week="${w.week}"><td>KW ${w.week}</td><td>${w.start.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})} – ${w.end.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</td><td>${kg(t.sale)}</td><td>${eur(t.revenue)}</td><td>${eur(t.wage)}</td><td>${t.sale?num(t.revenue/t.sale)+' €/kg':'–'}</td></tr>`
    });
-   mt+=`<tr class="month-total" style="font-weight:900"><td colspan="2">Monatssumme Warenumsatz</td><td>${kg(totalWeight)}</td><td>${eur(goodsSubtotal)}</td><td>${totalWeight?num(goodsSubtotal/totalWeight)+' €/kg':'–'}</td></tr>`;
-   mt+=`<tr class="quality-row" style="font-weight:900"><td colspan="3">Qualitätszuschlag</td><td>${eur(monthQuality)}</td><td>–</td></tr>`;
-   mt+=`<tr class="grand-total" style="font-weight:950"><td colspan="3">Monatsgesamt inklusive Qualitätszuschlag</td><td>${eur(totalMonth)}</td><td>${totalWeight?num(totalMonth/totalWeight)+' €/kg':'–'}</td></tr>`;
+   mt+=`<tr class="month-total" style="font-weight:900"><td colspan="2">Monatssumme Warenumsatz</td><td>${kg(totalWeight)}</td><td>${eur(goodsSubtotal)}</td><td>${eur(totalWage)}</td><td>${totalWeight?num(goodsSubtotal/totalWeight)+' €/kg':'–'}</td></tr>`;
+   mt+=`<tr class="quality-row" style="font-weight:900"><td colspan="3">Qualitätszuschlag</td><td>${eur(monthQuality)}</td><td>–</td><td>–</td></tr>`;
+   mt+=`<tr class="grand-total" style="font-weight:950"><td colspan="3">Monatsgesamt inklusive Qualitätszuschlag</td><td>${eur(totalMonth)}</td><td>${eur(totalWage)}</td><td>${totalWeight?num(totalMonth/totalWeight)+' €/kg':'–'}</td></tr>`;
    mt+='</tbody></table>';
    $('monthTable').innerHTML=mt;
    document.querySelectorAll('.single-month-week-row').forEach(row=>row.addEventListener('click',()=>{
@@ -1633,8 +2915,8 @@ function renderDashboard(){
 function table(arr){
  if(!arr.length)return '<table><tr><td class="empty">Noch keine Lieferungen vorhanden.</td></tr></table>';
  return `<table><thead><tr>
-  <th>Reise-Nr.</th><th>KW</th><th>Auslaufdatum</th><th>Anlandedatum</th><th>DEU-Nummer</th>
-  <th class="grp-a grp-a-start">S1 kg</th><th class="grp-a">S2 kg</th><th class="grp-a">S3 kg</th><th class="grp-a">Verkaufsgewicht</th><th class="grp-a">Sieb kg / %</th><th class="grp-a grp-a-end">vCatch-Kisten</th>
+  <th>Reise-Nr.</th><th>KW</th><th>Auslaufdatum</th><th>Einlaufen</th><th>Anlandedatum</th><th>DEU-Nummer</th>
+  <th class="grp-a grp-a-start">S1 kg</th><th class="grp-a">S2 kg</th><th class="grp-a">S3 kg</th><th class="grp-a">Produktgewicht</th><th class="grp-a">Sieb kg / %</th><th class="grp-a grp-a-end">vCatch-Kisten</th>
   <th class="grp-b grp-b-start">Kisten manuell</th><th class="grp-b">Brutto je Kiste</th><th class="grp-b grp-b-end">Netto je Kiste</th>
   <th>Umsatz</th><th>Lohn</th><th>Herkunftsreisen</th><th>Bem.</th><th>Aktion</th>
  </tr></thead><tbody>${arr.map(r=>{
@@ -1644,6 +2926,7 @@ function table(arr){
     <td class="trip-number-cell">${displayTripNumbersForRecord(r)}</td>
     <td>${weekNo(r.date)}</td>
     <td>${r.departureAt?new Date(r.departureAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'–'}</td>
+    <td>${r.arrivalAt?new Date(r.arrivalAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'–'}</td>
     <td>${landing?parseDate(landing).toLocaleDateString('de-DE'):'–'}</td>
     <td>${r.receipt||'–'}</td>
 
@@ -1652,7 +2935,7 @@ function table(arr){
     <td class="grp-a">${num(r.sorts[2].weight)}</td>
     <td class="grp-a list-sales-weight">${kg(r.weight)}</td>
     <td class="grp-a">${num(r.waste)} kg / ${num2(r.catchWeight?r.waste/r.catchWeight*100:0)} %</td>
-    <td class="grp-a grp-a-end">${roundBoxes(r.boxes)}</td>
+    <td class="grp-a grp-a-end">${Number(r.vcatchBoxesRounded)||0}</td>
 
     <td class="grp-b grp-b-start">${Number(r.manualCrates)||0}</td>
     <td class="grp-b">${Number(r.manualCrates)>0?num2(r.grossPerManualCrate)+' kg':'–'}</td>
@@ -1667,30 +2950,68 @@ function table(arr){
    </tr>`;
  }).join('')}</tbody></table>`;
 }
-function renderList(){const q=$('search').value.toLowerCase(),y=+$('listYear').value,m=$('listMonth').value,arr=filtered(y,m).filter(r=>[r.date,r.departureAt,r.receipt,r.note,r.supplier].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('allTable').innerHTML=table(arr)}
-function refresh(){persist();fillSelectors();renderDashboard();renderList();renderSettings();renderBackupBadge();renderPendingTrips();updateEntryTripNumber();if($('savedRecordBody'))showSavedRecord(savedRecordId)}
+function renderList(){const q=$('search').value.toLowerCase(),y=+$('listYear').value,m=$('listMonth').value,arr=filtered(y,m).filter(r=>[r.date,r.departureAt,r.arrivalAt,r.receipt,r.note,r.supplier].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('allTable').innerHTML=table(arr)}
+function refresh(){persist();fillSelectors();renderDashboard();renderList();renderSettings();renderBackupBadge();renderPendingTrips();updateEntryTripNumber();if($('savedRecordBodyTop'))showSavedRecord(savedRecordId)}
 function renderBackupBadge(){const el=$('backupVersionBadge');if(!el)return;el.textContent=backupMeta.version&&backupMeta.version!=='–'?backupMeta.version+(backupMeta.date?' · '+backupMeta.date:''):'–'}
 
+function collectPendingTripFromForm(){
+ const quantity=Number($('pendingQuantity').value)||0;
+ const kgPerCrate=Number($('pendingKgPerCrate').value)||0;
+ return {
+  id:$('pendingEditId').value||crypto.randomUUID(),
+  departure:$('pendingDeparture').value,
+  deu:$('pendingDeu').value.trim(),
+  returnAt:$('pendingReturn').value,
+  quantityType:'crates',
+  quantity,
+  crates:quantity,
+  kgPerCrate,
+  totalKg:quantity*kgPerCrate,
+  storageType:$('pendingStorageType').value,
+  storageLocation:$('pendingStorageType').value==='coldstore'?'Hafen-Kühlhaus':'',
+  note:$('pendingNote').value.trim(),
+  status:'open',
+  updatedAt:new Date().toISOString()
+ };
+}
+function storePendingTrip({keepForm=false}={}){
+ if(!$('pendingDeparture').value || !$('pendingDeu').value.trim()){
+  $('pendingForm').reportValidity();
+  return;
+ }
+ const trip=collectPendingTripFromForm();
+ if(Number(trip.kgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(trip.kgPerCrate);
+ const i=pendingTrips.findIndex(t=>t.id===trip.id);
+ if(i>=0)pendingTrips[i]=trip; else pendingTrips.push(trip);
+ $('pendingEditId').value=trip.id;
+ persist();
+ renderPendingTrips();
+ updatePendingTripNumber();
+ if(keepForm){
+  status('pendingStatus',i>=0?'Fangreise gemerkt und aktualisiert.':'Fangreise gemerkt.');
+ }else{
+  resetPendingForm();
+  status('pendingStatus',i>=0?'Fangreise gespeichert und Eingabe geleert.':'Fangreise gespeichert.');
+ }
+}
+$('pendingRemember').onclick=()=>storePendingTrip({keepForm:true});
 $('pendingForm').addEventListener('submit',e=>{
  e.preventDefault();
- const id=$('pendingEditId').value||crypto.randomUUID();
- const quantityType=$('pendingQuantityType').value,quantity=Number($('pendingQuantity').value)||0;const trip={id,departure:$('pendingDeparture').value,returnAt:$('pendingReturn').value,deu:$('pendingDeu').value.trim(),quantityType,quantity,crates:quantityType==='crates'?quantity:0,storageType:$('pendingStorageType').value,storageLocation:$('pendingStorageLocation').value.trim(),note:$('pendingNote').value.trim(),status:'open',updatedAt:new Date().toISOString()};
- const i=pendingTrips.findIndex(t=>t.id===id);if(i>=0)pendingTrips[i]=trip;else pendingTrips.push(trip);
- persist();renderPendingTrips();resetPendingForm();status('pendingStatus',i>=0?'Fangreise aktualisiert.':'Fangreise vorgemerkt.');
+ storePendingTrip({keepForm:false});
 });
-$('entryForm').addEventListener('submit',e=>{e.preventDefault();const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),note:$('note').value.trim(),sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),waste:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:$('sieveDate').value,sourceTripIds:getSelectedTripIds(),sourceProcessingMode:$('sourceProcessingMode').value,wageRate:Number(settings.wage)||0,boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();status('formStatus',i>=0?'Lieferung aktualisiert.':'Lieferung gespeichert.');resetForm();showSavedRecord(r.id)});
+$('entryForm').addEventListener('submit',e=>{e.preventDefault();const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),note:$('note').value.trim(),sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),waste:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:$('sieveDate').value,sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();status('formStatus',i>=0?'Lieferung aktualisiert.':'Lieferung gespeichert.');resetForm();showSavedRecord(r.id)});
 function editRecord(id){
  const r=records.find(x=>x.id===id);if(!r)return;
  show('entry');$('editId').value=r.id;$('formTitle').textContent='Lieferung bearbeiten';
  $('editModeBanner').textContent='Bearbeitungsmodus: '+parseDate(r.date).toLocaleDateString('de-DE')+' · KW '+weekNo(r.date)+(r.receipt?' · '+r.receipt:'');
  $('editModeBanner').classList.remove('hidden');$('cancelEdit').classList.remove('hidden');$('entryForm').classList.add('editing-mode');
- $('date').value=r.date;$('departureAt').value=r.departureAt||'';$('supplier').value=r.supplier||r.date||'';$('receipt').value=r.receipt||'';$('sieveDate').value=r.sieveDate||r.date||'';$('manualCrates').value=Number(r.manualCrates)||'';$('note').value=r.note||'';$('entryBoxWeight').value=Number(r.boxWeight||settings.boxWeight||17).toFixed(1);
+ $('date').value=r.date;$('departureAt').value=r.departureAt||'';$('arrivalAt').value=r.arrivalAt||'';$('supplier').value=r.supplier||r.date||'';$('receipt').value=r.receipt||'';$('sieveDate').value=r.sieveDate||r.date||'';$('manualCrates').value=Number(r.manualCrates)||'';$('note').value=r.note||'';$('entryBoxWeight').value=Number(r.boxWeight||settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=estimatedKgPerCrateForRecord(r)>0?Number(estimatedKgPerCrateForRecord(r)).toFixed(2):'';$('vcatchBoxesRounded').value=String(Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes));$('vcatchBoxesRounded').dataset.manual=Number.isFinite(Number(r.vcatchBoxesRounded))?'1':'0';
  r.sorts.forEach((s,i)=>{$('w'+(i+1)).value=s.weight;$('p'+(i+1)).value=Number(s.price||0).toFixed(2)});
- $('waste').value=r.waste||'';renderSourceTripChoices(r.sourceTripIds||[]);$('sourceProcessingMode').value=r.sourceProcessingMode||'single';savedRecordId=r.id;showSavedRecord(r.id);formCalc();updateEntryTripNumber();scrollTo({top:0,behavior:'smooth'})
+ $('waste').value=r.waste||'';renderSourceTripChoices(effectiveSourceTripIds(r));$('sourceProcessingMode').value=r.sourceProcessingMode||'single';savedRecordId=r.id;showSavedRecord(r.id);formCalc();updateInfoPanelFromForm();updateEntryTripNumber();scrollTo({top:0,behavior:'smooth'})
 }
 function removeRecord(id){if(confirm('Diese Lieferung wirklich löschen?')){records=records.filter(r=>r.id!==id);refresh()}}
-window.editRecord=editRecord;window.removeRecord=removeRecord;window.openNote=openNote;window.editPending=editPending;window.deletePending=deletePending;window.openSourceTrip=openSourceTrip;
-function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===id));if(id==='dashboard')renderDashboard();if(id==='list')renderList();if(id==='pending')renderPendingTrips();if(id==='entry'&&!$('editId').value)setTimeout(()=>$('w1').focus(),40)}
+window.editRecord=editRecord;window.removeRecord=removeRecord;window.openNote=openNote;window.editPending=editPending;window.deletePending=deletePending;window.openSourceTrip=openSourceTrip;window.takePendingToDelivery=takePendingToDelivery;
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===id));if(id==='dashboard')renderDashboard();if(id==='list')renderList();if(id==='entry'&&!$('editId').value)setTimeout(()=>$('w1').focus(),40)}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>show(b.dataset.view));
 document.querySelectorAll('.calc').forEach(e=>e.addEventListener('input',formCalc));$('date').onchange=formCalc;
 document.querySelectorAll('.weight-quick').forEach((e,i,a)=>e.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();const next=a[i+1];if(next){next.focus();next.select()}else document.querySelector('#entryForm button[type=submit]').focus()}}));
@@ -1699,9 +3020,21 @@ document.querySelectorAll('.price-quick').forEach((e,i,a)=>{
  e.addEventListener('blur',()=>formatPriceInput(e));
 });
 $('togglePrices').onclick=()=>{const locked=$('p1').readOnly;[1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=!locked;e.classList.toggle('locked',!locked)});$('togglePrices').textContent=locked?'Preise übernehmen':'Preise ändern';if(locked){$('p1').focus();$('p1').select()}else{settings.lastPrices=[n('p1'),n('p2'),n('p3')];persist();formCalc()}};
-$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantityType').onchange=updatePendingQuantityUi;$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',formCalc);$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',updateEntryTripNumber);$('entryDateSearch').onclick=searchDeliveryByDate;$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{$('dashDate').value=today();$('dashYear').value=String(isoInfo(today()).isoYear);$('monthSelect').value=parseDate(today()).getMonth();renderDashboard()};$('dashYear').onchange=()=>{const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashWeekSelect').onchange=()=>setDashboardWeek($('dashYear').value,$('dashWeekSelect').value);$('monthSelect').onchange=renderDashboard;$('monthMode').onchange=renderDashboard;$('saveMonthQuality').onclick=()=>{const y=Number($('dashYear').value),m=Number($('monthSelect').value);settings.monthlyQuality[y+'-'+m]=n('monthQualityInput');persist();renderDashboard();status('monthQualityStatus','Qualitätszuschlag für '+months[m]+' '+y+' gespeichert.')};$('prevWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()-7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('nextWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()+7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('listYear').onchange=renderList;$('listMonth').onchange=renderList;$('search').oninput=renderList;
+$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantity').oninput=updatePendingQuantityUi;$('pendingKgPerCrate').oninput=updatePendingQuantityUi;$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',updateEntryTripNumber);$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
+ const now=today();
+ const nowPlan=planInfoForDate(now);
+ $('dashDate').value=now;
+ $('dashYear').value=String(nowPlan.info.isoYear);
+ $('monthSelect').value=String(parseDate(now).getMonth());
+ $('monthMode').value='single';
+ renderDashboard();
+
+ const dash=document.querySelector('#dashboard');
+ dash.classList.remove('today-focus');void dash.offsetWidth;dash.classList.add('today-focus');
+ setTimeout(()=>dash.classList.remove('today-focus'),1600);
+};$('dashYear').onchange=()=>{const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashWeekSelect').onchange=()=>setDashboardWeek($('dashYear').value,$('dashWeekSelect').value);$('monthSelect').onchange=renderDashboard;$('monthModeSingle').onclick=()=>{$('monthMode').value='single';$('monthModeSingle').classList.add('active');$('monthModeAll').classList.remove('active');renderDashboard()};$('monthModeAll').onclick=()=>{$('monthMode').value='all';$('monthModeAll').classList.add('active');$('monthModeSingle').classList.remove('active');renderDashboard()};$('saveMonthQuality').onclick=()=>{const y=Number($('dashYear').value),m=Number($('monthSelect').value);settings.monthlyQuality[y+'-'+m]=n('monthQualityInput');persist();renderDashboard();status('monthQualityStatus','Qualitätszuschlag für '+months[m]+' '+y+' gespeichert.')};$('prevWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()-7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('nextWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()+7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('listYear').onchange=renderList;$('listMonth').onchange=renderList;$('search').oninput=renderList;
 function renderSettings(){$('setSupplier').value=settings.supplier;$('setWage').value=settings.wage;$('setBoxWeight').value=settings.boxWeight;$('setBoxRounding').value=settings.boxRounding}
-$('saveSettings').onclick=()=>{settings={supplier:$('setSupplier').value.trim(),wage:n('setWage'),boxWeight:n('setBoxWeight')||17,boxRounding:$('setBoxRounding').value,monthlyQuality:settings.monthlyQuality||{},lastPrices:Array.isArray(settings.lastPrices)?settings.lastPrices:[0,0,0]};refresh();formCalc();status('settingsStatus','Einstellungen gespeichert.')};
+$('saveSettings').onclick=()=>{settings={supplier:$('setSupplier').value.trim(),wage:n('setWage'),boxWeight:n('setBoxWeight')||17,boxRounding:$('setBoxRounding').value,monthlyQuality:settings.monthlyQuality||{},lastPrices:Array.isArray(settings.lastPrices)?settings.lastPrices:[0,0,0],lastEstimatedKgPerCrate:Number(settings.lastEstimatedKgPerCrate)||0};refresh();formCalc();status('settingsStatus','Einstellungen gespeichert.')};
 function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 
 function excelSerialToDate(v){
@@ -1773,7 +3106,7 @@ $('importExcelFile').onchange=async e=>{
 
 $('importExcel2025').onclick=()=>{const existing=new Set(records.map(r=>r.id));let added=0;EXCEL_IMPORT_2025.forEach(r=>{if(!existing.has(r.id)){records.push(normalize(JSON.parse(JSON.stringify(r))));added++}});refresh();status('excelStatus',added?added+' Lieferungen aus Excel 2025 importiert.':'Alle Excel-Daten 2025 sind bereits vorhanden.');};
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.2-Firebase-Stabil-Test_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.2-firebase-stabil-test',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.22-Reisezuordnung-Test_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.25-monatswochen-bedienung-test',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -1798,7 +3131,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Gesamtfang kg','Kistengewicht kg','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,roundBoxes(r.boxes),r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.2-Firebase-Stabil-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.25-Monatswochen-Bedienung-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -1826,28 +3159,25 @@ window.KrabbenCloudBridge={
  showMessage:(message,ok=true)=>status('firebaseStatus',message,ok)
 };
 
-$('dashDate').value=today();resetForm();fillSelectors();$('dashYear').value=parseDate($('dashDate').value).getFullYear();$('monthSelect').value=parseDate($('dashDate').value).getMonth();refresh();showSavedRecord();renderPendingTrips();updatePendingQuantityUi();
+$('dashDate').value=today();resetForm();fillSelectors();$('dashYear').value=parseDate($('dashDate').value).getFullYear();$('monthSelect').value=parseDate($('dashDate').value).getMonth();refresh();showSavedRecord();renderPendingTrips();resetPendingForm();updatePendingQuantityUi();
 </script>
-
-<div id="firebaseChoiceModal" class="note-modal hidden" role="dialog" aria-modal="true">
- <div class="note-modal-card firebase-choice-card">
-  <div class="note-modal-head"><h3>Erste Firebase-Synchronisierung</h3></div>
-  <div class="firebase-choice-text">
+<div aria-modal="true" class="note-modal hidden" id="firebaseChoiceModal" role="dialog">
+<div class="note-modal-card firebase-choice-card">
+<div class="note-modal-head"><h3>Erste Firebase-Synchronisierung</h3></div>
+<div class="firebase-choice-text">
    Auf diesem Gerät und in der Cloud sind Daten vorhanden. Wähle aus, welcher Datenstand zuerst übernommen werden soll.
   </div>
-  <div class="firebase-choice-summary">
-   <div><span>Dieses Gerät</span><strong id="localChoiceSummary">–</strong></div>
-   <div><span>Cloud</span><strong id="cloudChoiceSummary">–</strong></div>
-  </div>
-  <div class="actions">
-   <button class="btn primary" id="chooseLocalBtn" type="button">Daten dieses Geräts hochladen</button>
-   <button class="btn secondary" id="chooseCloudBtn" type="button">Cloud-Daten übernehmen</button>
-  </div>
-  <div class="note">Vor der Übernahme wird der jeweils andere Stand automatisch als lokale Sicherheitskopie gespeichert.</div>
- </div>
+<div class="firebase-choice-summary">
+<div><span>Dieses Gerät</span><strong id="localChoiceSummary">–</strong></div>
+<div><span>Cloud</span><strong id="cloudChoiceSummary">–</strong></div>
 </div>
-
-
+<div class="actions">
+<button class="btn primary" id="chooseLocalBtn" type="button">Daten dieses Geräts hochladen</button>
+<button class="btn secondary" id="chooseCloudBtn" type="button">Cloud-Daten übernehmen</button>
+</div>
+<div class="note">Vor der Übernahme wird der jeweils andere Stand automatisch als lokale Sicherheitskopie gespeichert.</div>
+</div>
+</div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import {
@@ -1867,7 +3197,7 @@ const firebaseConfig = {
   appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
 };
 
-const APP_VERSION = "0.7.2-firebase-stabil-test";
+const APP_VERSION = "0.7.25-monatswochen-bedienung-test";
 const SYNC_META_KEY = "krabben_firebase_sync_meta_v3";
 const DEVICE_KEY = "krabben_device_id_v1";
 const bridge = window.KrabbenCloudBridge;
@@ -2159,6 +3489,14 @@ setPersistence(auth,browserLocalPersistence)
   .finally(()=>{
     onAuthStateChanged(auth,user=>initializeSyncForUser(user));
   });
-</script>
 
+function syncWasteShareMirror(){
+ const src=$('wasteShare'), dst=$('wasteShareMirror');
+ if(src && dst) dst.value = src.value || '0 %';
+}
+document.addEventListener('input',e=>{
+ if(['w1','w2','w3','waste','entryBoxWeight'].includes(e.target.id)) setTimeout(syncWasteShareMirror,0);
+});
+setTimeout(syncWasteShareMirror,0);
+</script>
 </body></html>
