@@ -1873,7 +1873,7 @@ header .version{font-size:.68rem!important}
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.28a Test · Reisenummer korrigiert</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.28b Test · Reisenummer korrigiert</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2388,7 +2388,10 @@ function updatePendingQuantityUi(){
 function recordRepresentsOwnTrip(r){
  if(!r||!r.departureAt)return false;
  const sourceTrips=effectiveSourceTripIds(r).map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean);
- return !sourceTrips.some(t=>t.departure===r.departureAt && String(t.deu||'')===String(r.receipt||''));
+ // Gleicher Auslaufzeitpunkt bedeutet dieselbe Fangreise. Die DEU darf hier
+ // nicht zusätzlich verlangt werden, weil sie bei älteren Datensätzen leer
+ // oder abweichend gespeichert sein kann.
+ return !sourceTrips.some(t=>t.departure===r.departureAt);
 }
 function existingTripTimes(year,{excludePendingId='',excludeRecordId=''}={}){
  const items=[];
@@ -2402,11 +2405,9 @@ function existingTripTimes(year,{excludePendingId='',excludeRecordId=''}={}){
    const d=new Date(r.departureAt);
    if(d.getFullYear()!==year)return;
    // Eine bereits als Fangreise gespeicherte Fahrt nicht über den Lieferdatensatz
-   // ein zweites Mal mitzählen. Gleicher Auslaufzeitpunkt und gleiche DEU = dieselbe Reise.
-   const duplicatePending=pendingTrips.some(t=>
-     t.departure===r.departureAt &&
-     String(t.deu||'')===String(r.receipt||'')
-   );
+   // ein zweites Mal mitzählen. Der Auslaufzeitpunkt identifiziert die Reise;
+   // eine abweichende oder leere DEU darf keine zusätzliche Reise erzeugen.
+   const duplicatePending=pendingTrips.some(t=>t.departure===r.departureAt);
    if(duplicatePending)return;
    items.push({key:'r:'+r.id,time:d.getTime()});
  });
@@ -2466,7 +2467,7 @@ function prospectiveTripNumbers(){
  const nums=[];
  selected.forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
  const selectedTrips=selected.map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean);
- const topMatchesSelected=selectedTrips.some(t=>t.departure===departure && String(t.deu||'')===String($('receipt').value||''));
+ const topMatchesSelected=selectedTrips.some(t=>t.departure===departure);
  if(departure&&!topMatchesSelected){
    const editId=$('editId').value;
    const own=editId&&map.get('r:'+editId)?map.get('r:'+editId):numberForNewDeparture(departure,{excludeRecordId:editId});
