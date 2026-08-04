@@ -1873,7 +1873,7 @@ header .version{font-size:.68rem!important}
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.28 Test · Lieferreise und Übertrag getrennt</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.29 Test · feste Reisenummern</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -1900,7 +1900,7 @@ header .version{font-size:.68rem!important}
 <form class="dashboard-pending-form" id="pendingForm">
 <input id="pendingEditId" type="hidden"/>
 <div class="dashboard-trip-grid">
-<div class="pending-trip-number-field"><label>Reise-Nr.</label><input id="pendingTripNumber" readonly="" value="–"/></div>
+<div class="pending-trip-number-field"><label>Reise-Nr.</label><input id="pendingTripNumber" inputmode="numeric" min="1" step="1" type="number"/></div>
 <div><label>Auslaufen</label><input id="pendingDeparture" required="" type="datetime-local"/></div>
 <div><label>DEU-Nummer</label><input id="pendingDeu" placeholder="z. B. 583350" required=""/></div>
 <div><label>Einlaufen</label><input id="pendingReturn" type="datetime-local"/></div>
@@ -1960,7 +1960,7 @@ header .version{font-size:.68rem!important}
 <div class="grid entry-meta-grid" style="margin-top:15px">
 <div class="trip-number-field compact-meta-field">
 <label>Reise-Nr.</label>
-<input id="entryTripNumber" readonly="" value="–"/>
+<input id="entryTripNumber" inputmode="numeric" min="1" step="1" type="number"/>
 </div>
 <div><label>Ausgelaufen</label><input id="departureAt" type="datetime-local"/></div>
 <div><label>Eingelaufen</label><input id="arrivalAt" type="datetime-local"/></div>
@@ -2176,7 +2176,7 @@ function normalize(r){
  r.arrivalAt=r.arrivalAt||'';r.sourceTripIds=Array.isArray(r.sourceTripIds)?r.sourceTripIds:[];r.sourceProcessingMode=r.sourceProcessingMode||'';r.deliveryTripId=r.deliveryTripId||'';
  return r
 }
-records=records.map(normalize);persist();
+records=records.map(normalize);ensureStableTripNumbers();persist();
 function latestPrices(){
  const stored=Array.isArray(settings.lastPrices)?settings.lastPrices.map(v=>Number(v)||0):[0,0,0];
  if(stored.some(v=>v>0))return stored;
@@ -2385,6 +2385,54 @@ function updatePendingQuantityUi(){
  $('pendingTotalKg').value=num2(total)+' kg';
 }
 
+
+function tripNumberValue(v){
+ const n=Number(v);
+ return Number.isInteger(n)&&n>0?n:null;
+}
+function allStoredTripNumbers(year,{excludePendingId='',excludeRecordId=''}={}){
+ const nums=[];
+ pendingTrips.forEach(t=>{
+  if(t.id===excludePendingId)return;
+  const y=tripYearFromDeparture(t.departure,t.returnAt||today());
+  const n=tripNumberValue(t.tripNumber);
+  if(y===year&&n)nums.push(n);
+ });
+ records.forEach(r=>{
+  if(r.id===excludeRecordId)return;
+  const y=tripYearFromDeparture(r.departureAt,r.date);
+  const n=tripNumberValue(r.tripNumber);
+  if(y===year&&n)nums.push(n);
+ });
+ return nums;
+}
+function nextStoredTripNumber(year,opts={}){
+ const nums=allStoredTripNumbers(year,opts);
+ return nums.length?Math.max(...nums)+1:1;
+}
+function ensureStableTripNumbers(){
+ const years=new Set();
+ pendingTrips.forEach(t=>years.add(tripYearFromDeparture(t.departure,t.returnAt||today())));
+ records.forEach(r=>years.add(tripYearFromDeparture(r.departureAt,r.date)));
+ years.forEach(year=>{
+  const used=new Set();
+  const items=[];
+  pendingTrips.forEach(t=>{
+   if(tripYearFromDeparture(t.departure,t.returnAt||today())===year)
+    items.push({type:'p',obj:t,time:new Date(t.departure||t.updatedAt||`${year}-12-31`).getTime(),updated:new Date(t.updatedAt||0).getTime()});
+  });
+  records.forEach(r=>{
+   if(tripYearFromDeparture(r.departureAt,r.date)===year && recordRepresentsOwnTrip(r))
+    items.push({type:'r',obj:r,time:new Date(r.departureAt||r.date||`${year}-12-31`).getTime(),updated:new Date(r.updatedAt||0).getTime()});
+  });
+  // Keep valid unique existing numbers first.
+  items.forEach(x=>{const n=tripNumberValue(x.obj.tripNumber);if(n&&!used.has(n))used.add(n);else x.obj.tripNumber=null});
+  // Missing/duplicate numbers get the next free number by creation/update order, not by later date edits.
+  items.filter(x=>!tripNumberValue(x.obj.tripNumber)).sort((a,b)=>a.updated-b.updated||a.time-b.time).forEach(x=>{
+   let n=1;while(used.has(n))n++;x.obj.tripNumber=n;used.add(n);
+  });
+ });
+}
 function recordRepresentsOwnTrip(r){
  if(!r||!r.departureAt)return false;
  const sourceTrips=effectiveSourceTripIds(r).map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean);
@@ -2414,14 +2462,15 @@ function updatePendingTripNumber(){
  const editId=$('pendingEditId').value;
  if(editId){
    const trip=pendingTrips.find(t=>t.id===editId);
-   if(trip){field.value=tripNumberForPending(trip);return}
+   if(trip&&tripNumberValue(trip.tripNumber)){field.value=trip.tripNumber;return}
  }
+ if(field.value)return;
  const departure=$('pendingDeparture').value;
- field.value=departure?String(numberForNewDeparture(departure,{excludePendingId:editId})||'–'):'–';
+ const year=tripYearFromDeparture(departure,today());
+ field.value=nextStoredTripNumber(year,{excludePendingId:editId});
 }
 function tripNumberForPending(t){
- const year=tripYearFromDeparture(t.departure,t.returnAt||today());
- return buildTripNumberMap(year).get('p:'+t.id)||'–';
+ return tripNumberValue(t?.tripNumber)||'–';
 }
 function tripYearFromDeparture(v,fallbackDate){
  const d=v?new Date(v):parseDate(fallbackDate||today());
@@ -2439,36 +2488,38 @@ function effectiveSourceTripIds(r){
  return [...ids];
 }
 function displayTripNumbersForRecord(r){
- const year=tripYearFromDeparture(r.departureAt,r.date);
- const map=buildTripNumberMap(year);
  const nums=[];
- effectiveSourceTripIds(r).forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
- if(recordRepresentsOwnTrip(r)){
-   const own=map.get('r:'+r.id);if(own)nums.push(own);
- }
+ effectiveSourceTripIds(r).forEach(id=>{
+  const t=pendingTrips.find(x=>x.id===id);
+  const n=tripNumberValue(t?.tripNumber);if(n)nums.push(n);
+ });
+ const own=tripNumberValue(r.tripNumber);
+ if(own)nums.push(own);
  const unique=[...new Set(nums)].sort((a,b)=>a-b);
  return unique.length?unique.join('+'):'–';
 }
 function prospectiveTripNumbers(){
- const departure=$('departureAt').value;
- const fallback=$('date').value||today();
- const year=tripYearFromDeparture(departure,fallback);
- const map=buildTripNumberMap(year);
  const selected=getSelectedTripIds();
  const nums=[];
- selected.forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
- const selectedTrips=selected.map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean);
- const topMatchesSelected=selectedTrips.some(t=>t.departure===departure && String(t.deu||'')===String($('receipt').value||''));
- if(departure&&!topMatchesSelected){
-   const editId=$('editId').value;
-   const own=editId&&map.get('r:'+editId)?map.get('r:'+editId):numberForNewDeparture(departure,{excludeRecordId:editId});
-   if(own)nums.push(own);
- }
+ selected.forEach(id=>{
+  const t=pendingTrips.find(x=>x.id===id);
+  const n=tripNumberValue(t?.tripNumber);if(n)nums.push(n);
+ });
+ const own=tripNumberValue($('entryTripNumber').value);
+ if(own)nums.push(own);
  const unique=[...new Set(nums)].sort((a,b)=>a-b);
  return unique.length?unique.join('+'):'–';
 }
 function updateEntryTripNumber(){
- const el=$('entryTripNumber');if(el)el.value=prospectiveTripNumbers();
+ const el=$('entryTripNumber');if(!el)return;
+ const editId=$('editId').value;
+ if(editId){
+  const r=records.find(x=>x.id===editId);
+  if(r&&tripNumberValue(r.tripNumber)){el.value=r.tripNumber;return}
+ }
+ if(el.value)return;
+ const year=tripYearFromDeparture($('departureAt').value,$('date').value||today());
+ el.value=nextStoredTripNumber(year,{excludeRecordId:editId});
 }
 function fmtDateTime(v){
  if(!v)return '–';
@@ -2612,8 +2663,9 @@ function resetPendingForm(){
  $('pendingQuantityType').value='crates';
  $('pendingKgPerCrate').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';
  $('pendingTotalKg').value='0,00 kg';
- $('pendingTripNumber').value='–';
+ $('pendingTripNumber').value='';
  updatePendingQuantityUi();
+ updatePendingTripNumber();
 }
 function takePendingToDelivery(id){
  const t=pendingTrips.find(x=>x.id===id);if(!t)return;
@@ -2631,6 +2683,7 @@ function editPending(id){
  const t=pendingTrips.find(x=>x.id===id);if(!t)return;
  show('dashboard');
  $('pendingEditId').value=t.id;
+ $('pendingTripNumber').value=tripNumberForPending(t);
  $('pendingDeparture').value=t.departure;
  $('pendingDeu').value=t.deu;
  $('pendingReturn').value=t.returnAt;
@@ -3013,6 +3066,7 @@ function collectPendingTripFromForm(){
  const kgPerCrate=Number($('pendingKgPerCrate').value)||0;
  return {
   id:$('pendingEditId').value||crypto.randomUUID(),
+  tripNumber:tripNumberValue($('pendingTripNumber').value)||nextStoredTripNumber(tripYearFromDeparture($('pendingDeparture').value,today()),{excludePendingId:$('pendingEditId').value}),
   departure:$('pendingDeparture').value,
   deu:$('pendingDeu').value.trim(),
   returnAt:$('pendingReturn').value,
@@ -3053,7 +3107,7 @@ $('pendingForm').addEventListener('submit',e=>{
  e.preventDefault();
  storePendingTrip({keepForm:false});
 });
-$('entryForm').addEventListener('submit',e=>{e.preventDefault();const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),note:$('note').value.trim(),sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),waste:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:$('sieveDate').value,sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();status('formStatus',i>=0?'Lieferung aktualisiert.':'Lieferung gespeichert.');resetForm();showSavedRecord(r.id)});
+$('entryForm').addEventListener('submit',e=>{e.preventDefault();const r=normalize({id:$('editId').value||crypto.randomUUID(),tripNumber:tripNumberValue($('entryTripNumber').value)||nextStoredTripNumber(tripYearFromDeparture($('departureAt').value,$('date').value||today()),{excludeRecordId:$('editId').value}),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),note:$('note').value.trim(),sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),waste:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:$('sieveDate').value,sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();status('formStatus',i>=0?'Lieferung aktualisiert.':'Lieferung gespeichert.');resetForm();showSavedRecord(r.id)});
 function editRecord(id){
  const r=records.find(x=>x.id===id);if(!r)return;
  show('entry');$('editId').value=r.id;$('formTitle').textContent='Lieferung bearbeiten';
@@ -3074,7 +3128,7 @@ document.querySelectorAll('.price-quick').forEach((e,i,a)=>{
  e.addEventListener('blur',()=>formatPriceInput(e));
 });
 $('togglePrices').onclick=()=>{const locked=$('p1').readOnly;[1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=!locked;e.classList.toggle('locked',!locked)});$('togglePrices').textContent=locked?'Preise übernehmen':'Preise ändern';if(locked){$('p1').focus();$('p1').select()}else{settings.lastPrices=[n('p1'),n('p2'),n('p3')];persist();formCalc()}};
-$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantity').oninput=updatePendingQuantityUi;$('pendingKgPerCrate').oninput=updatePendingQuantityUi;$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',()=>{updateEntryTripNumber();updateInfoPanelFromForm()});$('arrivalAt').addEventListener('change',()=>{if($('arrivalAt').value){const d=$('arrivalAt').value.slice(0,10);$('supplier').value=d;$('sieveDate').value=d;$('date').value=d;}formCalc();});$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
+$('pendingTripNumber').addEventListener('input',updatePendingTripNumber);$('entryTripNumber').addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantity').oninput=updatePendingQuantityUi;$('pendingKgPerCrate').oninput=updatePendingQuantityUi;$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',()=>{updateEntryTripNumber();updateInfoPanelFromForm()});$('arrivalAt').addEventListener('change',()=>{if($('arrivalAt').value){const d=$('arrivalAt').value.slice(0,10);$('supplier').value=d;$('sieveDate').value=d;$('date').value=d;}formCalc();});$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
  const now=today();
  const nowPlan=planInfoForDate(now);
  $('dashDate').value=now;
