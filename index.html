@@ -1856,18 +1856,24 @@ header .version{font-size:.68rem!important}
 .month-mode-buttons{display:flex;gap:8px;flex-wrap:wrap}
 .month-mode-buttons .btn.active{background:#0f6f91;color:#fff;border-color:#0f6f91}
 
-/* v0.7.27 Fangübertrag / Lieferreise */
+/* v0.7.28 Lieferreise und Übertrag getrennt */
 .trip-role-badge{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;font-size:.66rem;font-weight:900;margin-left:7px;vertical-align:middle}
 .trip-role-badge.delivery{background:#dcefe5;border:1px solid #92c5a7;color:#195f40}
 .trip-role-badge.carry{background:#fff2c7;border:1px solid #dfbf62;color:#755800}
 .source-trip-choice.is-delivery-trip{border-color:#65ad83!important;box-shadow:0 0 0 2px #65ad8325}
 .source-trip-choice.is-carry-trip{border-color:#d3b454!important}
 .carryover-note{margin-top:7px;padding:7px 10px;border-radius:8px;background:#fff7da;border:1px solid #e4ca75;color:#634d00;font-size:.76rem;font-weight:800}
+
+/* v0.7.28 Verarbeitung deutlich hervorheben */
+.source-mode-row{background:#fff4c9!important;border:2px solid #d6a900!important;border-radius:12px!important;padding:10px!important;margin-top:10px!important}
+.source-mode-row label{font-size:.78rem!important;font-weight:950!important;color:#664b00!important}
+#sourceProcessingMode{background:#fff!important;border:2px solid #d6a900!important;font-weight:900!important;color:#173847!important}
+#sourceProcessingMode:focus{box-shadow:0 0 0 3px #d6a90030!important}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.27 Test · Fangübertrag / Lieferreise</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.28 Test · Lieferreise und Übertrag getrennt</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2218,12 +2224,19 @@ function currentFormRecord(){
 function sourceTripsForRecord(r){
   return effectiveSourceTripIds(r).map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean)
 }
+function sourceCarryoverTripsForRecord(r){
+ const deliveryId=r.deliveryTripId||'';
+ return sourceTripsForRecord(r).filter(t=>!deliveryId||t.id!==deliveryId);
+}
+function deletedCratesForRecord(r){
+ return (Number(r.manualCrates)||0)+sourceCarryoverTripsForRecord(r).reduce((sum,t)=>sum+pendingAmount(t),0);
+}
 function liveWeightForRecord(r){
-  const trips=sourceTripsForRecord(r);
-  if(trips.length)return trips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
-  const crates=Number(r.manualCrates)||0;
-  const estimatedKg=Number(r.estimatedKgPerCrate)||0;
-  return crates>0&&estimatedKg>0?crates*estimatedKg:0
+  const ownCrates=Number(r.manualCrates)||0;
+  const ownEstimatedKg=Number(r.estimatedKgPerCrate)||0;
+  const ownKg=ownCrates>0&&ownEstimatedKg>0?ownCrates*ownEstimatedKg:0;
+  const carryKg=sourceCarryoverTripsForRecord(r).reduce((sum,t)=>sum+pendingTotalKg(t),0);
+  return ownKg+carryKg
 }
 function liveWeightTextForRecord(r){
   const value=liveWeightForRecord(r);
@@ -2257,14 +2270,14 @@ function infoPanelSections(r, mode='saved'){
       <div class="info-summary-row"><span>Sieb</span><strong>${num2(r.catchWeight?r.waste/r.catchWeight*100:0)} % · ${num(r.waste)} kg</strong></div>
       <div class="info-summary-row"><span>kg je vCatch-Kiste</span><strong>${num2(r.boxWeight)} kg</strong></div>
       <div class="info-summary-row vcatch-box-row"><span>vCatch-Kisten gerundet</span><strong>${Number(r.vcatchBoxesRounded)||0} Kisten <small>(${num2(r.boxes)} rechnerisch)</small></strong></div>
-      <div class="info-summary-row"><span>Gelöschte Kisten</span><strong>${Number(r.manualCrates)||0}</strong></div>
+      <div class="info-summary-row"><span>Gelöschte Kisten</span><strong>${num(deletedCratesForRecord(r))}</strong></div>
     </div>
     <div class="info-summary-head">Eigene Kennzahlen</div>
     <div class="info-summary-list own-summary-list">
       <div class="info-summary-row"><span>Ø Preis</span><strong>${num2(r.avg)} €/kg</strong></div>
       <div class="info-summary-row total-yellow"><span>Gesamtumsatz</span><strong>${eur(r.total)}</strong></div>
-      <div class="info-summary-row"><span>Bruttogewicht je Kiste</span><strong>${Number(r.manualCrates)>0?num2(r.grossPerManualCrate)+' kg':'–'}</strong></div>
-      <div class="info-summary-row total-net"><span>Nettogewicht je Kiste</span><strong>${Number(r.manualCrates)>0?num2(r.netPerManualCrate)+' kg':'–'}</strong></div>
+      <div class="info-summary-row"><span>Bruttogewicht je Kiste</span><strong>${deletedCratesForRecord(r)>0?num2(r.catchWeight/deletedCratesForRecord(r))+' kg':'–'}</strong></div>
+      <div class="info-summary-row total-net"><span>Nettogewicht je Kiste</span><strong>${deletedCratesForRecord(r)>0?num2(r.weight/deletedCratesForRecord(r))+' kg':'–'}</strong></div>
     </div>`;
   const sources=sourceTrips.length?`<div class="info-source-box"><strong>Herkunftsreisen / DEU-Kontrolle</strong><div class="info-source-list">${sourceTrips.map(t=>`<button class="source-trip-link info-source-item" type="button" onclick="openSourceTrip('${t.id}')">${t.deu}${deliveryTrip&&t.id===deliveryTrip.id?' · Lieferreise':''}</button>`).join('')}</div></div>`:'';
   const note=r.note?`<div class="info-note-box"><strong>Bemerkung</strong><div style="margin-top:6px"><button class="note-open-btn" type="button" onclick="openNote('${r.id}')">📝 Bemerkung öffnen</button></div></div>`:`<div class="info-note-box"><strong>Bemerkung</strong><div style="margin-top:6px"><em>Keine Bemerkung hinterlegt</em></div></div>`;
@@ -2324,14 +2337,17 @@ function formCalc(){
  $('avgPrice').value=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenue').value=eur(total);$('wageShare').value=eur(total*(Number(settings.wage)||0)/100);$('wageLabel').textContent='Lohnanteil ('+num(settings.wage)+' %)';
  $('priceText').textContent=ps.map((p,i)=>'S'+(i+1)+': '+num2(p)+' €').join(' · ');
  const selectedTrips=pendingTrips.filter(t=>getSelectedTripIds().includes(t.id));
- const liveWeight=selectedTrips.length
-   ?selectedTrips.reduce((sum,t)=>sum+pendingTotalKg(t),0)
-   :(n('manualCrates')>0&&n('entryBoxWeightMeta')>0?n('manualCrates')*n('entryBoxWeightMeta'):0);
+ const deliveryId=$('deliveryTripId').value;
+ const carryTrips=selectedTrips.filter(t=>!deliveryId||t.id!==deliveryId);
+ const ownLive=n('manualCrates')>0&&n('entryBoxWeightMeta')>0?n('manualCrates')*n('entryBoxWeightMeta'):0;
+ const carryLive=carryTrips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
+ const liveWeight=ownLive+carryLive;
+ const deletedCrates=n('manualCrates')+carryTrips.reduce((sum,t)=>sum+pendingAmount(t),0);
  $('liveWeightText').textContent=liveWeight>0?num2(liveWeight)+' kg':'–';
- $('liveWeightHint').textContent=selectedTrips.length
-   ?selectedTrips.length+' Herkunftsreise'+(selectedTrips.length>1?'n':'')
+ $('liveWeightHint').textContent=carryTrips.length
+   ?'Lieferreise + '+carryTrips.length+' Übertrag'+(carryTrips.length>1?'e':'')
    :(liveWeight>0?'Kisten gefangen × geschätzte kg':'aus Herkunftsreisen');
- $('saleWeightText').textContent=kg(sale);$('wasteText').textContent=kg(waste);$('wastePercentText').textContent=num(catchW?waste/catchW*100:0)+' % Anteil';$('totalCatchText').textContent=kg(catchW);$('boxWeightLiveText').textContent=num2(bw)+' kg';$('manualCratesText').textContent=String(Number(n('manualCrates'))||0);$('avgPriceText').textContent=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenueText').textContent=eur(total);$('grossPerCrateText').textContent=n('manualCrates')>0?num2(catchW/n('manualCrates'))+' kg':'–';$('netPerCrateText').textContent=n('manualCrates')>0?num2(sale/n('manualCrates'))+' kg':'–';
+ $('saleWeightText').textContent=kg(sale);$('wasteText').textContent=kg(waste);$('wastePercentText').textContent=num(catchW?waste/catchW*100:0)+' % Anteil';$('totalCatchText').textContent=kg(catchW);$('boxWeightLiveText').textContent=num2(bw)+' kg';$('manualCratesText').textContent=num(deletedCrates);$('avgPriceText').textContent=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenueText').textContent=eur(total);$('grossPerCrateText').textContent=deletedCrates>0?num2(catchW/deletedCrates)+' kg':'–';$('netPerCrateText').textContent=deletedCrates>0?num2(sale/deletedCrates)+' kg':'–';
  $('kwPill').textContent=$('date').value?'KW '+weekNo($('date').value):'KW –';
  if(!updateInfoPanelFromForm() && savedRecordId) showSavedRecord(savedRecordId);
 }
@@ -2369,6 +2385,30 @@ function updatePendingQuantityUi(){
  $('pendingTotalKg').value=num2(total)+' kg';
 }
 
+function recordRepresentsOwnTrip(r){
+ if(!r||!r.departureAt)return false;
+ const sourceTrips=effectiveSourceTripIds(r).map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean);
+ return !sourceTrips.some(t=>t.departure===r.departureAt && String(t.deu||'')===String(r.receipt||''));
+}
+function existingTripTimes(year,{excludePendingId='',excludeRecordId=''}={}){
+ const items=[];
+ pendingTrips.forEach(t=>{
+   if(t.id===excludePendingId||!t.departure)return;
+   const d=new Date(t.departure);
+   if(d.getFullYear()===year)items.push({key:'p:'+t.id,time:d.getTime()});
+ });
+ records.forEach(r=>{
+   if(r.id===excludeRecordId||!recordRepresentsOwnTrip(r))return;
+   const d=new Date(r.departureAt);
+   if(d.getFullYear()===year)items.push({key:'r:'+r.id,time:d.getTime()});
+ });
+ return items.sort((a,b)=>a.time-b.time||a.key.localeCompare(b.key));
+}
+function numberForNewDeparture(departure,{excludePendingId='',excludeRecordId=''}={}){
+ if(!departure)return null;
+ const when=new Date(departure),year=when.getFullYear();
+ return existingTripTimes(year,{excludePendingId,excludeRecordId}).filter(x=>x.time<when.getTime()).length+1;
+}
 function updatePendingTripNumber(){
  const field=$('pendingTripNumber');if(!field)return;
  const editId=$('pendingEditId').value;
@@ -2377,17 +2417,7 @@ function updatePendingTripNumber(){
    if(trip){field.value=tripNumberForPending(trip);return}
  }
  const departure=$('pendingDeparture').value;
- if(!departure){field.value='–';return}
- const when=new Date(departure);
- const year=when.getFullYear();
- const times=[];
- pendingTrips.forEach(t=>{
-   if(t.departure&&new Date(t.departure).getFullYear()===year)times.push(new Date(t.departure).getTime());
- });
- records.forEach(r=>{
-   if(r.departureAt&&new Date(r.departureAt).getFullYear()===year)times.push(new Date(r.departureAt).getTime());
- });
- field.value=String(times.filter(time=>time<when.getTime()).length+1);
+ field.value=departure?String(numberForNewDeparture(departure,{excludePendingId:editId})||'–'):'–';
 }
 function tripNumberForPending(t){
  const year=tripYearFromDeparture(t.departure,t.returnAt||today());
@@ -2398,18 +2428,7 @@ function tripYearFromDeparture(v,fallbackDate){
  return d.getFullYear();
 }
 function buildTripNumberMap(year){
- const items=[];
- pendingTrips.forEach(t=>{
-   if(!t.departure)return;
-   const y=new Date(t.departure).getFullYear();
-   if(y===year)items.push({key:'p:'+t.id,time:new Date(t.departure).getTime()});
- });
- records.forEach(r=>{
-   if(!r.departureAt||effectiveSourceTripIds(r).length)return;
-   const y=new Date(r.departureAt).getFullYear();
-   if(y===year)items.push({key:'r:'+r.id,time:new Date(r.departureAt).getTime()});
- });
- items.sort((a,b)=>a.time-b.time||a.key.localeCompare(b.key));
+ const items=existingTripTimes(year);
  const map=new Map();
  items.forEach((item,i)=>map.set(item.key,i+1));
  return map;
@@ -2423,10 +2442,8 @@ function displayTripNumbersForRecord(r){
  const year=tripYearFromDeparture(r.departureAt,r.date);
  const map=buildTripNumberMap(year);
  const nums=[];
- const sourceIds=effectiveSourceTripIds(r);
- if(sourceIds.length){
-   sourceIds.forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
- }else{
+ effectiveSourceTripIds(r).forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
+ if(recordRepresentsOwnTrip(r)){
    const own=map.get('r:'+r.id);if(own)nums.push(own);
  }
  const unique=[...new Set(nums)].sort((a,b)=>a-b);
@@ -2439,19 +2456,13 @@ function prospectiveTripNumbers(){
  const map=buildTripNumberMap(year);
  const selected=getSelectedTripIds();
  const nums=[];
- if(selected.length){
-   selected.forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
- }else{
+ selected.forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
+ const selectedTrips=selected.map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean);
+ const topMatchesSelected=selectedTrips.some(t=>t.departure===departure && String(t.deu||'')===String($('receipt').value||''));
+ if(departure&&!topMatchesSelected){
    const editId=$('editId').value;
-   if(editId){
-     const own=map.get('r:'+editId);if(own)nums.push(own);
-   }else if(departure){
-     const times=[];
-     pendingTrips.forEach(t=>{if(t.departure&&new Date(t.departure).getFullYear()===year)times.push(new Date(t.departure).getTime())});
-     records.forEach(r=>{if(r.departureAt&&new Date(r.departureAt).getFullYear()===year)times.push(new Date(r.departureAt).getTime())});
-     const current=new Date(departure).getTime();
-     nums.push(times.filter(t=>t<current).length+1);
-   }
+   const own=editId&&map.get('r:'+editId)?map.get('r:'+editId):numberForNewDeparture(departure,{excludeRecordId:editId});
+   if(own)nums.push(own);
  }
  const unique=[...new Set(nums)].sort((a,b)=>a-b);
  return unique.length?unique.join('+'):'–';
@@ -2472,9 +2483,8 @@ function selectedTripsSorted(){
  return pendingTrips.filter(t=>ids.includes(t.id)).sort((a,b)=>(a.departure||'').localeCompare(b.departure||''));
 }
 function determineDeliveryTrip(trips){
- if(!trips.length)return null;
  const landed=trips.filter(t=>t.storageType==='landed');
- return (landed.length?landed:trips).slice().sort((a,b)=>(a.departure||'').localeCompare(b.departure||'')).at(-1)||null;
+ return landed.slice().sort((a,b)=>(a.departure||'').localeCompare(b.departure||'')).at(-1)||null;
 }
 function addEarlierOnboardCarryovers(selectedTrip){
  if(!selectedTrip||selectedTrip.storageType!=='landed'||!selectedTrip.departure)return [];
@@ -2522,7 +2532,7 @@ function updateSourceSummary(){
    const t=pendingTrips.find(x=>x.id===input?.value);
    const checked=!!input?.checked;
    const isDelivery=checked&&deliveryTrip&&t?.id===deliveryTrip.id;
-   const isCarry=checked&&!isDelivery&&t?.storageType==='onboard';
+   const isCarry=checked&&!isDelivery&&(t?.storageType==='onboard'||t?.storageType==='coldstore');
    card.classList.toggle('is-selected',checked);
    card.classList.toggle('is-delivery-trip',!!isDelivery);
    card.classList.toggle('is-carry-trip',!!isCarry);
@@ -2531,39 +2541,35 @@ function updateSourceSummary(){
  });
 
  if(trips.length){
-   const byDeparture=[...trips].sort((a,b)=>(a.departure||'').localeCompare(b.departure||''));
-   const latestDeparture=deliveryTrip||byDeparture.at(-1);
-   const withReturn=trips.filter(t=>t.returnAt).sort((a,b)=>a.returnAt.localeCompare(b.returnAt));
-   const latestReturn=withReturn.at(-1);
-   const tripNumbers=trips.map(t=>tripNumberForPending(t)).filter(Boolean).join('+');
-
-   const estimatedCrates=trips.reduce((sum,t)=>sum+pendingAmount(t),0);
-   const estimatedKg=trips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
-   $('manualCrates').value=estimatedCrates;
-   $('entryBoxWeightMeta').value=estimatedCrates>0?(estimatedKg/estimatedCrates).toFixed(2):'';
-   if(latestDeparture?.departure)$('departureAt').value=latestDeparture.departure;
-   if(latestDeparture?.deu)$('receipt').value=latestDeparture.deu;
-
-   if(latestReturn?.returnAt){
-     $('arrivalAt').value=latestReturn.returnAt;
-     const landingDate=latestReturn.returnAt.slice(0,10);
-     $('supplier').value=landingDate;
-     $('sieveDate').value=landingDate;
-     $('date').value=landingDate;
-   }else{
-     $('arrivalAt').value='';
+   // Nur wenn eine echte Anlandereise ausgewählt wurde UND oben noch keine Lieferreise eingetragen ist,
+   // dürfen deren Daten als Eingabehilfe übernommen werden. Übertragsreisen überschreiben niemals die oberen Felder.
+   const topIsEmpty=!$('departureAt').value&&!$('receipt').value&&!n('manualCrates');
+   if(deliveryTrip&&topIsEmpty){
+     $('departureAt').value=deliveryTrip.departure||'';
+     $('receipt').value=deliveryTrip.deu||'';
+     $('manualCrates').value=pendingAmount(deliveryTrip)||'';
+     $('entryBoxWeightMeta').value=pendingKgPerCrate(deliveryTrip)>0?pendingKgPerCrate(deliveryTrip).toFixed(2):'';
+     if(deliveryTrip.returnAt){
+       $('arrivalAt').value=deliveryTrip.returnAt;
+       const landingDate=deliveryTrip.returnAt.slice(0,10);
+       $('supplier').value=landingDate;$('sieveDate').value=landingDate;$('date').value=landingDate;
+     }
    }
-
-   $('workModeBanner').textContent='In Arbeit: Reise '+tripNumbers+(deliveryTrip?' · Lieferreise '+tripNumberForPending(deliveryTrip):'')+' · '+trips.length+' Fangreise'+(trips.length>1?'n':'')+' ausgewählt';
+   const carryNumbers=trips.filter(t=>!deliveryTrip||t.id!==deliveryTrip.id).map(t=>tripNumberForPending(t)).filter(Boolean).join('+');
+   const ownNo=prospectiveTripNumbers().split('+').at(-1)||'–';
+   const label=deliveryTrip
+     ? 'In Arbeit: Reise '+prospectiveTripNumbers()+' · Lieferreise '+tripNumberForPending(deliveryTrip)
+     : 'In Arbeit: Übertrag Reise '+(carryNumbers||'–')+' · Lieferreise '+ownNo;
+   $('workModeBanner').textContent=label+' · '+trips.length+' Herkunftsreise'+(trips.length>1?'n':'')+' ausgewählt';
    $('workModeBanner').classList.remove('hidden');
    $('entryForm').classList.add('work-in-progress');
-   formCalc();
  }else{
    $('deliveryTripId').value='';
    $('workModeBanner').classList.add('hidden');
    $('entryForm').classList.remove('work-in-progress');
  }
  updateEntryTripNumber();
+ formCalc();
 }
 function renderSourceTripsSaved(r){
  const ids=effectiveSourceTripIds(r);
@@ -2986,8 +2992,8 @@ function table(arr){
     <td class="grp-a grp-a-end">${Number(r.vcatchBoxesRounded)||0}</td>
 
     <td class="grp-b grp-b-start">${Number(r.manualCrates)||0}</td>
-    <td class="grp-b">${Number(r.manualCrates)>0?num2(r.grossPerManualCrate)+' kg':'–'}</td>
-    <td class="grp-b grp-b-end list-net-crate">${Number(r.manualCrates)>0?num2(r.netPerManualCrate)+' kg':'–'}</td>
+    <td class="grp-b">${deletedCratesForRecord(r)>0?num2(r.catchWeight/deletedCratesForRecord(r))+' kg':'–'}</td>
+    <td class="grp-b grp-b-end list-net-crate">${deletedCratesForRecord(r)>0?num2(r.weight/deletedCratesForRecord(r))+' kg':'–'}</td>
 
     <td class="list-revenue">${eur(r.total)}</td>
     <td>${eur(r.wage)}</td>
@@ -3068,7 +3074,7 @@ document.querySelectorAll('.price-quick').forEach((e,i,a)=>{
  e.addEventListener('blur',()=>formatPriceInput(e));
 });
 $('togglePrices').onclick=()=>{const locked=$('p1').readOnly;[1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=!locked;e.classList.toggle('locked',!locked)});$('togglePrices').textContent=locked?'Preise übernehmen':'Preise ändern';if(locked){$('p1').focus();$('p1').select()}else{settings.lastPrices=[n('p1'),n('p2'),n('p3')];persist();formCalc()}};
-$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantity').oninput=updatePendingQuantityUi;$('pendingKgPerCrate').oninput=updatePendingQuantityUi;$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',updateEntryTripNumber);$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
+$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantity').oninput=updatePendingQuantityUi;$('pendingKgPerCrate').oninput=updatePendingQuantityUi;$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',()=>{updateEntryTripNumber();updateInfoPanelFromForm()});$('arrivalAt').addEventListener('change',()=>{if($('arrivalAt').value){const d=$('arrivalAt').value.slice(0,10);$('supplier').value=d;$('sieveDate').value=d;$('date').value=d;}formCalc();});$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
  const now=today();
  const nowPlan=planInfoForDate(now);
  $('dashDate').value=now;
@@ -3179,7 +3185,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.27-Fanguebertrag-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.28-Lieferreise-Uebertrag-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
