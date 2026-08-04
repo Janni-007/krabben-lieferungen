@@ -2394,24 +2394,24 @@ function recordRepresentsOwnTrip(r){
  return !sourceTrips.some(t=>t.departure===r.departureAt);
 }
 function existingTripTimes(year,{excludePendingId='',excludeRecordId=''}={}){
- const items=[];
+ const byTime=new Map();
  pendingTrips.forEach(t=>{
    if(t.id===excludePendingId||!t.departure)return;
    const d=new Date(t.departure);
-   if(d.getFullYear()===year)items.push({key:'p:'+t.id,time:d.getTime()});
+   if(d.getFullYear()!==year)return;
+   const time=d.getTime();
+   // Derselbe Auslaufzeitpunkt darf nur einmal als Fangreise zählen.
+   if(!byTime.has(time))byTime.set(time,{key:'p:'+t.id,time});
  });
  records.forEach(r=>{
    if(r.id===excludeRecordId||!recordRepresentsOwnTrip(r))return;
    const d=new Date(r.departureAt);
    if(d.getFullYear()!==year)return;
-   // Eine bereits als Fangreise gespeicherte Fahrt nicht über den Lieferdatensatz
-   // ein zweites Mal mitzählen. Der Auslaufzeitpunkt identifiziert die Reise;
-   // eine abweichende oder leere DEU darf keine zusätzliche Reise erzeugen.
-   const duplicatePending=pendingTrips.some(t=>t.departure===r.departureAt);
-   if(duplicatePending)return;
-   items.push({key:'r:'+r.id,time:d.getTime()});
+   const time=d.getTime();
+   // Bereits vorhandene Fangreise mit gleichem Auslaufzeitpunkt nicht doppelt zählen.
+   if(!byTime.has(time))byTime.set(time,{key:'r:'+r.id,time});
  });
- return items.sort((a,b)=>a.time-b.time||a.key.localeCompare(b.key));
+ return [...byTime.values()].sort((a,b)=>a.time-b.time||a.key.localeCompare(b.key));
 }
 function numberForNewDeparture(departure,{excludePendingId='',excludeRecordId=''}={}){
  if(!departure)return null;
@@ -3052,8 +3052,15 @@ function storePendingTrip({keepForm=false}={}){
  }
  const trip=collectPendingTripFromForm();
  if(Number(trip.kgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(trip.kgPerCrate);
- const i=pendingTrips.findIndex(t=>t.id===trip.id);
- if(i>=0)pendingTrips[i]=trip; else pendingTrips.push(trip);
+ let i=pendingTrips.findIndex(t=>t.id===trip.id);
+ // Beim erneuten Speichern derselben Fangreise keinen zweiten Datensatz erzeugen.
+ // Der Auslaufzeitpunkt identifiziert die Reise eindeutig; DEU wird zusätzlich geprüft,
+ // sofern beide Datensätze eine DEU enthalten.
+ if(i<0){
+   i=pendingTrips.findIndex(t=>t.departure===trip.departure && (!t.deu||!trip.deu||t.deu===trip.deu));
+   if(i>=0)trip.id=pendingTrips[i].id;
+ }
+ if(i>=0)pendingTrips[i]={...pendingTrips[i],...trip}; else pendingTrips.push(trip);
  $('pendingEditId').value=trip.id;
  persist();
  renderPendingTrips();
