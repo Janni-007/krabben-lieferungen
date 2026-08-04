@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.28d Doppelte Fangreise verhindert Test</title>
+<title>Krabben-Lieferungen v0.7.30 Meldungsart Test</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1869,11 +1869,18 @@ header .version{font-size:.68rem!important}
 .source-mode-row label{font-size:.78rem!important;font-weight:950!important;color:#664b00!important}
 #sourceProcessingMode{background:#fff!important;border:2px solid #d6a900!important;font-weight:900!important;color:#173847!important}
 #sourceProcessingMode:focus{box-shadow:0 0 0 3px #d6a90030!important}
+
+/* v0.7.30 Meldungsart */
+.report-type-field select{font-weight:850;background:#f7fbfc}
+#entryForm.zero-report .entry-left-stack{opacity:.58}
+#entryForm.zero-report .price-edit-head:after{content:"Nullmeldung – keine Fanggewichte erforderlich";display:inline-block;margin-left:10px;padding:5px 9px;border-radius:999px;background:#fff0c9;border:1px solid #e3c46e;color:#6c5100;font-size:.72rem;font-weight:900}
+.report-type-badge{display:inline-block;padding:4px 9px;border-radius:999px;font-size:.72rem;font-weight:900;background:#e7f2f6;border:1px solid #abc8d2;color:#174d62}
+.report-type-badge.zero{background:#fff0c9;border-color:#e3c46e;color:#6c5100}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.28d Test · Doppelte Fangreise verhindert</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.30 Test · Meldungsart ergänzt</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -1966,6 +1973,12 @@ header .version{font-size:.68rem!important}
 <div><label>Eingelaufen</label><input id="arrivalAt" type="datetime-local"/></div>
 <div><label>Anlandedatum</label><input id="supplier" type="date"/></div>
 <div><label>DEU-Nummer</label><input id="receipt" placeholder="z. B. DEU-..."/></div>
+<div class="report-type-field"><label>Meldungsart</label><select id="reportType">
+<option value="delivery">Normale Lieferung / Anlandung</option>
+<option value="selfMarketing">Eigenvermarktung</option>
+<option value="selfConsumption">Eigenverbrauch</option>
+<option value="zero">Nullmeldung</option>
+</select></div>
 <div><label>Siebdatum</label><input id="sieveDate" type="date"/></div>
 <div class="manual-crates-field compact-meta-field"><label>Kisten gefangen</label><input id="manualCrates" inputmode="decimal" min="0" step="0.5" type="number"/></div>
 <div class="manual-crates-field compact-meta-field"><label>Geschätzte kg pro Kiste</label><input id="entryBoxWeightMeta" inputmode="decimal" min="0.1" step="0.1" type="number"/></div>
@@ -2173,7 +2186,7 @@ function normalize(r){
  r.vcatchBoxesRounded=Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes);
  r.grossPerManualCrate=Number(r.manualCrates)>0?r.catchWeight/Number(r.manualCrates):0;
  r.netPerManualCrate=Number(r.manualCrates)>0?r.weight/Number(r.manualCrates):0;
- r.arrivalAt=r.arrivalAt||'';r.sourceTripIds=Array.isArray(r.sourceTripIds)?r.sourceTripIds:[];r.sourceProcessingMode=r.sourceProcessingMode||'';r.deliveryTripId=r.deliveryTripId||'';
+ r.arrivalAt=r.arrivalAt||'';r.sourceTripIds=Array.isArray(r.sourceTripIds)?r.sourceTripIds:[];r.sourceProcessingMode=r.sourceProcessingMode||'';r.deliveryTripId=r.deliveryTripId||'';r.reportType=r.reportType||'delivery';
  return r
 }
 records=records.map(normalize);persist();
@@ -2188,6 +2201,15 @@ function latestPrices(){
  return prices
 }
 function roundBoxes(x){return settings.boxRounding==='up'?Math.ceil(x):settings.boxRounding==='down'?Math.floor(x):Math.round(x)}
+function reportTypeLabel(value){return value==='selfMarketing'?'Eigenvermarktung':value==='selfConsumption'?'Eigenverbrauch':value==='zero'?'Nullmeldung':'Normale Lieferung / Anlandung'}
+function applyReportTypeUi(){
+ const type=$('reportType')?.value||'delivery';
+ const isZero=type==='zero';
+ $('entryForm')?.classList.toggle('zero-report',isZero);
+ ['w1','w2','w3','waste'].forEach(id=>{const el=$(id);if(!el)return;el.disabled=isZero;if(isZero)el.value=''});
+ if(isZero){$('manualCrates').value='';$('vcatchBoxesRounded').value='0';}
+ formCalc();
+}
 
 function infoPanelHasLiveInput(){
   return [n('w1'),n('w2'),n('w3'),n('waste'),n('manualCrates'),n('vcatchBoxesRounded')].some(v=>Number(v)>0)
@@ -2205,6 +2227,7 @@ function currentFormRecord(){
     arrivalAt:$('arrivalAt').value,
     supplier:$('supplier').value.trim(),
     receipt:$('receipt').value.trim(),
+    reportType:$('reportType').value,
     note:$('note').value.trim(),
     sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),
     waste:n('waste'),
@@ -2289,6 +2312,7 @@ function infoPanelSections(r, mode='saved'){
         ${meta('Ausgelaufen',r.departureAt?new Date(r.departureAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'–')}
         ${meta('Eingelaufen',r.arrivalAt?new Date(r.arrivalAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'–')}
         ${meta('Anlandedatum',r.supplier?parseDate(r.supplier).toLocaleDateString('de-DE'):'–')}
+        ${meta('Meldungsart',reportTypeLabel(r.reportType))}
         ${meta('Siebdatum',r.sieveDate?parseDate(r.sieveDate).toLocaleDateString('de-DE'):'–')}
         ${meta('Kisten gefangen',String(Number(r.manualCrates)||0))}
         ${meta('Geschätzte kg pro Kiste',estimatedKgPerCrateForRecord(r)>0?num2(estimatedKgPerCrateForRecord(r))+' kg':'–')}
@@ -2708,8 +2732,8 @@ function formatPriceInput(el){
 }
 
 function resetForm(){
- $('entryForm').reset();$('editId').value='';$('deliveryTripId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value=today();$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value=today();$('sieveDate').value=today();$('note').value='';$('manualCrates').value='';$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
- ['w1','w2','w3','waste'].forEach(id=>$(id).value='');latestPrices().forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
+ $('entryForm').reset();$('editId').value='';$('deliveryTripId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value=today();$('reportType').value='delivery';$('entryForm').classList.remove('zero-report');$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value=today();$('sieveDate').value=today();$('note').value='';$('manualCrates').value='';$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
+ ['w1','w2','w3','waste'].forEach(id=>{$(id).disabled=false;$(id).value=''});latestPrices().forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
  [1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=true;e.classList.add('locked')});$('togglePrices').textContent='Preise ändern';renderSourceTripChoices();formCalc();updateEntryTripNumber();showSavedRecord(savedRecordId);setTimeout(()=>$('w1').focus(),50)
 }
 function cancelEditMode(){resetForm();showSavedRecord(savedRecordId)}
@@ -2986,7 +3010,7 @@ function renderDashboard(){
 function table(arr){
  if(!arr.length)return '<table><tr><td class="empty">Noch keine Lieferungen vorhanden.</td></tr></table>';
  return `<table><thead><tr>
-  <th>Reise-Nr.</th><th>KW</th><th>Auslaufdatum</th><th>Einlaufen</th><th>Anlandedatum</th><th>DEU-Nummer</th>
+  <th>Reise-Nr.</th><th>KW</th><th>Auslaufdatum</th><th>Einlaufen</th><th>Anlandedatum</th><th>DEU-Nummer</th><th>Meldungsart</th>
   <th class="grp-a grp-a-start">S1 kg</th><th class="grp-a">S2 kg</th><th class="grp-a">S3 kg</th><th class="grp-a">Produktgewicht</th><th class="grp-a">Sieb kg / %</th><th class="grp-a grp-a-end">vCatch-Kisten</th>
   <th class="grp-b grp-b-start">Kisten manuell</th><th class="grp-b">Brutto je Kiste</th><th class="grp-b grp-b-end">Netto je Kiste</th>
   <th>Umsatz</th><th>Lohn</th><th>Herkunftsreisen</th><th>Bem.</th><th>Aktion</th>
@@ -3000,6 +3024,7 @@ function table(arr){
     <td>${r.arrivalAt?new Date(r.arrivalAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'–'}</td>
     <td>${landing?parseDate(landing).toLocaleDateString('de-DE'):'–'}</td>
     <td>${r.receipt||'–'}</td>
+    <td><span class="report-type-badge ${r.reportType==='zero'?'zero':''}">${reportTypeLabel(r.reportType)}</span></td>
 
     <td class="grp-a grp-a-start">${num(r.sorts[0].weight)}</td>
     <td class="grp-a">${num(r.sorts[1].weight)}</td>
@@ -3021,7 +3046,7 @@ function table(arr){
    </tr>`;
  }).join('')}</tbody></table>`;
 }
-function renderList(){const q=$('search').value.toLowerCase(),y=+$('listYear').value,m=$('listMonth').value,arr=filtered(y,m).filter(r=>[r.date,r.departureAt,r.arrivalAt,r.receipt,r.note,r.supplier].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('allTable').innerHTML=table(arr)}
+function renderList(){const q=$('search').value.toLowerCase(),y=+$('listYear').value,m=$('listMonth').value,arr=filtered(y,m).filter(r=>[r.date,r.departureAt,r.arrivalAt,r.receipt,r.note,r.supplier,r.reportType,reportTypeLabel(r.reportType)].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('allTable').innerHTML=table(arr)}
 function refresh(){persist();fillSelectors();renderDashboard();renderList();renderSettings();renderBackupBadge();renderPendingTrips();updateEntryTripNumber();if($('savedRecordBodyTop'))showSavedRecord(savedRecordId)}
 function renderBackupBadge(){const el=$('backupVersionBadge');if(!el)return;el.textContent=backupMeta.version&&backupMeta.version!=='–'?backupMeta.version+(backupMeta.date?' · '+backupMeta.date:''):'–'}
 
@@ -3077,15 +3102,15 @@ $('pendingForm').addEventListener('submit',e=>{
  e.preventDefault();
  storePendingTrip({keepForm:false});
 });
-$('entryForm').addEventListener('submit',e=>{e.preventDefault();const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),note:$('note').value.trim(),sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),waste:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:$('sieveDate').value,sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();status('formStatus',i>=0?'Lieferung aktualisiert.':'Lieferung gespeichert.');resetForm();showSavedRecord(r.id)});
+$('entryForm').addEventListener('submit',e=>{e.preventDefault();const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),reportType:$('reportType').value,note:$('note').value.trim(),sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),waste:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:$('sieveDate').value,sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();status('formStatus',i>=0?(r.reportType==='zero'?'Nullmeldung aktualisiert.':'Lieferung aktualisiert.'):(r.reportType==='zero'?'Nullmeldung gespeichert.':'Lieferung gespeichert.'));resetForm();showSavedRecord(r.id)});
 function editRecord(id){
  const r=records.find(x=>x.id===id);if(!r)return;
  show('entry');$('editId').value=r.id;$('formTitle').textContent='Lieferung bearbeiten';
  $('editModeBanner').textContent='Bearbeitungsmodus: '+parseDate(r.date).toLocaleDateString('de-DE')+' · KW '+weekNo(r.date)+(r.receipt?' · '+r.receipt:'');
  $('editModeBanner').classList.remove('hidden');$('cancelEdit').classList.remove('hidden');$('entryForm').classList.add('editing-mode');
- $('date').value=r.date;$('deliveryTripId').value=r.deliveryTripId||'';$('departureAt').value=r.departureAt||'';$('arrivalAt').value=r.arrivalAt||'';$('supplier').value=r.supplier||r.date||'';$('receipt').value=r.receipt||'';$('sieveDate').value=r.sieveDate||r.date||'';$('manualCrates').value=Number(r.manualCrates)||'';$('note').value=r.note||'';$('entryBoxWeight').value=Number(r.boxWeight||settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=estimatedKgPerCrateForRecord(r)>0?Number(estimatedKgPerCrateForRecord(r)).toFixed(2):'';$('vcatchBoxesRounded').value=String(Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes));$('vcatchBoxesRounded').dataset.manual=Number.isFinite(Number(r.vcatchBoxesRounded))?'1':'0';
+ $('date').value=r.date;$('deliveryTripId').value=r.deliveryTripId||'';$('departureAt').value=r.departureAt||'';$('arrivalAt').value=r.arrivalAt||'';$('supplier').value=r.supplier||r.date||'';$('receipt').value=r.receipt||'';$('reportType').value=r.reportType||'delivery';$('sieveDate').value=r.sieveDate||r.date||'';$('manualCrates').value=Number(r.manualCrates)||'';$('note').value=r.note||'';$('entryBoxWeight').value=Number(r.boxWeight||settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=estimatedKgPerCrateForRecord(r)>0?Number(estimatedKgPerCrateForRecord(r)).toFixed(2):'';$('vcatchBoxesRounded').value=String(Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes));$('vcatchBoxesRounded').dataset.manual=Number.isFinite(Number(r.vcatchBoxesRounded))?'1':'0';
  r.sorts.forEach((s,i)=>{$('w'+(i+1)).value=s.weight;$('p'+(i+1)).value=Number(s.price||0).toFixed(2)});
- $('waste').value=r.waste||'';renderSourceTripChoices(effectiveSourceTripIds(r));$('sourceProcessingMode').value=r.sourceProcessingMode||'single';savedRecordId=r.id;showSavedRecord(r.id);formCalc();updateInfoPanelFromForm();updateEntryTripNumber();scrollTo({top:0,behavior:'smooth'})
+ $('waste').value=r.waste||'';renderSourceTripChoices(effectiveSourceTripIds(r));$('sourceProcessingMode').value=r.sourceProcessingMode||'single';savedRecordId=r.id;showSavedRecord(r.id);applyReportTypeUi();formCalc();updateInfoPanelFromForm();updateEntryTripNumber();scrollTo({top:0,behavior:'smooth'})
 }
 function removeRecord(id){if(confirm('Diese Lieferung wirklich löschen?')){records=records.filter(r=>r.id!==id);refresh()}}
 window.editRecord=editRecord;window.removeRecord=removeRecord;window.openNote=openNote;window.editPending=editPending;window.deletePending=deletePending;window.openSourceTrip=openSourceTrip;window.takePendingToDelivery=takePendingToDelivery;
@@ -3098,7 +3123,7 @@ document.querySelectorAll('.price-quick').forEach((e,i,a)=>{
  e.addEventListener('blur',()=>formatPriceInput(e));
 });
 $('togglePrices').onclick=()=>{const locked=$('p1').readOnly;[1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=!locked;e.classList.toggle('locked',!locked)});$('togglePrices').textContent=locked?'Preise übernehmen':'Preise ändern';if(locked){$('p1').focus();$('p1').select()}else{settings.lastPrices=[n('p1'),n('p2'),n('p3')];persist();formCalc()}};
-$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantity').oninput=updatePendingQuantityUi;$('pendingKgPerCrate').oninput=updatePendingQuantityUi;$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',()=>{updateEntryTripNumber();updateInfoPanelFromForm()});$('arrivalAt').addEventListener('change',()=>{if($('arrivalAt').value){const d=$('arrivalAt').value.slice(0,10);$('supplier').value=d;$('sieveDate').value=d;$('date').value=d;}formCalc();});$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
+$('reportType').addEventListener('change',applyReportTypeUi);$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantity').oninput=updatePendingQuantityUi;$('pendingKgPerCrate').oninput=updatePendingQuantityUi;$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',()=>{updateEntryTripNumber();updateInfoPanelFromForm()});$('arrivalAt').addEventListener('change',()=>{if($('arrivalAt').value){const d=$('arrivalAt').value.slice(0,10);$('supplier').value=d;$('sieveDate').value=d;$('date').value=d;}formCalc();});$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
  const now=today();
  const nowPlan=planInfoForDate(now);
  $('dashDate').value=now;
@@ -3184,7 +3209,7 @@ $('importExcelFile').onchange=async e=>{
 
 $('importExcel2025').onclick=()=>{const existing=new Set(records.map(r=>r.id));let added=0;EXCEL_IMPORT_2025.forEach(r=>{if(!existing.has(r.id)){records.push(normalize(JSON.parse(JSON.stringify(r))));added++}});refresh();status('excelStatus',added?added+' Lieferungen aus Excel 2025 importiert.':'Alle Excel-Daten 2025 sind bereits vorhanden.');};
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.28d-Doppelte-Fangreise-verhindert-Test_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.28d-doppelte-fangreise-verhindert-test',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.30-Meldungsart-Test_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.30-meldungsart-test',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -3209,7 +3234,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.28a-Reisenummer-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.30-Meldungsart-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -3275,7 +3300,7 @@ const firebaseConfig = {
   appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
 };
 
-const APP_VERSION = "0.7.28d-doppelte-fangreise-verhindert-test";
+const APP_VERSION = "0.7.30-meldungsart-test";
 const SYNC_META_KEY = "krabben_firebase_sync_meta_v3";
 const DEVICE_KEY = "krabben_device_id_v1";
 const bridge = window.KrabbenCloudBridge;
