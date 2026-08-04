@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.31 Meldungsarten und Lebendgewicht</title>
+<title>Krabben-Lieferungen v0.7.32 Dashboard-Dreiteilung</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -29,7 +29,7 @@ input:focus,select:focus{outline:3px solid #0f6f9122;border-color:var(--blue)}in
 .monthbars{display:grid;gap:8px}.bar{display:grid;grid-template-columns:45px 1fr 110px;gap:9px;align-items:center}.track{height:17px;background:#e8eef1;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#0f6f91,#25a18e)}
 .note{font-size:.86rem;color:#71550c;background:#fff8df;border:1px solid #ead386;border-radius:10px;padding:10px}.status{display:none;margin-top:10px;padding:10px;border-radius:9px;font-weight:800}.status.ok{display:block;background:#e2f3eb;color:#126044}.status.err{display:block;background:#f8e2e2;color:#862626}
 .pill{display:inline-block;background:#e5f1f5;color:#14566e;border-radius:99px;padding:4px 9px;font-size:.78rem;font-weight:900}
-.dashboard-controls{display:grid;grid-template-columns:.65fr 1fr .75fr 1.15fr 1.2fr;gap:9px;align-items:end}
+.dashboard-controls{display:grid;grid-template-columns:1fr .75fr 1.15fr;gap:9px;align-items:end}
 @media(max-width:1000px){.dashboard-controls{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.dashboard-controls{grid-template-columns:1fr}}
 .price-edit-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
 .price-input.locked{background:#eef4f6;color:#264c5b}
@@ -114,6 +114,10 @@ input:focus,select:focus{outline:3px solid #0f6f9122;border-color:var(--blue)}in
  border-top:3px solid #5a9b7c;
 }
 .month-quick-grid .mq-empty{color:#a5b2b8}
+
+/* v0.7.32: Dashboard in Aktuell, Wochenübersicht und Alle-Monate-Schnellansicht */
+.dashboard-part-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 9px}.dashboard-part-title h2{font-size:1rem;margin:0;color:#16485e}.dashboard-part-number{display:inline-grid;place-items:center;width:25px;height:25px;margin-right:7px;border-radius:50%;background:#0f6f91;color:#fff;font-size:.78rem}.dashboard-section{position:relative}.week-summary{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:7px;margin:9px 0 10px}.week-summary-item{padding:8px 9px;border:1px solid #c8dbe3;border-radius:10px;background:#edf6f9}.week-summary-item span{display:block;font-size:.67rem;font-weight:850;color:#5b737e}.week-summary-item strong{display:block;margin-top:3px;font-size:.92rem;color:#173f50}.week-summary-history{border:2px solid #d08a18!important;background:#fff5d9!important;box-shadow:0 0 0 4px #d08a1822}.week-summary-history .week-history-note{display:inline-block;padding:4px 8px;border-radius:999px;background:#b96d00;color:#fff;font-weight:900;font-size:.7rem}.month-section-tools{display:flex;align-items:end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:9px}.selected-month-quality{display:grid;grid-template-columns:minmax(170px,240px) auto;gap:7px;align-items:end}.selected-month-quality label{grid-column:1/-1;margin:0}.month-quick-grid .mq-month-link{cursor:pointer;transition:.15s}.month-quick-grid .mq-month-link:hover{background:#bcdce8}.month-quick-grid .mq-selected-month{background:#0f6f91!important;color:#fff!important;box-shadow:inset 0 -4px 0 #f0b735}.month-quick-grid .mq-rowhead{min-width:185px;white-space:normal;line-height:1.25}.month-quick-grid{grid-template-columns:185px repeat(12,minmax(105px,1fr))}.month-quick-grid .mq-cell,.month-quick-grid .mq-empty{cursor:pointer}.month-quick-grid .mq-selected-cell{box-shadow:inset 0 0 0 3px #0f6f91}.month-quick-grid .mq-money-head,.month-quick-grid .mq-money{font-weight:900}.month-quick-grid .mq-revenue-head,.month-quick-grid .mq-revenue{background:#eaf2f6}.month-quick-grid .mq-quality-head,.month-quick-grid .mq-quality{background:#fff5a6}.month-quick-grid .mq-grand-head,.month-quick-grid .mq-grand{background:#c8e5d6}.month-quick-grid .mq-weight-head,.month-quick-grid .mq-weight{background:#dcebf2;border-top:4px solid #fff;font-weight:950}.month-selected-help{font-size:.75rem;color:var(--muted)}
+@media(max-width:900px){.week-summary{grid-template-columns:repeat(3,1fr)}}@media(max-width:560px){.week-summary{grid-template-columns:repeat(2,1fr)}.selected-month-quality{grid-template-columns:1fr}.selected-month-quality label{grid-column:auto}}
 
 
 .week-price-strip{
@@ -1907,13 +1911,14 @@ header .version{font-size:.68rem!important}
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.31 Test · Meldungsarten und Lebendgewicht</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.32 · Dashboard-Dreiteilung</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
-<div class="card">
+<div class="card dashboard-section" id="currentSection">
+<div class="dashboard-part-title"><h2><span class="dashboard-part-number">1</span>Aktuell</h2></div>
+<select id="dashYear" class="hidden" aria-hidden="true"></select>
 <div class="dashboard-controls">
-<div><label>Jahr für Schnellansicht</label><select id="dashYear"></select></div>
 <div><label>Datum</label><div style="display:flex;gap:7px"><input id="dashDate" type="date"/><button class="btn secondary" id="todayBtn" type="button">Heute</button></div></div>
 <div><label>Kalenderwoche auswählen</label><select id="dashWeekSelect"></select></div>
 <div><label>Zeitraum der Woche</label><input id="dashWeekRange" readonly=""/></div>
@@ -1969,16 +1974,17 @@ header .version{font-size:.68rem!important}
 </div>
 </div>
 </div>
-<div class="card"><div class="week-title-row"><h3>Wochenübersicht <span class="pill" id="weekPill">KW –</span></h3><div class="week-nav-buttons"><button class="btn secondary" id="prevWeek" type="button">← KW</button><button class="btn secondary" id="nextWeek" type="button">KW →</button></div></div>
+<div class="card dashboard-section" id="weekSection"><div class="week-title-row"><div class="dashboard-part-title"><h2><span class="dashboard-part-number">2</span>Wochenübersicht <span class="pill" id="weekPill">KW –</span></h2></div><div class="week-nav-buttons"><button class="btn secondary" id="prevWeek" type="button">← KW</button><button class="btn secondary" id="nextWeek" type="button">KW →</button></div></div>
+<div class="week-summary" id="weekSummary"></div>
 <div class="week-price-strip" id="weekPriceStrip"></div>
 <div class="tablewrap"><div class="weekgrid" id="weekGrid"></div></div>
 </div>
-<div class="card">
-<h3>Monatstabelle <span class="pill" id="monthPill">–</span></h3>
-<div class="month-controls">
-<div><label>Monat auswählen</label><select id="monthSelect"></select></div>
-<div><label>Ansicht</label><input id="monthMode" type="hidden" value="single"/><div class="month-mode-buttons"><button class="btn secondary active" id="monthModeSingle" type="button">Einzelner Monat</button><button class="btn secondary" id="monthModeAll" type="button">Alle Monate – Schnellansicht</button></div></div>
-<div id="monthQualityBox"><label>Qualitätszuschlag Monat €</label><div class="month-quality-input"><input id="monthQualityInput" inputmode="decimal" min="0" step="0.01" type="number"/><button class="btn secondary" id="saveMonthQuality" type="button">Speichern</button></div></div>
+<div class="card dashboard-section" id="monthSection">
+<div class="dashboard-part-title"><h2><span class="dashboard-part-number">3</span>Alle Monate – Schnellansicht <span class="pill" id="monthPill">–</span></h2></div>
+<input id="monthMode" type="hidden" value="all"/><select id="monthSelect" class="hidden" aria-hidden="true"></select>
+<div class="month-section-tools">
+<div class="month-selected-help">Monat direkt in der Kopfzeile anklicken; danach zeigen die fünf Zeilen links die passenden KW und Datumsbereiche.</div>
+<div class="selected-month-quality" id="monthQualityBox"><label id="monthQualityLabel">Qualitätszuschlag Monat €</label><input id="monthQualityInput" inputmode="decimal" min="0" step="0.01" type="number"/><button class="btn secondary" id="saveMonthQuality" type="button">Speichern</button></div>
 </div>
 <div class="status" id="monthQualityStatus"></div>
 <div class="tablewrap" id="monthTable"></div>
@@ -2880,8 +2886,20 @@ function renderDashboard(){
  $('yearRevenue').textContent=eur(yr.revenue);
  $('weekRevenue').textContent=eur(wt.revenue);
  $('weekWeight').textContent=kg(wt.sale);
- $('monthWage').textContent=eur(mo.wage);
- $('weekPill').textContent='Planwoche So–Sa · KW '+info.week+' ab Montag';
+  $('monthWage').textContent=eur(mo.wage);
+  $('weekPill').textContent='Planwoche So–Sa · KW '+info.week+' ab Montag';
+  const todayInfo=planInfoForDate(today()).info;
+  const isCurrentWeek=info.isoYear===todayInfo.isoYear&&info.week===todayInfo.week;
+  const weekMonthDate=new Date(planSunday);weekMonthDate.setDate(planSunday.getDate()+3);
+  $('weekSection').classList.toggle('week-summary-history',!isCurrentWeek);
+  $('weekSummary').innerHTML=`
+   <div class="week-summary-item"><span>Jahr</span><strong>${info.isoYear}</strong></div>
+   <div class="week-summary-item"><span>Monat</span><strong>${months[weekMonthDate.getMonth()]}</strong></div>
+   <div class="week-summary-item"><span>Kalenderwoche</span><strong>KW ${info.week}</strong></div>
+   <div class="week-summary-item"><span>Gesamt-kg</span><strong>${kg(wt.sale)}</strong></div>
+   <div class="week-summary-item"><span>Wochenumsatz</span><strong>${eur(wt.revenue)}</strong></div>
+   <div class="week-summary-item"><span>Lohn</span><strong>${eur(wt.wage)}</strong></div>
+   ${isCurrentWeek?'':'<div class="week-history-note">Ausgewählte Woche – nicht die aktuelle Woche</div>'}`;
  const currentPrices=latestPrices();
  $('weekPriceStrip').innerHTML=`
   <div class="week-price-title">Aktuelle Preise</div>
@@ -2964,90 +2982,64 @@ function renderDashboard(){
  });
  $('weekGrid').innerHTML=h;
 
- const mode=$('monthMode').value||'single';
- $('monthModeSingle')?.classList.toggle('active',mode==='single');
- $('monthModeAll')?.classList.toggle('active',mode==='all');
- if(mode==='all'){
-   $('monthQualityBox').classList.add('hidden');
-   $('monthPill').textContent='Schnellansicht '+calendarYear;
+  $('monthMode').value='all';
+  $('monthPill').textContent=months[month]+' '+calendarYear;
+  $('monthQualityLabel').textContent='Qualitätszuschlag '+months[month]+' '+calendarYear+' €';
+  $('monthQualityInput').value=Number(settings.monthlyQuality[calendarYear+'-'+month]||0).toFixed(2);
 
-   const monthWeekBuckets=Array.from({length:12},(_,mi)=>{
-     const buckets=Array.from({length:5},(_,row)=>({row,records:[],start:new Date(calendarYear,mi,row*7+1,12)}));
-     filtered(calendarYear,String(mi)).forEach(r=>{
-       const d=parseDate(r.date);
-       const row=Math.min(4,Math.floor((d.getDate()-1)/7));
-       buckets[row].records.push(r);
-     });
-     return buckets;
-   });
+  const monthWeekBuckets=Array.from({length:12},(_,mi)=>{
+    const first=new Date(calendarYear,mi,1,12),last=new Date(calendarYear,mi+1,0,12),segments=[];
+    let start=new Date(first);
+    while(start<=last){
+      let end=new Date(start);
+      end.setDate(start.getDate()+((7-start.getDay())%7));
+      if(end>last)end=new Date(last);
+      segments.push({start:new Date(start),end:new Date(end),records:[]});
+      start=new Date(end);start.setDate(end.getDate()+1);
+    }
+    if(segments.length>5){segments[4].end=new Date(segments[segments.length-1].end);segments.splice(5)}
+    while(segments.length<5)segments.push(null);
+    filtered(calendarYear,String(mi)).forEach(r=>{
+      const d=parseDate(r.date);
+      const bucket=segments.find(b=>b&&d>=b.start&&d<=b.end);
+      if(bucket)bucket.records.push(r);
+    });
+    return segments;
+  });
 
-   let grid='<div class="month-quick-grid">';
-   grid+='<div class="mq-head">Woche</div>'+months.map(m=>`<div class="mq-head">${m}</div>`).join('');
-
-   for(let row=0;row<5;row++){
-     grid+=`<div class="mq-rowhead">${row+1}. Woche</div>`;
-     for(let mi=0;mi<12;mi++){
-       const bucket=monthWeekBuckets[mi][row];
-       const revenue=bucket?totals(bucket.records).revenue:0;
-       const refDate=bucket&&bucket.records.length?bucket.records[0].date:dateKey(bucket.start);
-       const bucketInfo=isoInfo(refDate);
-       const kw=bucket?` title="${row+1}. Monatswoche · KW ${bucketInfo.week}"`:'';
-       grid+=`<div class="${revenue?'mq-cell has-value month-week-link':'mq-empty'}"${kw}${bucket?` data-year="${bucketInfo.isoYear}" data-week="${bucketInfo.week}"`:''}>${revenue?eur(revenue):'–'}</div>`;
-     }
-   }
-
-   grid+='<div class="mq-total-head">Gesamt</div>';
-   for(let mi=0;mi<12;mi++){
-     const goods=totals(filtered(calendarYear,String(mi))).revenue;
-     const quality=Number(settings.monthlyQuality[calendarYear+'-'+mi]||0);
-     grid+=`<div class="mq-total">${eur(goods+quality)}</div>`;
-   }
-   grid+='</div>';
-   $('monthTable').innerHTML=grid;
-   document.querySelectorAll('.month-week-link').forEach(cell=>{
-     const cy=Number(cell.dataset.year),cw=Number(cell.dataset.week);
-     if(cy===info.isoYear&&cw===info.week)cell.classList.add('active-week-cell');
-     cell.addEventListener('click',()=>{
-       $('dashYear').value=String(cy);
-       setDashboardWeek(cy,cw);
-       document.querySelector('#weekGrid').scrollIntoView({behavior:'smooth',block:'start'});
-     });
-   });
- }else{
-   $('monthQualityBox').classList.remove('hidden');
-   $('monthQualityInput').value=Number(settings.monthlyQuality[calendarYear+'-'+month]||0).toFixed(2);
-   const monthRecords=filtered(calendarYear,String(month));
-   const weekMap=new Map();
-   monthRecords.forEach(r=>{
-     const inf=isoInfo(r.date), key=inf.isoYear+'-'+inf.week;
-     if(!weekMap.has(key))weekMap.set(key,{week:inf.week,isoYear:inf.isoYear,start:inf.monday,end:inf.sunday,records:[]});
-     weekMap.get(key).records.push(r)
-   });
-   const weeks=[...weekMap.values()].sort((a,b)=>a.start-b.start);
-   const goodsSubtotal=weeks.reduce((a,w)=>a+totals(w.records).revenue,0);
-   const monthQuality=Number(settings.monthlyQuality[calendarYear+'-'+month]||0);
-   const totalMonth=goodsSubtotal+monthQuality;
-   const totalWeight=weeks.reduce((a,w)=>a+totals(w.records).sale,0);
-   const totalWage=weeks.reduce((a,w)=>a+totals(w.records).wage,0);
-   $('monthPill').textContent=months[month]+' '+calendarYear;
-
-   let mt='<table><thead><tr><th>Kalenderwoche</th><th>Zeitraum</th><th>Gewicht</th><th>Warenumsatz</th><th>Lohn</th><th>Ø Preis/kg</th></tr></thead><tbody>';
-   if(!weeks.length)mt+='<tr><td colspan="6" class="empty">Für diesen Monat liegen keine Lieferungen vor.</td></tr>';
-   weeks.forEach(w=>{
-     const t=totals(w.records);
-     mt+=`<tr class="single-month-week-row ${w.week===info.week&&w.isoYear===info.isoYear?'active-week-row':''}" data-year="${w.isoYear}" data-week="${w.week}"><td>KW ${w.week}</td><td>${w.start.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})} – ${w.end.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</td><td>${kg(t.sale)}</td><td>${eur(t.revenue)}</td><td>${eur(t.wage)}</td><td>${t.sale?num(t.revenue/t.sale)+' €/kg':'–'}</td></tr>`
-   });
-   mt+=`<tr class="month-total" style="font-weight:900"><td colspan="2">Monatssumme Warenumsatz</td><td>${kg(totalWeight)}</td><td>${eur(goodsSubtotal)}</td><td>${eur(totalWage)}</td><td>${totalWeight?num(goodsSubtotal/totalWeight)+' €/kg':'–'}</td></tr>`;
-   mt+=`<tr class="quality-row" style="font-weight:900"><td colspan="3">Qualitätszuschlag</td><td>${eur(monthQuality)}</td><td>–</td><td>–</td></tr>`;
-   mt+=`<tr class="grand-total" style="font-weight:950"><td colspan="3">Monatsgesamt inklusive Qualitätszuschlag</td><td>${eur(totalMonth)}</td><td>${eur(totalWage)}</td><td>${totalWeight?num(totalMonth/totalWeight)+' €/kg':'–'}</td></tr>`;
-   mt+='</tbody></table>';
-   $('monthTable').innerHTML=mt;
-   document.querySelectorAll('.single-month-week-row').forEach(row=>row.addEventListener('click',()=>{
-     setDashboardWeek(Number(row.dataset.year),Number(row.dataset.week));
-     document.querySelector('#weekGrid').scrollIntoView({behavior:'smooth',block:'start'});
-   }));
+  let grid='<div class="month-quick-grid">';
+  grid+='<div class="mq-head">Monatswoche / KW</div>'+months.map((m,mi)=>`<div class="mq-head mq-month-link ${mi===month?'mq-selected-month':''}" data-month="${mi}">${m}</div>`).join('');
+  for(let row=0;row<5;row++){
+    const selectedBucket=monthWeekBuckets[month][row];
+    const selectedInfo=selectedBucket?isoInfo(dateKey(selectedBucket.start)):null;
+    const range=selectedBucket?selectedBucket.start.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+'–'+selectedBucket.end.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'}):'–';
+    grid+=`<div class="mq-rowhead">Monatswoche ${row+1}${selectedInfo?` · KW ${selectedInfo.week}<br><small>${range}</small>`:''}</div>`;
+    for(let mi=0;mi<12;mi++){
+      const bucket=monthWeekBuckets[mi][row];
+      if(!bucket){grid+='<div class="mq-empty">–</div>';continue}
+      const revenue=totals(bucket.records).revenue,bucketInfo=isoInfo(dateKey(bucket.start));
+      const selected=bucketInfo.isoYear===info.isoYear&&bucketInfo.week===info.week?'mq-selected-cell active-week-cell':'';
+      const bucketRange=bucket.start.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})+'–'+bucket.end.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
+      grid+=`<div class="month-week-link ${revenue?'mq-cell has-value':'mq-empty'} ${selected}" title="${months[mi]} · Monatswoche ${row+1} · KW ${bucketInfo.week} · ${bucketRange}" data-month="${mi}" data-year="${bucketInfo.isoYear}" data-week="${bucketInfo.week}">${revenue?eur(revenue):'–'}</div>`;
+    }
+  }
+  const summaryRow=(label,headClass,cellClass,valueFn)=>{
+    grid+=`<div class="mq-rowhead mq-money-head ${headClass}">${label}</div>`;
+    for(let mi=0;mi<12;mi++)grid+=`<div class="mq-money ${cellClass}">${valueFn(mi)}</div>`;
+  };
+  summaryRow('Umsatz','mq-revenue-head','mq-revenue',mi=>eur(totals(filtered(calendarYear,String(mi))).revenue));
+  summaryRow('Qualitätszuschlag','mq-quality-head','mq-quality',mi=>eur(Number(settings.monthlyQuality[calendarYear+'-'+mi]||0)));
+  summaryRow('Summe inkl. Qualitätszuschlag','mq-grand-head','mq-grand',mi=>eur(totals(filtered(calendarYear,String(mi))).revenue+Number(settings.monthlyQuality[calendarYear+'-'+mi]||0)));
+  summaryRow('Gesamt-kg','mq-weight-head','mq-weight',mi=>kg(totals(filtered(calendarYear,String(mi))).sale));
+  grid+='</div>';
+  $('monthTable').innerHTML=grid;
+  document.querySelectorAll('.mq-month-link').forEach(cell=>cell.addEventListener('click',()=>{$('monthSelect').value=cell.dataset.month;renderDashboard()}));
+  document.querySelectorAll('.month-week-link').forEach(cell=>cell.addEventListener('click',()=>{
+    $('monthSelect').value=cell.dataset.month;$('dashYear').value=cell.dataset.year;
+    setDashboardWeek(Number(cell.dataset.year),Number(cell.dataset.week));
+    document.querySelector('#weekSection').scrollIntoView({behavior:'smooth',block:'start'});
+  }));
  }
-}
 function table(arr){
  if(!arr.length)return '<table><tr><td class="empty">Noch keine Lieferungen vorhanden.</td></tr></table>';
  return `<table><thead><tr>
@@ -3170,13 +3162,13 @@ $('reportType').addEventListener('change',()=>{applyReportTypeUi();updateInfoPan
  $('dashDate').value=now;
  $('dashYear').value=String(nowPlan.info.isoYear);
  $('monthSelect').value=String(parseDate(now).getMonth());
- $('monthMode').value='single';
+ $('monthMode').value='all';
  renderDashboard();
 
  const dash=document.querySelector('#dashboard');
  dash.classList.remove('today-focus');void dash.offsetWidth;dash.classList.add('today-focus');
  setTimeout(()=>dash.classList.remove('today-focus'),1600);
-};$('dashYear').onchange=()=>{const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashWeekSelect').onchange=()=>setDashboardWeek($('dashYear').value,$('dashWeekSelect').value);$('monthSelect').onchange=renderDashboard;$('monthModeSingle').onclick=()=>{$('monthMode').value='single';$('monthModeSingle').classList.add('active');$('monthModeAll').classList.remove('active');renderDashboard()};$('monthModeAll').onclick=()=>{$('monthMode').value='all';$('monthModeAll').classList.add('active');$('monthModeSingle').classList.remove('active');renderDashboard()};$('saveMonthQuality').onclick=()=>{const y=Number($('dashYear').value),m=Number($('monthSelect').value);settings.monthlyQuality[y+'-'+m]=n('monthQualityInput');persist();renderDashboard();status('monthQualityStatus','Qualitätszuschlag für '+months[m]+' '+y+' gespeichert.')};$('prevWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()-7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('nextWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()+7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('listYear').onchange=renderList;$('listMonth').onchange=renderList;$('search').oninput=renderList;
+ };$('dashYear').onchange=()=>{const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashWeekSelect').onchange=()=>setDashboardWeek($('dashYear').value,$('dashWeekSelect').value);$('monthSelect').onchange=renderDashboard;$('saveMonthQuality').onclick=()=>{const y=Number($('dashYear').value),m=Number($('monthSelect').value);settings.monthlyQuality[y+'-'+m]=n('monthQualityInput');persist();renderDashboard();status('monthQualityStatus','Qualitätszuschlag für '+months[m]+' '+y+' gespeichert.')};$('prevWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()-7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('nextWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()+7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('listYear').onchange=renderList;$('listMonth').onchange=renderList;$('search').oninput=renderList;
 function renderSettings(){$('setSupplier').value=settings.supplier;$('setWage').value=settings.wage;$('setBoxWeight').value=settings.boxWeight;$('setBoxRounding').value=settings.boxRounding}
 $('saveSettings').onclick=()=>{settings={supplier:$('setSupplier').value.trim(),wage:n('setWage'),boxWeight:n('setBoxWeight')||17,boxRounding:$('setBoxRounding').value,monthlyQuality:settings.monthlyQuality||{},lastPrices:Array.isArray(settings.lastPrices)?settings.lastPrices:[0,0,0],lastEstimatedKgPerCrate:Number(settings.lastEstimatedKgPerCrate)||0};refresh();formCalc();status('settingsStatus','Einstellungen gespeichert.')};
 function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
@@ -3250,7 +3242,7 @@ $('importExcelFile').onchange=async e=>{
 
 $('importExcel2025').onclick=()=>{const existing=new Set(records.map(r=>r.id));let added=0;EXCEL_IMPORT_2025.forEach(r=>{if(!existing.has(r.id)){records.push(normalize(JSON.parse(JSON.stringify(r))));added++}});refresh();status('excelStatus',added?added+' Lieferungen aus Excel 2025 importiert.':'Alle Excel-Daten 2025 sind bereits vorhanden.');};
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.31-Meldungsarten-Lebendgewicht-Test_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.31-meldungsarten-lebendgewicht-test',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.32-Dashboard-Dreiteilung_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.32-dashboard-dreiteilung',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -3275,7 +3267,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.31-Meldungsarten-Lebendgewicht-Test_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.32-Dashboard-Dreiteilung_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -3341,7 +3333,7 @@ const firebaseConfig = {
   appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
 };
 
-const APP_VERSION = "0.7.30-meldungsart-test";
+const APP_VERSION = "0.7.32-dashboard-dreiteilung";
 const SYNC_META_KEY = "krabben_firebase_sync_meta_v3";
 const DEVICE_KEY = "krabben_device_id_v1";
 const bridge = window.KrabbenCloudBridge;
