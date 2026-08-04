@@ -1873,7 +1873,7 @@ header .version{font-size:.68rem!important}
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.28b Test · Reisenummer korrigiert</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.28cb Test · Reisenummer korrigiert</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2458,6 +2458,14 @@ function displayTripNumbersForRecord(r){
  const unique=[...new Set(nums)].sort((a,b)=>a-b);
  return unique.length?unique.join('+'):'–';
 }
+function nextDeliveryTripNumber(year,departure){
+ const openNumbers=openPendingTrips()
+   .filter(t=>!t.departure||new Date(t.departure).getFullYear()===year)
+   .map(t=>Number(tripNumberForPending(t)))
+   .filter(Number.isFinite);
+ if(openNumbers.length)return Math.max(...openNumbers)+1;
+ return numberForNewDeparture(departure)||1;
+}
 function prospectiveTripNumbers(){
  const departure=$('departureAt').value;
  const fallback=$('date').value||today();
@@ -2470,7 +2478,7 @@ function prospectiveTripNumbers(){
  const topMatchesSelected=selectedTrips.some(t=>t.departure===departure);
  if(departure&&!topMatchesSelected){
    const editId=$('editId').value;
-   const own=editId&&map.get('r:'+editId)?map.get('r:'+editId):numberForNewDeparture(departure,{excludeRecordId:editId});
+   const own=editId&&map.get('r:'+editId)?map.get('r:'+editId):nextDeliveryTripNumber(year,departure);
    if(own)nums.push(own);
  }
  const unique=[...new Set(nums)].sort((a,b)=>a-b);
