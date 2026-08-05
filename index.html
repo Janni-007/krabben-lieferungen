@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.32 Dashboard-Dreiteilung</title>
+<title>Krabben-Lieferungen v0.7.38 Jahresauswahl und Navigation</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1907,11 +1907,49 @@ header .version{font-size:.68rem!important}
  .entry-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
  .remark-meta-field,.entry-date-search-field{grid-column:1 / -1!important}
 }
+
+/* v0.7.34: Jahresauswahl und sechs Meldungsarten */
+.month-year-control{display:flex;align-items:end;gap:7px;min-width:170px}.month-year-control>div{min-width:135px}.month-year-control label{margin-bottom:3px}
+/* v0.7.34: Jahresauswahl, sechs Meldungsarten und Datumsbasis */
+.week-view-tools{display:flex;align-items:end;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dashboard-date-basis{display:grid;grid-template-columns:auto minmax(190px,250px);gap:8px;align-items:center;padding:7px 9px;border:1px solid #c8dbe3;border-radius:10px;background:#edf6f9}
+.dashboard-date-basis label{margin:0;white-space:nowrap;color:#395967}
+.dashboard-date-basis select{padding:6px 8px;font-weight:900;background:#fff}
+.date-basis-note{margin:0 0 9px;padding:8px 10px;border-radius:9px;background:#f7fafb;border:1px solid #d6e3e8;color:#516b77;font-size:.74rem}
+.date-basis-note strong{color:#173f50}
+@media(max-width:620px){.dashboard-date-basis{grid-template-columns:1fr}.week-view-tools{align-items:stretch}}
+/* v0.7.37: Jahresanzeigen und Qualitätszuschlag-Bedienung */
+.dashboard-controls{grid-template-columns:150px 1fr .75fr 1.15fr}
+.dashboard-year-display{display:flex;flex-direction:column;justify-content:flex-end}
+.dashboard-year-value{display:flex;align-items:center;justify-content:center;min-height:39px;border:1px solid #9fc2d1;border-radius:9px;background:#e4f1f6;color:#123f52;font-size:1.28rem;font-weight:950;letter-spacing:.02em}
+.month-header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.month-year-revenue{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:10px;background:#e5f1f5;border:1px solid #bad3dd;color:#16485e;font-size:.78rem;font-weight:850}
+.month-year-revenue strong{font-size:.95rem;color:#123f52}
+.selected-month-quality{grid-template-columns:minmax(170px,240px) auto auto auto}
+#deleteMonthQuality{background:#fae5e5;color:#9a2e2e}
+#cancelMonthQuality{background:#edf2f4;color:#405a66}
+@media(max-width:1000px){.dashboard-controls{grid-template-columns:130px repeat(2,1fr)}}
+@media(max-width:700px){.dashboard-controls{grid-template-columns:1fr 1fr}.dashboard-year-display{grid-column:1/-1}.selected-month-quality{grid-template-columns:1fr 1fr}.selected-month-quality label{grid-column:1/-1}}
+@media(max-width:480px){.dashboard-controls,.selected-month-quality{grid-template-columns:1fr}}
+
+/* v0.7.38: Jahresauswahl, Umsatz-Hervorhebung und Nach-oben-Navigation */
+.dashboard-year-value{padding:0!important;overflow:hidden}
+.dashboard-year-value select{height:39px;border:0!important;border-radius:8px!important;background:transparent!important;color:#123f52!important;font-size:1.28rem!important;font-weight:950!important;text-align:center;text-align-last:center;cursor:pointer;box-shadow:none!important;padding:4px 30px 4px 10px!important}
+.dashboard-year-value select:focus{outline:3px solid #0f6f9133!important}
+.dashboard-part-title.month-title-centered{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.dashboard-part-title.month-title-centered h2{justify-self:start}
+.dashboard-part-title.month-title-centered .month-year-revenue{justify-self:center}
+.dashboard-part-title.month-title-centered .month-title-spacer{justify-self:end}
+.month-quick-grid .mq-revenue-head,.month-quick-grid .mq-revenue{background:#ffe7a8!important;color:#6c4900!important;font-weight:950!important;border-top:3px solid #d39a00!important;border-bottom:3px solid #d39a00!important}
+.month-quick-grid .mq-revenue-head{box-shadow:inset 4px 0 0 #d39a00}
+.back-to-top-wrap{display:flex;justify-content:center;margin:12px 0 2px}
+.back-to-top-btn{padding:10px 20px!important;border:2px solid #0f6f91!important;box-shadow:0 4px 12px rgba(15,111,145,.16)}
+@media(max-width:700px){.dashboard-part-title.month-title-centered{grid-template-columns:1fr}.dashboard-part-title.month-title-centered .month-year-revenue{justify-self:start;margin-top:7px}.dashboard-part-title.month-title-centered .month-title-spacer{display:none}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.32 · Dashboard-Dreiteilung</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.38 · Jahresauswahl und Navigation</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -1919,6 +1957,7 @@ header .version{font-size:.68rem!important}
 <div class="dashboard-part-title"><h2><span class="dashboard-part-number">1</span>Aktuell</h2></div>
 <select id="dashYear" class="hidden" aria-hidden="true"></select>
 <div class="dashboard-controls">
+<div class="dashboard-year-display"><label for="dashboardYearSelect">Jahr im Dashboard</label><div class="dashboard-year-value"><select id="dashboardYearSelect" aria-label="Jahr im Dashboard auswählen"></select></div></div>
 <div><label>Datum</label><div style="display:flex;gap:7px"><input id="dashDate" type="date"/><button class="btn secondary" id="todayBtn" type="button">Heute</button></div></div>
 <div><label>Kalenderwoche auswählen</label><select id="dashWeekSelect"></select></div>
 <div><label>Zeitraum der Woche</label><input id="dashWeekRange" readonly=""/></div>
@@ -1947,6 +1986,9 @@ header .version{font-size:.68rem!important}
 <option value="landed">Anlandung</option>
 <option value="coldstore">Hafen-Kühlhaus</option>
 <option value="onboard">An Bord gelassen</option>
+<option value="selfMarketing">Eigenvermarktung</option>
+<option value="selfConsumption">Eigenverbrauch</option>
+<option value="zero">Nullmeldung</option>
 </select></div>
 <div><label>Kistenzahl gefangen</label><input id="pendingQuantity" min="0" placeholder="später möglich" step="0.5" type="number"/></div>
 <div><label>Geschätzte kg pro Kiste</label><input id="pendingKgPerCrate" min="0.1" step="0.1" type="number"/></div>
@@ -1974,21 +2016,24 @@ header .version{font-size:.68rem!important}
 </div>
 </div>
 </div>
-<div class="card dashboard-section" id="weekSection"><div class="week-title-row"><div class="dashboard-part-title"><h2><span class="dashboard-part-number">2</span>Wochenübersicht <span class="pill" id="weekPill">KW –</span></h2></div><div class="week-nav-buttons"><button class="btn secondary" id="prevWeek" type="button">← KW</button><button class="btn secondary" id="nextWeek" type="button">KW →</button></div></div>
+<div class="card dashboard-section" id="weekSection"><div class="week-title-row week-view-tools"><div class="dashboard-part-title"><h2><span class="dashboard-part-number">2</span>Wochenübersicht <span class="pill" id="weekPill">KW –</span></h2></div><div class="dashboard-date-basis"><label for="dashboardDateBasis">Auswertung nach</label><select id="dashboardDateBasis"><option value="landing">Anlandedatum</option><option value="sieve">Siebdatum / Abrechnungsdatum</option></select></div><div class="week-nav-buttons"><button class="btn secondary" id="prevWeek" type="button">← KW</button><button class="btn secondary" id="nextWeek" type="button">KW →</button></div></div>
+<div class="date-basis-note" id="dateBasisNote"></div>
 <div class="week-summary" id="weekSummary"></div>
 <div class="week-price-strip" id="weekPriceStrip"></div>
 <div class="tablewrap"><div class="weekgrid" id="weekGrid"></div></div>
 </div>
 <div class="card dashboard-section" id="monthSection">
-<div class="dashboard-part-title"><h2><span class="dashboard-part-number">3</span>Alle Monate – Schnellansicht <span class="pill" id="monthPill">–</span></h2></div>
+<div class="dashboard-part-title month-title-centered"><h2><span class="dashboard-part-number">3</span>Alle Monate – Schnellansicht <span class="pill" id="monthPill">–</span></h2><div class="month-year-revenue"><span>Jahresumsatz</span><strong id="monthYearRevenue">0,00 €</strong></div><div class="month-title-spacer"></div></div>
 <input id="monthMode" type="hidden" value="all"/><select id="monthSelect" class="hidden" aria-hidden="true"></select>
 <div class="month-section-tools">
+<div class="month-year-control"><div><label for="monthYearSelect">Jahr</label><select id="monthYearSelect"></select></div></div>
 <div class="month-selected-help">Monat direkt in der Kopfzeile anklicken; danach zeigen die fünf Zeilen links die passenden KW und Datumsbereiche.</div>
-<div class="selected-month-quality" id="monthQualityBox"><label id="monthQualityLabel">Qualitätszuschlag Monat €</label><input id="monthQualityInput" inputmode="decimal" min="0" step="0.01" type="number"/><button class="btn secondary" id="saveMonthQuality" type="button">Speichern</button></div>
+<div class="selected-month-quality" id="monthQualityBox"><label id="monthQualityLabel">Qualitätszuschlag Monat €</label><input id="monthQualityInput" inputmode="decimal" min="0" step="0.01" type="number"/><button class="btn secondary" id="saveMonthQuality" type="button">Speichern</button><button class="btn" id="deleteMonthQuality" type="button">Löschen</button><button class="btn" id="cancelMonthQuality" type="button">Abbrechen</button></div>
 </div>
 <div class="status" id="monthQualityStatus"></div>
 <div class="tablewrap" id="monthTable"></div>
 </div>
+<div class="back-to-top-wrap"><button class="btn secondary back-to-top-btn" id="backToTop" type="button">↑ Nach oben</button></div>
 </section>
 <section class="view" id="entry">
 <form class="card" id="entryForm">
@@ -2007,7 +2052,9 @@ header .version{font-size:.68rem!important}
 <div><label>Anlandedatum</label><input id="supplier" type="date"/></div>
 <div><label>DEU-Nummer</label><input id="receipt" placeholder="z. B. DEU-..."/></div>
 <div class="report-type-field"><label>Meldungsart</label><select id="reportType">
-<option value="delivery">Lieferung</option>
+<option value="landed">Anlandung</option>
+<option value="coldstore">Hafen-Kühlhaus</option>
+<option value="onboard">An Bord gelassen</option>
 <option value="selfMarketing">Eigenvermarktung</option>
 <option value="selfConsumption">Eigenverbrauch</option>
 <option value="zero">Nullmeldung</option>
@@ -2137,7 +2184,7 @@ header .version{font-size:.68rem!important}
 <div class="note">Du kannst deine Lieferschein-Exceldatei mit mehreren Jahresblättern importieren, zum Beispiel 2020 bis 2025. Bereits vorhandene Lieferungen werden über Datum und Werte erkannt und nicht doppelt angelegt.</div>
 <div class="actions">
 <label class="btn primary">Excel-Datei auswählen<input accept=".xlsx,.xls" hidden="" id="importExcelFile" type="file"/></label>
-<button class="btn secondary" id="importExcel2025" type="button">Eingebaute Daten 2025 importieren</button>
+<button class="btn secondary" id="importExcel2025" type="button">Eingebaute Daten 2025 (52 Lieferungen) importieren</button>
 <button class="btn danger" id="removeExcelImports" type="button">Alle Excel-Importe entfernen</button>
 </div>
 <div class="import-help">Der direkte Excel-Import benötigt beim ersten Öffnen eine Internetverbindung, damit die Excel-Lesefunktion geladen wird. Danach bleibt die App selbst lokal.</div>
@@ -2181,7 +2228,7 @@ let savedRecordId=null;
 const PENDING_KEY='krabben_pending_trips_v061';
 let pendingTrips=load(PENDING_KEY,[]);
 let backupMeta=load('krabben_backup_meta',{version:'–',date:''});
-let records=load(KEY,[]), settings={supplier:'Harmonie ACC 3',wage:17,boxWeight:17,boxRounding:'nearest',monthlyQuality:{},lastPrices:[0,0,0],lastEstimatedKgPerCrate:0,...load(SETTINGS,{})};
+let records=load(KEY,[]), settings={supplier:'Harmonie ACC 3',wage:17,boxWeight:17,boxRounding:'nearest',monthlyQuality:{},lastPrices:[0,0,0],lastEstimatedKgPerCrate:0,dashboardDateBasis:'landing',...load(SETTINGS,{})};
 settings.monthlyQuality=settings.monthlyQuality||{};
 Object.entries(EXCEL_MONTH_QUALITY_2025).forEach(([m,v])=>{const k='2025-'+m; if(settings.monthlyQuality[k]===undefined)settings.monthlyQuality[k]=v});
 
@@ -2220,7 +2267,7 @@ function normalize(r){
  r.vcatchBoxesRounded=Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes);
  r.grossPerManualCrate=Number(r.manualCrates)>0?r.catchWeight/Number(r.manualCrates):0;
  r.netPerManualCrate=Number(r.manualCrates)>0?r.weight/Number(r.manualCrates):0;
- r.arrivalAt=r.arrivalAt||'';r.sourceTripIds=Array.isArray(r.sourceTripIds)?r.sourceTripIds:[];r.sourceProcessingMode=r.sourceProcessingMode||'';r.deliveryTripId=r.deliveryTripId||'';r.reportType=r.reportType||'delivery';
+ r.arrivalAt=r.arrivalAt||'';r.sourceTripIds=Array.isArray(r.sourceTripIds)?r.sourceTripIds:[];r.sourceProcessingMode=r.sourceProcessingMode||'';r.deliveryTripId=r.deliveryTripId||'';r.reportType=r.reportType||'landed';
  return r
 }
 records=records.map(normalize);persist();
@@ -2235,10 +2282,12 @@ function latestPrices(){
  return prices
 }
 function roundBoxes(x){return settings.boxRounding==='up'?Math.ceil(x):settings.boxRounding==='down'?Math.floor(x):Math.round(x)}
-function reportTypeLabel(value){return value==='selfMarketing'?'Eigenvermarktung':value==='selfConsumption'?'Eigenverbrauch':value==='zero'?'Nullmeldung':'Lieferung'}
+function reportTypeLabel(value){return value==='coldstore'?'Hafen-Kühlhaus':value==='onboard'?'An Bord gelassen':value==='selfMarketing'?'Eigenvermarktung':value==='selfConsumption'?'Eigenverbrauch':value==='zero'?'Nullmeldung':'Anlandung'}
+function isProductReportType(value){return ['delivery','landed','coldstore','onboard'].includes(value)}
+function pendingTypeLabel(value){return reportTypeLabel(value)}
 function applyReportTypeUi(){
- const type=$('reportType')?.value||'delivery';
- const isDelivery=type==='delivery';
+ const type=$('reportType')?.value||'landed';
+ const isDelivery=isProductReportType(type);
  const isZero=type==='zero';
  $('entryForm')?.classList.toggle('zero-report',isZero);
  $('entryForm')?.classList.toggle('non-delivery-report',!isDelivery);
@@ -2279,7 +2328,7 @@ function currentFormRecord(){
     waste:n('waste'),
     quality:0,
     manualCrates:n('manualCrates'),
-    sieveDate:$('reportType').value==='delivery'?$('sieveDate').value:'',
+    sieveDate:isProductReportType($('reportType').value)?$('sieveDate').value:'',
     sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{}):[])),
     sourceProcessingMode:$('sourceProcessingMode').value,
     deliveryTripId:$('deliveryTripId').value,
@@ -2308,7 +2357,7 @@ function liveWeightForRecord(r){
   return ownKg+carryKg
 }
 function liveWeightTextForRecord(r){
-  if((r.reportType||'delivery')==='zero')return '0,00 kg';
+  if((r.reportType||'landed')==='zero')return '0,00 kg';
   const value=liveWeightForRecord(r);
   return value>0?num2(value)+' kg':'–'
 }
@@ -2335,9 +2384,9 @@ function infoPanelSections(r, mode='saved'){
     <div class="info-summary-head">vCatch-Anlandeerklärung</div>
     <div class="info-summary-list vcatch-summary-list">
       <div class="info-summary-row vcatch-focus-row"><span>Lebendgewicht geschätzt</span><strong>${liveWeightText}</strong></div>
-      <div class="info-summary-row"><span>Anlandegewicht inkl. Sieb</span><strong>${r.reportType==='delivery'?num(r.catchWeight)+' kg':'–'}</strong></div>
-      <div class="info-summary-row total-green"><span>Produktgewicht</span><strong>${r.reportType==='delivery'?num(r.weight)+' kg':'–'}</strong></div>
-      <div class="info-summary-row"><span>Sieb</span><strong>${r.reportType==='delivery'?num2(r.catchWeight?r.waste/r.catchWeight*100:0)+' % · '+num(r.waste)+' kg':'–'}</strong></div>
+      <div class="info-summary-row"><span>Anlandegewicht inkl. Sieb</span><strong>${isProductReportType(r.reportType)?num(r.catchWeight)+' kg':'–'}</strong></div>
+      <div class="info-summary-row total-green"><span>Produktgewicht</span><strong>${isProductReportType(r.reportType)?num(r.weight)+' kg':'–'}</strong></div>
+      <div class="info-summary-row"><span>Sieb</span><strong>${isProductReportType(r.reportType)?num2(r.catchWeight?r.waste/r.catchWeight*100:0)+' % · '+num(r.waste)+' kg':'–'}</strong></div>
       <div class="info-summary-row"><span>kg je vCatch-Kiste</span><strong>${num2(r.boxWeight)} kg</strong></div>
       <div class="info-summary-row vcatch-box-row"><span>vCatch-Kisten gerundet</span><strong>${Number(r.vcatchBoxesRounded)||0} Kisten <small>(${num2(r.boxes)} rechnerisch)</small></strong></div>
       <div class="info-summary-row"><span>Gelöschte Kisten</span><strong>${num(deletedCratesForRecord(r))}</strong></div>
@@ -2360,13 +2409,13 @@ function infoPanelSections(r, mode='saved'){
         ${meta('Eingelaufen',r.arrivalAt?new Date(r.arrivalAt).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}):'–')}
         ${meta('Anlandedatum',r.supplier?parseDate(r.supplier).toLocaleDateString('de-DE'):'–')}
         ${meta('Meldungsart',reportTypeLabel(r.reportType))}
-        ${meta('Siebdatum',r.reportType==='delivery'&&r.sieveDate?parseDate(r.sieveDate).toLocaleDateString('de-DE'):'–')}
+        ${meta('Siebdatum',isProductReportType(r.reportType)&&r.sieveDate?parseDate(r.sieveDate).toLocaleDateString('de-DE'):'–')}
         ${meta('Kisten gefangen',String(Number(r.manualCrates)||0))}
         ${meta('Geschätzte kg pro Kiste',estimatedKgPerCrateForRecord(r)>0?num2(estimatedKgPerCrateForRecord(r))+' kg':'–')}
         ${meta('Geschätztes Lebendgewicht',liveWeightText)}
-        ${meta('Produktgewicht',r.reportType==='delivery'?num(r.weight)+' kg':'–')}
+        ${meta('Produktgewicht',isProductReportType(r.reportType)?num(r.weight)+' kg':'–')}
       </div>
-      ${r.reportType==='delivery'?`<div class="info-line-grid">${sortCards}${siebCard}</div>`:`<div class="info-note-box"><strong>Keine Siebergebnisse</strong><div style="margin-top:5px">Bei ${reportTypeLabel(r.reportType)} wird nur das geschätzte Lebendgewicht geführt.</div></div>`}
+      ${isProductReportType(r.reportType)?`<div class="info-line-grid">${sortCards}${siebCard}</div>`:`<div class="info-note-box"><strong>Keine Siebergebnisse</strong><div style="margin-top:5px">Bei ${reportTypeLabel(r.reportType)} wird nur das geschätzte Lebendgewicht geführt.</div></div>`}
     </div>`;
   const bottom = `
     <div class="info-panel">
@@ -2417,7 +2466,7 @@ function formCalc(){
  $('liveWeightHint').textContent=carryTrips.length
    ?'Lieferreise + '+carryTrips.length+' Übertrag'+(carryTrips.length>1?'e':'')
    :(liveWeight>0?'Kisten gefangen × geschätzte kg':'aus Herkunftsreisen');
- const isDeliveryReport=$('reportType').value==='delivery';
+ const isDeliveryReport=isProductReportType($('reportType').value);
  $('saleWeightText').textContent=isDeliveryReport?kg(sale):'–';$('wasteText').textContent=isDeliveryReport?kg(waste):'–';$('wastePercentText').textContent=isDeliveryReport?num(catchW?waste/catchW*100:0)+' % Anteil':'keine Siebung';$('totalCatchText').textContent=isDeliveryReport?kg(catchW):'–';$('boxWeightLiveText').textContent=isDeliveryReport?num2(bw)+' kg':'–';$('manualCratesText').textContent=num(deletedCrates);$('avgPriceText').textContent=isDeliveryReport?num2(sale?(total)/sale:0)+' €/kg':'–';$('grandRevenueText').textContent=isDeliveryReport?eur(total):'–';$('grossPerCrateText').textContent=isDeliveryReport&&deletedCrates>0?num2(catchW/deletedCrates)+' kg':'–';$('netPerCrateText').textContent=isDeliveryReport&&deletedCrates>0?num2(sale/deletedCrates)+' kg':'–';
  $('kwPill').textContent=$('date').value?'KW '+weekNo($('date').value):'KW –';
  if(!updateInfoPanelFromForm() && savedRecordId) showSavedRecord(savedRecordId);
@@ -2686,7 +2735,7 @@ function renderPendingTrips(){
 
  section?.classList.remove('is-empty');
  wrap.innerHTML=open.map(t=>`<div class="pending-card dashboard-trip-card">
-  <div class="pending-card-head"><strong>Reise ${tripNumberForPending(t)} · ${t.deu}</strong><span class="status-badge ${t.storageType}">${t.storageType==='onboard'?'An Bord':t.storageType==='coldstore'?'Kühlhaus':'Anlandung'}</span></div>
+  <div class="pending-card-head"><strong>Reise ${tripNumberForPending(t)} · ${t.deu}</strong><span class="status-badge ${t.storageType}">${pendingTypeLabel(t.storageType)}</span></div>
   <div class="dashboard-trip-card-line"><b>Aus:</b> ${fmtDateTime(t.departure)}<br><b>Ein:</b> ${t.returnAt?fmtDateTime(t.returnAt):'<span class="trip-still-open">noch unterwegs</span>'}</div>
   <div class="dashboard-trip-card-line"><b>${num(pendingAmount(t))} Kisten</b> · ${num2(pendingKgPerCrate(t))} kg geschätzt/Kiste · <b>${num2(pendingTotalKg(t))} kg</b></div>
   ${t.note?`<div class="pending-note">${t.note}</div>`:''}
@@ -2707,6 +2756,7 @@ function takePendingToDelivery(id){
  const t=pendingTrips.find(x=>x.id===id);if(!t)return;
  show('entry');
  resetForm();
+ if($('reportType')){$('reportType').value=t.storageType||'landed';applyReportTypeUi();}
  renderSourceTripChoices([id]);
  const check=document.querySelector(`.source-trip-check[value="${id}"]`);
  if(check){check.checked=true;updateSourceSummary()}
@@ -2739,14 +2789,14 @@ function deletePending(id){
 
 function openSourceTrip(id){
  const t=pendingTrips.find(x=>x.id===id);if(!t)return;
- $('sourceTripModalMeta').textContent='Reise '+tripNumberForPending(t)+' · DEU '+t.deu+' · '+(t.storageType==='onboard'?'An Bord gelassen':t.storageType==='coldstore'?'Hafen-Kühlhaus':'Anlandung');
+ $('sourceTripModalMeta').textContent='Reise '+tripNumberForPending(t)+' · DEU '+t.deu+' · '+pendingTypeLabel(t.storageType);
  $('sourceTripModalBody').innerHTML=`
   <div class="saved-line"><span>Ausgelaufen</span><strong>${fmtDateTime(t.departure)}</strong></div>
   <div class="saved-line"><span>Eingelaufen</span><strong>${fmtDateTime(t.returnAt)}</strong></div>
   <div class="saved-line"><span>Kistenzahl</span><strong>${num(pendingAmount(t))} Kisten</strong></div>
   <div class="saved-line"><span>Geschätzte kg pro Kiste</span><strong>${pendingKgPerCrate(t)>0?num2(pendingKgPerCrate(t))+' kg':'–'}</strong></div>
   <div class="saved-line"><span>kg gesamt</span><strong>${num2(pendingTotalKg(t))} kg</strong></div>
-  <div class="saved-line"><span>Aufbewahrung</span><strong>${t.storageType==='onboard'?'An Bord gelassen':t.storageType==='coldstore'?'Hafen-Kühlhaus':'Anlandung'}</strong></div>
+  <div class="saved-line"><span>Meldungsart</span><strong>${pendingTypeLabel(t.storageType)}</strong></div>
   <div class="saved-line"><span>Lagerort</span><strong>${t.storageLocation||'–'}</strong></div>
   <div class="saved-line"><span>Status</span><strong>${t.status==='completed'?'Abgeschlossen':'Offen'}</strong></div>
   ${t.note?`<div class="special-note">${t.note}</div>`:''}`;
@@ -2779,7 +2829,7 @@ function formatPriceInput(el){
 }
 
 function resetForm(){
- $('entryForm').reset();$('editId').value='';$('deliveryTripId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value=today();$('reportType').value='delivery';$('entryForm').classList.remove('zero-report');$('entryForm').classList.remove('non-delivery-report');$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value=today();$('sieveDate').disabled=false;$('sieveDateField').classList.remove('is-disabled');$('sieveDate').value=today();$('note').value='';$('manualCrates').disabled=false;$('manualCrates').value='';$('entryBoxWeightMeta').disabled=false;$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';if($('estimatedLiveWeightMeta'))$('estimatedLiveWeightMeta').value='0,00 kg';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
+ $('entryForm').reset();$('editId').value='';$('deliveryTripId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value=today();$('reportType').value='landed';$('entryForm').classList.remove('zero-report');$('entryForm').classList.remove('non-delivery-report');$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value=today();$('sieveDate').disabled=false;$('sieveDateField').classList.remove('is-disabled');$('sieveDate').value=today();$('note').value='';$('manualCrates').disabled=false;$('manualCrates').value='';$('entryBoxWeightMeta').disabled=false;$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';if($('estimatedLiveWeightMeta'))$('estimatedLiveWeightMeta').value='0,00 kg';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
  ['w1','w2','w3','waste'].forEach(id=>{$(id).disabled=false;$(id).value=''});latestPrices().forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
  [1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=true;e.classList.add('locked')});$('togglePrices').textContent='Preise ändern';renderSourceTripChoices();formCalc();updateEntryTripNumber();showSavedRecord(savedRecordId);setTimeout(()=>$('w1').focus(),50)
 }
@@ -2811,6 +2861,9 @@ function fillSelectors(){
  $('monthSelect').innerHTML=months.map((m,i)=>`<option value="${i}">${m}</option>`).join(''); if(oldMS!=='')$('monthSelect').value=oldMS;
 }
 function filtered(y,m='all'){return records.filter(r=>{const d=parseDate(r.date);return d.getFullYear()==y&&(m==='all'||d.getMonth()==m)})}
+function validDateKey(v){return typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&!Number.isNaN(parseDate(v).getTime())?v:''}
+function dashboardDateKey(r){const basis=settings.dashboardDateBasis==='sieve'?'sieve':'landing';const landing=validDateKey(r.supplier)||validDateKey(r.date)||validDateKey(r.sieveDate);const sieve=validDateKey(r.sieveDate)||validDateKey(r.date)||validDateKey(r.supplier);return basis==='sieve'?sieve:landing}
+function dashboardFiltered(y,m='all'){return records.filter(r=>{const key=dashboardDateKey(r);if(!key)return false;const d=parseDate(key);return d.getFullYear()==y&&(m==='all'||d.getMonth()==m)})}
 function totals(arr){return arr.reduce((a,r)=>{r=normalize(r);a.sale+=r.weight;a.catch+=r.catchWeight;a.revenue+=r.total;a.wage+=r.wage;a.boxes+=r.boxes;return a},{sale:0,catch:0,revenue:0,wage:0,boxes:0})}
 function dateKey(d){return d.toLocaleDateString('sv-SE')}
 
@@ -2851,6 +2904,10 @@ function renderDashboard(){
  let selectedDate=parseDate($('dashDate').value);
  let plan=planInfoForDate($('dashDate').value);
  let calendarYear=Number($('dashYear').value)||plan.info.isoYear;
+ settings.dashboardDateBasis=settings.dashboardDateBasis==='sieve'?'sieve':'landing';
+ if($('dashboardDateBasis'))$('dashboardDateBasis').value=settings.dashboardDateBasis;
+ if($('monthYearSelect')){if(!$('monthYearSelect').options.length&&$('dashYear'))$('monthYearSelect').innerHTML=$('dashYear').innerHTML;$('monthYearSelect').value=String(calendarYear);}
+ if($('dateBasisNote'))$('dateBasisNote').innerHTML=settings.dashboardDateBasis==='sieve'?'<strong>Abrechnungsansicht:</strong> Gewichte und Umsätze werden dem Siebdatum zugeordnet. Fehlt es, wird das bisherige Datensatzdatum verwendet.':'<strong>Fangansicht:</strong> Gewichte und Umsätze werden dem Anlandedatum zugeordnet.';
 
  if(plan.info.isoYear!==calendarYear){
    const targetWeek=Math.min(plan.info.week,weeksInIsoYear(calendarYear).length);
@@ -2873,17 +2930,21 @@ function renderDashboard(){
  const month=Number($('monthSelect').value||selectedDate.getMonth());
  if($('monthSelect').value==='')$('monthSelect').value=selectedDate.getMonth();
 
- const yr=totals(filtered(calendarYear));
- const mo=totals(filtered(calendarYear,String(month)));
+ const yr=totals(dashboardFiltered(calendarYear));
+ const mo=totals(dashboardFiltered(calendarYear,String(month)));
  const wa=records.filter(r=>{
-   const d=parseDate(r.date);
+   const key=dashboardDateKey(r);
+   if(!key)return false;
+   const d=parseDate(key);
    return d>=planSunday && d<=planSaturday;
  });
  const wt=totals(wa);
 
  $('dashWeekRange').value=planSunday.toLocaleDateString('de-DE')+' – '+planSaturday.toLocaleDateString('de-DE');
+ if($('dashboardYearSelect')){if(!$('dashboardYearSelect').options.length&&$('dashYear'))$('dashboardYearSelect').innerHTML=$('dashYear').innerHTML;$('dashboardYearSelect').value=String(calendarYear);}
  $('monthRevenue').textContent=eur(mo.revenue);
  $('yearRevenue').textContent=eur(yr.revenue);
+ if($('monthYearRevenue'))$('monthYearRevenue').textContent=eur(yr.revenue);
  $('weekRevenue').textContent=eur(wt.revenue);
  $('weekWeight').textContent=kg(wt.sale);
   $('monthWage').textContent=eur(mo.wage);
@@ -2930,8 +2991,8 @@ function renderDashboard(){
    {name:'Netto je Kiste',key:'netPerCrate',kind:'net'}
  ];
  let h='<div class="head">KW '+info.week+'</div>'+dates.map((d,i)=>{
-   const has=wa.some(r=>r.date===dateKey(d));
-   const dayRecords=wa.filter(r=>r.date===dateKey(d));
+   const has=wa.some(r=>dashboardDateKey(r)===dateKey(d));
+   const dayRecords=wa.filter(r=>dashboardDateKey(r)===dateKey(d));
    const tripNos=[...new Set(dayRecords.flatMap(r=>displayTripNumbersForRecord(r).split('+')).filter(x=>x&&x!=='–'))].join('+');
    const isToday=dateKey(d)===today();
    return `<div class="head ${has?'filled-head':''} ${isToday?'today-head':''}">${days[i]}<br><span style="font-weight:600">${d.toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'})}</span>${isToday?'<br><span class="today-label">Heute</span>':''}${tripNos?`<br><span class="week-trip-number">Reise ${tripNos}</span>`:''}</div>`
@@ -2941,7 +3002,7 @@ function renderDashboard(){
    h+=`<div class="rowhead ${row.kind}-rowhead">${row.name}</div>`;
    dates.forEach(d=>{
      const keyDate=dateKey(d);
-     const rs=wa.filter(r=>r.date===keyDate);
+     const rs=wa.filter(r=>dashboardDateKey(r)===keyDate);
      const isTodayCol=keyDate===today();
      const cls=`${rs.length?'filled-day':'empty-day'} ${row.kind}-cell ${isTodayCol?'today-col':''}`;
 
@@ -2999,8 +3060,8 @@ function renderDashboard(){
     }
     if(segments.length>5){segments[4].end=new Date(segments[segments.length-1].end);segments.splice(5)}
     while(segments.length<5)segments.push(null);
-    filtered(calendarYear,String(mi)).forEach(r=>{
-      const d=parseDate(r.date);
+    dashboardFiltered(calendarYear,String(mi)).forEach(r=>{
+      const d=parseDate(dashboardDateKey(r));
       const bucket=segments.find(b=>b&&d>=b.start&&d<=b.end);
       if(bucket)bucket.records.push(r);
     });
@@ -3027,10 +3088,10 @@ function renderDashboard(){
     grid+=`<div class="mq-rowhead mq-money-head ${headClass}">${label}</div>`;
     for(let mi=0;mi<12;mi++)grid+=`<div class="mq-money ${cellClass}">${valueFn(mi)}</div>`;
   };
-  summaryRow('Umsatz','mq-revenue-head','mq-revenue',mi=>eur(totals(filtered(calendarYear,String(mi))).revenue));
+  summaryRow('Umsatz','mq-revenue-head','mq-revenue',mi=>eur(totals(dashboardFiltered(calendarYear,String(mi))).revenue));
   summaryRow('Qualitätszuschlag','mq-quality-head','mq-quality',mi=>eur(Number(settings.monthlyQuality[calendarYear+'-'+mi]||0)));
-  summaryRow('Summe inkl. Qualitätszuschlag','mq-grand-head','mq-grand',mi=>eur(totals(filtered(calendarYear,String(mi))).revenue+Number(settings.monthlyQuality[calendarYear+'-'+mi]||0)));
-  summaryRow('Gesamt-kg','mq-weight-head','mq-weight',mi=>kg(totals(filtered(calendarYear,String(mi))).sale));
+  summaryRow('Summe inkl. Qualitätszuschlag','mq-grand-head','mq-grand',mi=>eur(totals(dashboardFiltered(calendarYear,String(mi))).revenue+Number(settings.monthlyQuality[calendarYear+'-'+mi]||0)));
+  summaryRow('Gesamt-kg','mq-weight-head','mq-weight',mi=>kg(totals(dashboardFiltered(calendarYear,String(mi))).sale));
   grid+='</div>';
   $('monthTable').innerHTML=grid;
   document.querySelectorAll('.mq-month-link').forEach(cell=>cell.addEventListener('click',()=>{$('monthSelect').value=cell.dataset.month;renderDashboard()}));
@@ -3097,7 +3158,7 @@ function collectPendingTripFromForm(){
   kgPerCrate,
   totalKg:quantity*kgPerCrate,
   storageType:$('pendingStorageType').value,
-  storageLocation:$('pendingStorageType').value==='coldstore'?'Hafen-Kühlhaus':'',
+  storageLocation:$('pendingStorageType').value==='coldstore'?'Hafen-Kühlhaus':$('pendingStorageType').value==='onboard'?'An Bord':'',
   note:$('pendingNote').value.trim(),
   status:'open',
   updatedAt:new Date().toISOString()
@@ -3135,13 +3196,13 @@ $('pendingForm').addEventListener('submit',e=>{
  e.preventDefault();
  storePendingTrip({keepForm:false});
 });
-$('entryForm').addEventListener('submit',e=>{e.preventDefault();const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),reportType:$('reportType').value,note:$('note').value.trim(),sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),waste:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:$('reportType').value==='delivery'?$('sieveDate').value:'',sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();status('formStatus',i>=0?(r.reportType==='zero'?'Nullmeldung aktualisiert.':'Lieferung aktualisiert.'):(r.reportType==='zero'?'Nullmeldung gespeichert.':'Lieferung gespeichert.'));resetForm();showSavedRecord(r.id)});
+$('entryForm').addEventListener('submit',e=>{e.preventDefault();const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),reportType:$('reportType').value,note:$('note').value.trim(),sorts:[1,2,3].map(i=>({weight:n('w'+i),price:n('p'+i)})),waste:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:isProductReportType($('reportType').value)?$('sieveDate').value:'',sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();status('formStatus',i>=0?(r.reportType==='zero'?'Nullmeldung aktualisiert.':'Lieferung aktualisiert.'):(r.reportType==='zero'?'Nullmeldung gespeichert.':'Lieferung gespeichert.'));resetForm();showSavedRecord(r.id)});
 function editRecord(id){
  const r=records.find(x=>x.id===id);if(!r)return;
  show('entry');$('editId').value=r.id;$('formTitle').textContent='Lieferung bearbeiten';
  $('editModeBanner').textContent='Bearbeitungsmodus: '+parseDate(r.date).toLocaleDateString('de-DE')+' · KW '+weekNo(r.date)+(r.receipt?' · '+r.receipt:'');
  $('editModeBanner').classList.remove('hidden');$('cancelEdit').classList.remove('hidden');$('entryForm').classList.add('editing-mode');
- $('date').value=r.date;$('deliveryTripId').value=r.deliveryTripId||'';$('departureAt').value=r.departureAt||'';$('arrivalAt').value=r.arrivalAt||'';$('supplier').value=r.supplier||r.date||'';$('receipt').value=r.receipt||'';$('reportType').value=r.reportType||'delivery';$('sieveDate').value=r.sieveDate||r.date||'';$('manualCrates').value=Number(r.manualCrates)||'';$('note').value=r.note||'';$('entryBoxWeight').value=Number(r.boxWeight||settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=estimatedKgPerCrateForRecord(r)>0?Number(estimatedKgPerCrateForRecord(r)).toFixed(2):'';$('vcatchBoxesRounded').value=String(Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes));$('vcatchBoxesRounded').dataset.manual=Number.isFinite(Number(r.vcatchBoxesRounded))?'1':'0';
+ $('date').value=r.date;$('deliveryTripId').value=r.deliveryTripId||'';$('departureAt').value=r.departureAt||'';$('arrivalAt').value=r.arrivalAt||'';$('supplier').value=r.supplier||r.date||'';$('receipt').value=r.receipt||'';$('reportType').value=r.reportType||'landed';$('sieveDate').value=r.sieveDate||r.date||'';$('manualCrates').value=Number(r.manualCrates)||'';$('note').value=r.note||'';$('entryBoxWeight').value=Number(r.boxWeight||settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=estimatedKgPerCrateForRecord(r)>0?Number(estimatedKgPerCrateForRecord(r)).toFixed(2):'';$('vcatchBoxesRounded').value=String(Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes));$('vcatchBoxesRounded').dataset.manual=Number.isFinite(Number(r.vcatchBoxesRounded))?'1':'0';
  r.sorts.forEach((s,i)=>{$('w'+(i+1)).value=s.weight;$('p'+(i+1)).value=Number(s.price||0).toFixed(2)});
  $('waste').value=r.waste||'';renderSourceTripChoices(effectiveSourceTripIds(r));$('sourceProcessingMode').value=r.sourceProcessingMode||'single';savedRecordId=r.id;showSavedRecord(r.id);applyReportTypeUi();formCalc();updateInfoPanelFromForm();updateEntryTripNumber();scrollTo({top:0,behavior:'smooth'})
 }
@@ -3156,7 +3217,7 @@ document.querySelectorAll('.price-quick').forEach((e,i,a)=>{
  e.addEventListener('blur',()=>formatPriceInput(e));
 });
 $('togglePrices').onclick=()=>{const locked=$('p1').readOnly;[1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=!locked;e.classList.toggle('locked',!locked)});$('togglePrices').textContent=locked?'Preise übernehmen':'Preise ändern';if(locked){$('p1').focus();$('p1').select()}else{settings.lastPrices=[n('p1'),n('p2'),n('p3')];persist();formCalc()}};
-$('reportType').addEventListener('change',()=>{applyReportTypeUi();updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantity').oninput=updatePendingQuantityUi;$('pendingKgPerCrate').oninput=updatePendingQuantityUi;$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',formCalc);$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',()=>{updateEntryTripNumber();updateInfoPanelFromForm()});$('arrivalAt').addEventListener('change',()=>{if($('arrivalAt').value){const d=$('arrivalAt').value.slice(0,10);$('supplier').value=d;if($('reportType').value==='delivery')$('sieveDate').value=d;$('date').value=d;}formCalc();});$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{if($('reportType').value==='delivery')$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
+$('reportType').addEventListener('change',()=>{applyReportTypeUi();updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('resetForm').onclick=resetForm;$('pendingReset').onclick=resetPendingForm;$('pendingQuantity').oninput=updatePendingQuantityUi;$('pendingKgPerCrate').oninput=updatePendingQuantityUi;$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEditMode;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',formCalc);$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',formCalc);$('departureAt').addEventListener('input',()=>{updateEntryTripNumber();updateInfoPanelFromForm()});$('arrivalAt').addEventListener('change',()=>{if($('arrivalAt').value){const d=$('arrivalAt').value.slice(0,10);$('supplier').value=d;if(isProductReportType($('reportType').value))$('sieveDate').value=d;$('date').value=d;}formCalc();});$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{if(isProductReportType($('reportType').value))$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
  const now=today();
  const nowPlan=planInfoForDate(now);
  $('dashDate').value=now;
@@ -3168,9 +3229,15 @@ $('reportType').addEventListener('change',()=>{applyReportTypeUi();updateInfoPan
  const dash=document.querySelector('#dashboard');
  dash.classList.remove('today-focus');void dash.offsetWidth;dash.classList.add('today-focus');
  setTimeout(()=>dash.classList.remove('today-focus'),1600);
- };$('dashYear').onchange=()=>{const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashWeekSelect').onchange=()=>setDashboardWeek($('dashYear').value,$('dashWeekSelect').value);$('monthSelect').onchange=renderDashboard;$('saveMonthQuality').onclick=()=>{const y=Number($('dashYear').value),m=Number($('monthSelect').value);settings.monthlyQuality[y+'-'+m]=n('monthQualityInput');persist();renderDashboard();status('monthQualityStatus','Qualitätszuschlag für '+months[m]+' '+y+' gespeichert.')};$('prevWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()-7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('nextWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()+7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('listYear').onchange=renderList;$('listMonth').onchange=renderList;$('search').oninput=renderList;
+ };$('dashboardDateBasis').onchange=()=>{settings.dashboardDateBasis=$('dashboardDateBasis').value==='sieve'?'sieve':'landing';persist();renderDashboard()};$('dashboardYearSelect').onchange=()=>{$('dashYear').value=$('dashboardYearSelect').value;const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashYear').onchange=()=>{const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashWeekSelect').onchange=()=>setDashboardWeek($('dashYear').value,$('dashWeekSelect').value);$('monthSelect').onchange=renderDashboard;$('monthYearSelect').onchange=()=>{$('dashYear').value=$('monthYearSelect').value;const currentMonth=Number($('monthSelect').value)||0;const d=new Date(Number($('monthYearSelect').value),currentMonth,1,12);$('dashDate').value=dateKey(d);renderDashboard()};
+const selectedQualityContext=()=>{const y=Number($('monthYearSelect').value||$('dashYear').value),m=Number($('monthSelect').value)||0;return {y,m,key:y+'-'+m}};
+$('saveMonthQuality').onclick=()=>{const {y,m,key}=selectedQualityContext();settings.monthlyQuality[key]=n('monthQualityInput');persist();renderDashboard();status('monthQualityStatus','Qualitätszuschlag für '+months[m]+' '+y+' gespeichert.')};
+$('deleteMonthQuality').onclick=()=>{const {y,m,key}=selectedQualityContext();const value=Number(settings.monthlyQuality[key]||0);if(!value){$('monthQualityInput').value='0.00';status('monthQualityStatus','Für '+months[m]+' '+y+' ist kein Qualitätszuschlag gespeichert.');return}if(!confirm('Qualitätszuschlag für '+months[m]+' '+y+' wirklich löschen?'))return;delete settings.monthlyQuality[key];persist();renderDashboard();status('monthQualityStatus','Qualitätszuschlag für '+months[m]+' '+y+' gelöscht.')};
+$('cancelMonthQuality').onclick=()=>{const {y,m,key}=selectedQualityContext();$('monthQualityInput').value=Number(settings.monthlyQuality[key]||0).toFixed(2);status('monthQualityStatus','Änderung für '+months[m]+' '+y+' verworfen.')};
+$('backToTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+$('prevWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()-7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('nextWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()+7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('listYear').onchange=renderList;$('listMonth').onchange=renderList;$('search').oninput=renderList;
 function renderSettings(){$('setSupplier').value=settings.supplier;$('setWage').value=settings.wage;$('setBoxWeight').value=settings.boxWeight;$('setBoxRounding').value=settings.boxRounding}
-$('saveSettings').onclick=()=>{settings={supplier:$('setSupplier').value.trim(),wage:n('setWage'),boxWeight:n('setBoxWeight')||17,boxRounding:$('setBoxRounding').value,monthlyQuality:settings.monthlyQuality||{},lastPrices:Array.isArray(settings.lastPrices)?settings.lastPrices:[0,0,0],lastEstimatedKgPerCrate:Number(settings.lastEstimatedKgPerCrate)||0};refresh();formCalc();status('settingsStatus','Einstellungen gespeichert.')};
+$('saveSettings').onclick=()=>{settings={supplier:$('setSupplier').value.trim(),wage:n('setWage'),boxWeight:n('setBoxWeight')||17,boxRounding:$('setBoxRounding').value,monthlyQuality:settings.monthlyQuality||{},lastPrices:Array.isArray(settings.lastPrices)?settings.lastPrices:[0,0,0],lastEstimatedKgPerCrate:Number(settings.lastEstimatedKgPerCrate)||0,dashboardDateBasis:settings.dashboardDateBasis==='sieve'?'sieve':'landing'};refresh();formCalc();status('settingsStatus','Einstellungen gespeichert.')};
 function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 
 function excelSerialToDate(v){
@@ -3218,8 +3285,28 @@ function parseLieferscheinSheet(rows,sheetName){
  }
  return {records:out,quality};
 }
+async function ensureXlsxLoaded(){
+ if(typeof XLSX!=='undefined')return true;
+ const sources=[
+  'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+  'https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js'
+ ];
+ for(const src of sources){
+  try{
+   await new Promise((resolve,reject)=>{
+    const script=document.createElement('script');script.src=src;script.async=true;
+    script.onload=()=>resolve();script.onerror=()=>reject(new Error('Laden fehlgeschlagen'));
+    document.head.appendChild(script);
+   });
+   if(typeof XLSX!=='undefined')return true;
+  }catch(e){}
+ }
+ return false;
+}
 async function importExcelWorkbook(file){
- if(typeof XLSX==='undefined')throw new Error('Excel-Lesefunktion konnte nicht geladen werden. Bitte Internetverbindung prüfen.');
+ const loaded=await ensureXlsxLoaded();
+ if(!loaded)throw new Error('Excel-Lesefunktion konnte nicht geladen werden. Bitte Internetverbindung prüfen und die Seite danach neu öffnen. Der eingebaute 2025-Import funktioniert auch ohne Excel-Lesefunktion.');
  const data=await file.arrayBuffer(), wb=XLSX.read(data,{type:'array',cellDates:true});
  let parsed=[], q={}, used=[];
  wb.SheetNames.forEach(name=>{
@@ -3235,14 +3322,48 @@ async function importExcelWorkbook(file){
 }
 $('importExcelFile').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];if(!file)return;
- try{status('excelStatus','Excel-Datei wird eingelesen …');const x=await importExcelWorkbook(file);status('excelStatus',`${x.added} Lieferungen importiert (${x.used.join(', ')}). ${x.duplicates} bereits vorhandene Datensätze übersprungen.`)}
- catch(err){status('excelStatus',err.message||'Excel-Import fehlgeschlagen.',false)}
+ try{
+  status('excelStatus','Excel-Datei wird eingelesen …');
+  const x=await importExcelWorkbook(file);
+  const importedYears=x.used.map(Number).filter(Number.isFinite).sort((a,b)=>b-a);
+  if(importedYears.length){
+   const targetYear=importedYears[0];
+   fillSelectors();
+   if($('dashYear'))$('dashYear').value=String(targetYear);
+   if($('monthYearSelect'))$('monthYearSelect').value=String(targetYear);
+   const first=records.filter(r=>Number(String(r.date||'').slice(0,4))===targetYear).sort((a,b)=>String(a.date).localeCompare(String(b.date)))[0];
+   if(first&&$('dashDate'))$('dashDate').value=first.date;
+   renderDashboard();renderList();
+  }
+  status('excelStatus',`${x.added} Lieferungen importiert (${x.used.join(', ')}). ${x.duplicates} bereits vorhandene Datensätze übersprungen. Die Ansicht wurde auf das zuletzt importierte Jahr gestellt.`)
+ }catch(err){status('excelStatus',err.message||'Excel-Import fehlgeschlagen.',false)}
  e.target.value='';
 };
 
-$('importExcel2025').onclick=()=>{const existing=new Set(records.map(r=>r.id));let added=0;EXCEL_IMPORT_2025.forEach(r=>{if(!existing.has(r.id)){records.push(normalize(JSON.parse(JSON.stringify(r))));added++}});refresh();status('excelStatus',added?added+' Lieferungen aus Excel 2025 importiert.':'Alle Excel-Daten 2025 sind bereits vorhanden.');};
+$('importExcel2025').onclick=()=>{
+ const existingSignatures=new Set(records.map(recordSignature));
+ let added=0,duplicates=0;
+ EXCEL_IMPORT_2025.forEach(source=>{
+  const r=normalize(JSON.parse(JSON.stringify(source)));
+  // Die eingebauten Excel-Daten besitzen nur ein Abrechnungsdatum.
+  // Dieses wird für ältere Daten zugleich als Anlande- und Siebdatum verwendet,
+  // damit Gewichte und Umsätze in beiden Auswertungsarten sichtbar sind.
+  if(!validDateKey(r.supplier))r.supplier=r.date;
+  if(!validDateKey(r.sieveDate))r.sieveDate=r.date;
+  const sig=recordSignature(r);
+  if(existingSignatures.has(sig)){duplicates++;return}
+  records.push(r);existingSignatures.add(sig);added++;
+ });
+ fillSelectors();
+ if($('dashYear'))$('dashYear').value='2025';
+ if($('monthYearSelect'))$('monthYearSelect').value='2025';
+ if($('dashDate'))$('dashDate').value='2025-04-11';
+ if($('monthSelect'))$('monthSelect').value='3';
+ refresh();
+ status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
+};
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.32-Dashboard-Dreiteilung_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.32-dashboard-dreiteilung',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.36-Importdaten-vollstaendig_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.36-importdaten-vollstaendig',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -3267,7 +3388,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.32-Dashboard-Dreiteilung_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.34-Datumsbasis-Meldungsarten_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
