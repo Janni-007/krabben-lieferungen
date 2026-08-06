@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.39 Kisten, Gewicht und Bearbeitungsanzeige</title>
+<title>Krabben-Lieferungen v0.7.40 Firebase-Auswahl repariert</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1959,7 +1959,7 @@ header .version{font-size:.68rem!important}
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.39 · Kisten, Gewicht und Bearbeitungsanzeige</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.40 · Firebase-Auswahl repariert</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -3405,7 +3405,7 @@ $('importExcel2025').onclick=()=>{
  status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
 };
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.36-Importdaten-vollstaendig_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.36-importdaten-vollstaendig',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.40-Firebase-Auswahl-repariert_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.40-firebase-auswahl-repariert',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -3496,7 +3496,7 @@ const firebaseConfig = {
   appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
 };
 
-const APP_VERSION = "0.7.32-dashboard-dreiteilung";
+const APP_VERSION = "0.7.40-firebase-auswahl-repariert";
 const SYNC_META_KEY = "krabben_firebase_sync_meta_v3";
 const DEVICE_KEY = "krabben_device_id_v1";
 const bridge = window.KrabbenCloudBridge;
@@ -3552,7 +3552,29 @@ function summaryText(state){
   return `${(state.records||[]).length} Lieferungen · ${(state.pendingTrips||[]).filter(t=>t.status!=="completed").length} offen`;
 }
 function saveSafetyCopy(label,state){
-  localStorage.setItem(`krabben_sync_safety_${label}_${Date.now()}`,JSON.stringify(state));
+  const prefix="krabben_sync_safety_";
+  const key=`${prefix}${label}_${Date.now()}`;
+  const value=JSON.stringify(state);
+  try{
+    localStorage.setItem(key,value);
+    return true;
+  }catch(err){
+    try{
+      const oldKeys=[];
+      for(let i=0;i<localStorage.length;i++){
+        const k=localStorage.key(i);
+        if(k&&k.startsWith(prefix))oldKeys.push(k);
+      }
+      oldKeys.sort();
+      while(oldKeys.length>2)localStorage.removeItem(oldKeys.shift());
+      localStorage.setItem(key,value);
+      return true;
+    }catch(secondErr){
+      console.warn("Sicherheitskopie konnte nicht gespeichert werden:",secondErr);
+      bridge.showMessage("Lokale Sicherheitskopie konnte wegen vollem Browser-Speicher nicht angelegt werden. Die Synchronisierung wird trotzdem fortgesetzt.",false);
+      return false;
+    }
+  }
 }
 function firebaseErrorText(err){
   if(err?.code==="permission-denied")return "Firestore-Zugriff verweigert";
@@ -3766,18 +3788,34 @@ $id("downloadCloudBtn").onclick=async()=>{
   }catch(err){bridge.showMessage(firebaseErrorText(err),false)}
 };
 $id("chooseLocalBtn").onclick=async()=>{
-  saveSafetyCopy("cloud_vor_erster_wahl",latestCloudState||{});
-  $id("firebaseChoiceModal").classList.add("hidden");
-  initialized=true;
-  await uploadState("Daten dieses Geräts werden als Cloud-Stand verwendet");
-  startRealtimeListener();
+  const btn=$id("chooseLocalBtn");
+  btn.disabled=true;
+  btn.textContent="Wird hochgeladen …";
+  try{
+    saveSafetyCopy("cloud_vor_erster_wahl",latestCloudState||{});
+    $id("firebaseChoiceModal").classList.add("hidden");
+    initialized=true;
+    await uploadState("Daten dieses Geräts werden als Cloud-Stand verwendet");
+    startRealtimeListener();
+  }finally{
+    btn.disabled=false;
+    btn.textContent="Daten dieses Geräts hochladen";
+  }
 };
 $id("chooseCloudBtn").onclick=()=>{
-  saveSafetyCopy("lokal_vor_erster_wahl",bridge.getState());
-  $id("firebaseChoiceModal").classList.add("hidden");
-  if(latestCloudState)applyCloud(latestCloudState);
-  initialized=true;
-  startRealtimeListener();
+  const btn=$id("chooseCloudBtn");
+  btn.disabled=true;
+  btn.textContent="Wird übernommen …";
+  try{
+    saveSafetyCopy("lokal_vor_erster_wahl",bridge.getState());
+    $id("firebaseChoiceModal").classList.add("hidden");
+    if(latestCloudState)applyCloud(latestCloudState);
+    initialized=true;
+    startRealtimeListener();
+  }finally{
+    btn.disabled=false;
+    btn.textContent="Cloud-Daten übernehmen";
+  }
 };
 
 window.addEventListener("online",()=>{if(currentUser)initializeSyncForUser(currentUser)});
