@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.49 Standalone</title>
+<title>Krabben-Lieferungen v0.7.50 Standalone</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1976,7 +1976,7 @@ body{zoom:1.10!important}
 @supports not (zoom:1){body{transform:scale(1.10)!important;transform-origin:top left!important;width:90.91%!important}}
 
 
-/* v0.7.49 Standalone: sichere Reiseübernahme und Mobilansicht */
+/* v0.7.50 Standalone: sichere Reiseübernahme und Mobilansicht */
 .source-mode-row:has(#sourceProcessingMode[value="combined"]){border-color:#b47d00!important}
 #sourceProcessingMode{pointer-events:none;background:#fffdf5!important}
 #sourceProcessingMode option{color:#173847}
@@ -2022,9 +2022,59 @@ body{zoom:1.10!important}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+/* v0.7.50: vCatch-Schnellinfo beim Anklicken einer Archivzeile */
+#allTable tbody tr.vcatch-row-open td:not(:has(button)):not(:has(a)){cursor:pointer}
+#allTable tbody tr.vcatch-row-open:hover td{filter:brightness(.985)}
+.vcatch-read-modal{
+ position:fixed;inset:0;z-index:2500;background:rgba(14,35,47,.55);
+ display:flex;align-items:center;justify-content:center;padding:14px
+}
+.vcatch-read-modal.hidden{display:none!important}
+.vcatch-read-card{
+ width:min(760px,96vw);max-height:92vh;overflow:auto;background:#fff;
+ border-radius:15px;box-shadow:0 20px 60px rgba(0,0,0,.28)
+}
+.vcatch-read-head{
+ position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;
+ align-items:center;gap:10px;padding:13px 15px;background:#0f6f91;color:#fff
+}
+.vcatch-read-head strong{display:block;font-size:1.05rem}
+.vcatch-read-head small{display:block;opacity:.85;margin-top:2px}
+.vcatch-read-head button{
+ border:1px solid #ffffff66;background:#ffffff18;color:#fff;border-radius:8px;
+ padding:7px 10px;font-weight:900;cursor:pointer
+}
+.vcatch-read-body{padding:13px}
+.vcatch-read-primary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.vcatch-read-item{border:1px solid #d4e0e6;background:#f8fbfc;border-radius:10px;padding:8px 9px}
+.vcatch-read-item span{display:block;font-size:.68rem;font-weight:850;color:#667b87}
+.vcatch-read-item strong{display:block;margin-top:3px;font-size:.9rem;color:#173042}
+.vcatch-read-item.focus{background:#e7f2f6;border-color:#9fc2d1}
+.vcatch-read-item.product{background:#dcefe5;border-color:#9bc8ae}
+.vcatch-read-item.sieve{background:#fff5cf;border-color:#e2c46c}
+.vcatch-read-rule{
+ margin-top:9px;padding:8px 10px;border-radius:9px;background:#fff8df;
+ border:1px solid #ead386;font-size:.76rem;color:#654d0b
+}
+.vcatch-read-details{margin-top:12px;border-top:2px solid #d4e0e6;padding-top:10px}
+.vcatch-read-subtitle{
+ font-size:.75rem;font-weight:950;color:#506b78;text-transform:uppercase;
+ letter-spacing:.03em;margin-bottom:6px
+}
+@media(max-width:700px){
+ .vcatch-read-primary{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .vcatch-read-card{width:98vw;max-height:94vh}
+}
+@media(max-width:430px){
+ .vcatch-read-primary{grid-template-columns:1fr 1fr}
+ .vcatch-read-item{padding:7px}
+ .vcatch-read-item strong{font-size:.82rem}
+}
+</style>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.49 · Standalone · Reiseübernahme stabil</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.50 · Standalone · vCatch-Archivfenster wiederhergestellt</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -3608,7 +3658,7 @@ $('importExcel2025').onclick=()=>{
  status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
 };
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.49-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.49-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.50-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.50-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -3633,7 +3683,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.49-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.50-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -3662,6 +3712,120 @@ window.KrabbenCloudBridge={
 };
 
 $('dashDate').value=today();resetForm();fillSelectors();$('dashYear').value=parseDate($('dashDate').value).getFullYear();$('monthSelect').value=parseDate($('dashDate').value).getMonth();refresh();showSavedRecord();renderPendingTrips();resetPendingForm();updatePendingQuantityUi();
+</script>
+<script>
+(function(){
+  'use strict';
+
+  const fmtDT750=v=>{
+    if(!v)return '–';
+    const d=new Date(v);
+    return Number.isNaN(d.getTime())?'–':d.toLocaleString('de-DE',{
+      day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'
+    });
+  };
+  const escape750=v=>String(v??'').replace(/[&<>"']/g,ch=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[ch]));
+
+  function ensureVcatchModal750(){
+    if(document.getElementById('vcatchReadModal'))return;
+    const modal=document.createElement('div');
+    modal.id='vcatchReadModal';
+    modal.className='vcatch-read-modal hidden';
+    modal.innerHTML=`<div class="vcatch-read-card" role="dialog" aria-modal="true" aria-labelledby="vcatchReadTitle">
+      <div class="vcatch-read-head">
+        <div><strong id="vcatchReadTitle">vCatch-Info</strong><small>Schnellansicht für das Logbuch</small></div>
+        <button type="button" id="vcatchReadClose" aria-label="Schließen">✕</button>
+      </div>
+      <div class="vcatch-read-body" id="vcatchReadBody"></div>
+    </div>`;
+    document.body.appendChild(modal);
+    document.getElementById('vcatchReadClose').onclick=closeVcatchInfo750;
+    modal.addEventListener('click',e=>{if(e.target===modal)closeVcatchInfo750()});
+  }
+
+  function closeVcatchInfo750(){
+    document.getElementById('vcatchReadModal')?.classList.add('hidden');
+  }
+
+  function openVcatchInfo750(id){
+    const source=records.find(x=>String(x.id)===String(id));
+    if(!source)return;
+
+    const r=normalize(source);
+    ensureVcatchModal750();
+
+    const tripLabel=typeof displayTripNumbersForRecord==='function'
+      ? (displayTripNumbersForRecord(r)||'–') : '–';
+    const boxWeight=Number(r.boxWeight)||Number(settings?.boxWeight)||17;
+    const sieveKg=Number(r.waste)||0;
+    const sieveCrates=boxWeight>0?Math.round(sieveKg/boxWeight):0;
+    const productKg=Number(r.weight)||((r.sorts||[]).reduce((s,x)=>s+(Number(x?.weight)||0),0));
+    const catchKg=Number(r.catchWeight)||(productKg+sieveKg);
+    const vcatchCrates=Number(r.vcatchBoxesRounded)||0;
+    const caughtCrates=Number(r.manualCrates)||0;
+    const liveKg=typeof liveWeightForRecord==='function'
+      ? Number(liveWeightForRecord(r))||0
+      : Number(r.estimatedLiveWeight)||0;
+    const normal=typeof infoPanelSections==='function'?infoPanelSections(r,'saved'):null;
+
+    const grid=(label,value,focus='')=>
+      `<div class="vcatch-read-item ${focus}"><span>${label}</span><strong>${value}</strong></div>`;
+
+    document.getElementById('vcatchReadTitle').textContent=`vCatch-Info · Reise ${tripLabel}`;
+    document.getElementById('vcatchReadBody').innerHTML=`
+      <div class="vcatch-read-primary">
+        ${grid('Reise-Nr.',escape750(tripLabel),'focus')}
+        ${grid('Auslaufen',fmtDT750(r.departureAt))}
+        ${grid('Einlaufen',fmtDT750(r.arrivalAt))}
+        ${grid('DEU-Nr.',escape750(r.receipt||'–'),'focus')}
+        ${grid('vCatch-Kisten',`${vcatchCrates} Kisten`,'focus')}
+        ${grid('Kisten gefangen',`${num(caughtCrates)} Kisten`)}
+        ${grid('Lebendgewicht',liveKg>0?`${num2(liveKg)} kg`:'–')}
+        ${grid('Produktgewicht',`${num(productKg)} kg`,'product')}
+        ${grid('Sieb',`${num(sieveKg)} kg`,'sieve')}
+        ${grid('Sieb-Kisten',`${sieveCrates} Kisten`,'sieve')}
+        ${grid('kg je Kiste',`${num2(boxWeight)} kg`)}
+        ${grid('Anlandegewicht inkl. Sieb',`${num(catchKg)} kg`)}
+      </div>
+      <div class="vcatch-read-rule">
+        Sieb-Kisten: ${num2(sieveKg)} kg ÷ ${num2(boxWeight)} kg/Kiste =
+        ${num2(boxWeight>0?sieveKg/boxWeight:0)} → <b>${sieveCrates} Kisten</b> (normal gerundet)
+      </div>
+      ${normal?.top?`<div class="vcatch-read-details">
+        <div class="vcatch-read-subtitle">Lieferdetails</div>${normal.top}
+      </div>`:''}`;
+
+    document.getElementById('vcatchReadModal').classList.remove('hidden');
+  }
+
+  window.openVcatchInfo=openVcatchInfo750;
+  window.closeVcatchInfo=closeVcatchInfo750;
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape')closeVcatchInfo750();
+  });
+
+  const table=document.getElementById('allTable');
+  if(table){
+    const markRows=()=>table.querySelectorAll('tbody tr').forEach(tr=>tr.classList.add('vcatch-row-open'));
+    markRows();
+
+    new MutationObserver(markRows).observe(table,{childList:true,subtree:true});
+
+    table.addEventListener('click',e=>{
+      const tr=e.target.closest('tbody tr');
+      if(!tr)return;
+      if(e.target.closest('button,a,input,select,label'))return;
+
+      const editBtn=tr.querySelector('button[onclick*="editRecord"]');
+      const raw=editBtn?.getAttribute('onclick')||'';
+      const match=raw.match(/editRecord\(['"]([^'"]+)['"]\)/);
+      if(match)openVcatchInfo750(match[1]);
+    });
+  }
+})();
 </script>
 <div aria-modal="true" class="note-modal hidden" id="firebaseChoiceModal" role="dialog">
 <div class="note-modal-card firebase-choice-card">
@@ -3699,7 +3863,7 @@ const firebaseConfig = {
   appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
 };
 
-const APP_VERSION = "0.7.49-standalone";
+const APP_VERSION = "0.7.50-standalone";
 const SYNC_META_KEY = "krabben_firebase_sync_meta_v3";
 const DEVICE_KEY = "krabben_device_id_v1";
 const bridge = window.KrabbenCloudBridge;
