@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.50 Standalone</title>
+<title>Krabben-Lieferungen v0.7.52 Standalone</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1976,7 +1976,7 @@ body{zoom:1.10!important}
 @supports not (zoom:1){body{transform:scale(1.10)!important;transform-origin:top left!important;width:90.91%!important}}
 
 
-/* v0.7.50 Standalone: sichere Reiseübernahme und Mobilansicht */
+/* v0.7.52 Standalone: sichere Reiseübernahme und Mobilansicht */
 .source-mode-row:has(#sourceProcessingMode[value="combined"]){border-color:#b47d00!important}
 #sourceProcessingMode{pointer-events:none;background:#fffdf5!important}
 #sourceProcessingMode option{color:#173847}
@@ -2074,7 +2074,7 @@ body{zoom:1.10!important}
 </style>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.50 · Standalone · vCatch-Archivfenster wiederhergestellt</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.52 · Standalone · Archiv nach Auslaufen sortiert</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2176,6 +2176,7 @@ body{zoom:1.10!important}
 <div><label>Eingelaufen</label><input id="arrivalAt" type="datetime-local"/></div>
 <div><label>Anlandedatum</label><input id="supplier" type="date"/></div>
 <div><label>DEU-Nummer</label><input id="receipt" placeholder="z. B. DEU-..."/></div>
+<div class="sieve-date-field" id="sieveDateField"><label>Siebdatum</label><input id="sieveDate" type="date"/></div>
 <div class="report-type-field"><label>Meldungsart</label><select id="reportType">
 <option value="landed">Anlandung</option>
 <option value="coldstore">Hafen-Kühlhaus</option>
@@ -2184,7 +2185,6 @@ body{zoom:1.10!important}
 <option value="selfConsumption">Eigenverbrauch</option>
 <option value="zero">Nullmeldung</option>
 </select></div>
-<div class="sieve-date-field" id="sieveDateField"><label>Siebdatum</label><input id="sieveDate" type="date"/></div>
 <div class="manual-crates-field compact-meta-field"><label>Kisten gefangen</label><input id="manualCrates" inputmode="decimal" min="0" step="0.5" type="number"/></div>
 <div class="manual-crates-field compact-meta-field kg-per-crate-field"><label>Geschätzte kg pro Kiste</label><input id="entryBoxWeightMeta" inputmode="decimal" min="0.5" step="0.5" type="number"/></div>
 <div class="estimated-live-field"><label>Geschätztes Lebendgewicht</label><input id="estimatedLiveWeightMeta" inputmode="numeric" min="0" step="1" type="number" value="0"/></div>
@@ -2262,7 +2262,7 @@ body{zoom:1.10!important}
 <div class="vcatch-panel-head"><strong>vCatch-Anlandeerklärung</strong><div class="vcatch-panel-sub">Diese Werte sind für die Anlandeerklärung besonders wichtig.</div></div>
 <div class="vcatch-grid">
 <div class="vcatch-focus"><span>Lebendgewicht geschätzt</span><strong id="liveWeightText">–</strong><small id="liveWeightHint">aus Herkunftsreisen</small></div>
-<div><span>Anlandegewicht inkl. Sieb</span><strong id="totalCatchText">0 kg</strong></div>
+<div><span>Produktgewicht inkl. Sieb</span><strong id="totalCatchText">0 kg</strong></div>
 <div class="sales-weight-highlight"><span>Produktgewicht</span><strong id="saleWeightText">0 kg</strong></div>
 <div><span>Sieb</span><strong id="wasteText">0 kg</strong><small id="wastePercentText">0,00 % Anteil</small></div>
 <div><span>kg je vCatch-Kiste</span><strong id="boxWeightLiveText">17,00 kg</strong></div>
@@ -2539,7 +2539,7 @@ function infoPanelSections(r, mode='saved'){
     <div class="info-summary-head">vCatch-Anlandeerklärung</div>
     <div class="info-summary-list vcatch-summary-list">
       <div class="info-summary-row vcatch-focus-row"><span>Lebendgewicht geschätzt</span><strong>${liveWeightText}</strong></div>
-      <div class="info-summary-row"><span>Anlandegewicht inkl. Sieb</span><strong>${isProductReportType(r.reportType)?num(r.catchWeight)+' kg':'–'}</strong></div>
+      <div class="info-summary-row"><span>Produktgewicht inkl. Sieb</span><strong>${isProductReportType(r.reportType)?num(r.catchWeight)+' kg':'–'}</strong></div>
       <div class="info-summary-row total-green"><span>Produktgewicht</span><strong>${hasProductWeight(r.reportType)?num(r.weight)+' kg':'–'}</strong></div>
       <div class="info-summary-row"><span>Sieb</span><strong>${isProductReportType(r.reportType)?num2(r.catchWeight?r.waste/r.catchWeight*100:0)+' % · '+num(r.waste)+' kg':'–'}</strong></div>
       <div class="info-summary-row"><span>kg je vCatch-Kiste</span><strong>${num2(r.boxWeight)} kg</strong></div>
@@ -3391,7 +3391,19 @@ function table(arr){
    </tr>`;
  }).join('')}</tbody></table>`;
 }
-function renderList(){const q=$('search').value.toLowerCase(),y=+$('listYear').value,m=$('listMonth').value,arr=filtered(y,m).filter(r=>[r.date,r.departureAt,r.arrivalAt,r.receipt,r.note,r.supplier,r.reportType,reportTypeLabel(r.reportType)].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('allTable').innerHTML=table(arr)}
+function renderList(){
+ const q=$('search').value.toLowerCase(),y=+$('listYear').value,m=$('listMonth').value;
+ const arr=filtered(y,m)
+  .filter(r=>[r.date,r.departureAt,r.arrivalAt,r.receipt,r.note,r.supplier,r.reportType,reportTypeLabel(r.reportType)].join(' ').toLowerCase().includes(q))
+  .sort((a,b)=>{
+    const departureA=a.departureAt||a.date||'';
+    const departureB=b.departureAt||b.date||'';
+    const departureOrder=departureB.localeCompare(departureA); // neueste Ausfahrt oben
+    if(departureOrder)return departureOrder;
+    return String(b.receipt||'').localeCompare(String(a.receipt||''));
+  });
+ $('allTable').innerHTML=table(arr)
+}
 function refresh(){persist();fillSelectors();renderDashboard();renderList();renderSettings();renderBackupBadge();renderPendingTrips();updateEntryTripNumber();if($('savedRecordBodyTop'))showSavedRecord(savedRecordId)}
 function renderBackupBadge(){const el=$('backupVersionBadge');if(!el)return;el.textContent=backupMeta.version&&backupMeta.version!=='–'?backupMeta.version+(backupMeta.date?' · '+backupMeta.date:''):'–'}
 
@@ -3489,7 +3501,7 @@ $('pendingForm').addEventListener('submit',e=>{
  e.preventDefault();
  storePendingTrip({keepForm:false});
 });
-$('entryForm').addEventListener('submit',e=>{e.preventDefault();if(!validateEntryForm())return;const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),reportType:$('reportType').value,note:$('note').value.trim(),sorts:formSortsForRecord(),waste:isDirectProductReportType($('reportType').value)?0:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:isProductReportType($('reportType').value)?$('sieveDate').value:'',sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),estimatedLiveWeight:n('estimatedLiveWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();const wasEdit=i>=0;status('formStatus',wasEdit?(r.reportType==='zero'?'Nullmeldung aktualisiert.':'Lieferung aktualisiert.'):(r.reportType==='zero'?'Nullmeldung gespeichert.':'Lieferung gespeichert.'));resetForm();flashSaved($('entryForm'));showSavedRecord(r.id)});
+// v0.7.52: Archiv nach vollständigem Auslaufzeitpunkt absteigend; letzte Reise oben.\n$('entryForm').addEventListener('submit',e=>{e.preventDefault();if(!validateEntryForm())return;const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),reportType:$('reportType').value,note:$('note').value.trim(),sorts:formSortsForRecord(),waste:isDirectProductReportType($('reportType').value)?0:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:isProductReportType($('reportType').value)?$('sieveDate').value:'',sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),estimatedLiveWeight:n('estimatedLiveWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();const wasEdit=i>=0;status('formStatus',wasEdit?(r.reportType==='zero'?'Nullmeldung aktualisiert.':'Lieferung aktualisiert.'):(r.reportType==='zero'?'Nullmeldung gespeichert.':'Lieferung gespeichert.'));resetForm();flashSaved($('entryForm'));showSavedRecord(r.id)});
 function editRecord(id){
  const r=records.find(x=>x.id===id);if(!r)return;
  show('entry');$('editId').value=r.id;$('formTitle').textContent='Lieferung bearbeiten';
@@ -3658,7 +3670,7 @@ $('importExcel2025').onclick=()=>{
  status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
 };
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.50-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.50-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.52-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.52-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -3683,7 +3695,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Anlandegewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.50-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.52-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -3787,7 +3799,7 @@ $('dashDate').value=today();resetForm();fillSelectors();$('dashYear').value=pars
         ${grid('Sieb',`${num(sieveKg)} kg`,'sieve')}
         ${grid('Sieb-Kisten',`${sieveCrates} Kisten`,'sieve')}
         ${grid('kg je Kiste',`${num2(boxWeight)} kg`)}
-        ${grid('Anlandegewicht inkl. Sieb',`${num(catchKg)} kg`)}
+        ${grid('Produktgewicht inkl. Sieb',`${num(catchKg)} kg`)}
       </div>
       <div class="vcatch-read-rule">
         Sieb-Kisten: ${num2(sieveKg)} kg ÷ ${num2(boxWeight)} kg/Kiste =
@@ -3863,7 +3875,7 @@ const firebaseConfig = {
   appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
 };
 
-const APP_VERSION = "0.7.50-standalone";
+const APP_VERSION = "0.7.52-standalone";
 const SYNC_META_KEY = "krabben_firebase_sync_meta_v3";
 const DEVICE_KEY = "krabben_device_id_v1";
 const bridge = window.KrabbenCloudBridge;
