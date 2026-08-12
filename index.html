@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.52 Standalone</title>
+<title>Krabben-Lieferungen v0.7.64 Standalone</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1473,7 +1473,7 @@ header .version{font-size:.68rem!important}
  align-self:center;
 }
 .sieve-entry-row{
- grid-template-columns:92px minmax(0,1fr) 120px 118px!important;
+ grid-template-columns:92px minmax(0,1fr) 118px!important;
 }
 .price-window{
  background:#eef4f6!important;
@@ -1976,7 +1976,7 @@ body{zoom:1.10!important}
 @supports not (zoom:1){body{transform:scale(1.10)!important;transform-origin:top left!important;width:90.91%!important}}
 
 
-/* v0.7.52 Standalone: sichere Reiseübernahme und Mobilansicht */
+/* v0.7.64 Standalone: sichere Reiseübernahme und Mobilansicht */
 .source-mode-row:has(#sourceProcessingMode[value="combined"]){border-color:#b47d00!important}
 #sourceProcessingMode{pointer-events:none;background:#fffdf5!important}
 #sourceProcessingMode option{color:#173847}
@@ -2018,6 +2018,90 @@ body{zoom:1.10!important}
  .info-meta-grid{grid-template-columns:1fr!important}
  .info-line-values{grid-template-columns:1fr 1fr 1fr!important}
  .kpis{grid-template-columns:1fr 1fr!important}
+}
+
+
+/* v0.7.55 – Geschätztes Gewicht / Lebendgewicht */
+.calculated-live-field input{font-weight:950!important;text-align:center!important;background:#fff5cf!important;border:2px solid #dfb848!important;color:#6a4d00!important}
+.calculated-live-field small{display:block;margin-top:3px;font-size:.56rem;line-height:1.15;color:#637984;font-weight:700}
+.dashboard-estimated-field{grid-column:8 / -1!important}.dashboard-trip-note{grid-column:1 / 8!important}.dashboard-live-field{grid-column:8 / -1!important}
+.remark-meta-field{grid-column:1 / span 5!important}.entry-date-search-field{grid-column:6 / span 3!important}.entry-live-field{grid-column:9 / -1!important}
+@media(max-width:1250px){.dashboard-estimated-field,.dashboard-trip-note,.dashboard-live-field{grid-column:auto!important}.remark-meta-field,.entry-date-search-field,.entry-live-field{grid-column:auto!important}}
+@media(max-width:800px){.remark-meta-field,.entry-date-search-field,.entry-live-field{grid-column:1 / -1!important}}
+
+
+/* v0.7.61 – Lieferungen bei 100 % Browser-Zoom */
+#list .card:first-child{padding:8px!important}
+#list .grid.g4{gap:7px!important}
+#list .grid.g4 label{font-size:.7rem!important;margin-bottom:3px!important}
+#list .grid.g4 input,#list .grid.g4 select{padding:6px 7px!important;font-size:.75rem!important}
+
+#allTable{overflow-x:auto!important}
+#allTable table{
+ min-width:0!important;
+ width:100%!important;
+ table-layout:auto!important;
+}
+#allTable th,#allTable td{
+ padding:4px 4px!important;
+ font-size:.64rem!important;
+ line-height:1.2!important;
+ white-space:nowrap!important;
+}
+#allTable th{
+ font-size:.61rem!important;
+}
+#allTable .trip-number-cell{min-width:52px!important}
+#allTable .list-source-stack{gap:0!important}
+#allTable .list-source-link{
+ font-size:.59rem!important;
+ line-height:1.05!important;
+ padding:1px 0!important;
+}
+#allTable .icon-btn,
+#allTable .compact-edit-btn{
+ padding:4px 6px!important;
+ font-size:.62rem!important;
+}
+#allTable td:nth-child(1),#allTable th:nth-child(1){width:54px}
+#allTable td:nth-child(2),#allTable th:nth-child(2){width:38px}
+#allTable td:nth-child(3),#allTable th:nth-child(3){width:92px}
+#allTable td:nth-child(4),#allTable th:nth-child(4){width:92px}
+#allTable td:nth-child(5),#allTable th:nth-child(5){width:78px}
+#allTable td:nth-child(6),#allTable th:nth-child(6){width:72px}
+#allTable td:nth-child(7),#allTable th:nth-child(7){width:104px}
+#allTable td:nth-child(8),#allTable th:nth-child(8),
+#allTable td:nth-child(9),#allTable th:nth-child(9),
+#allTable td:nth-child(10),#allTable th:nth-child(10){width:48px}
+#allTable td:nth-child(11),#allTable th:nth-child(11){width:86px}
+#allTable td:nth-child(12),#allTable th:nth-child(12){width:78px}
+#allTable td:nth-child(13),#allTable th:nth-child(13){width:72px}
+#allTable td:nth-child(14),#allTable th:nth-child(14){width:68px}
+#allTable td:nth-child(15),#allTable th:nth-child(15),
+#allTable td:nth-child(16),#allTable th:nth-child(16){width:74px}
+#allTable td:nth-child(17),#allTable th:nth-child(17){width:78px}
+#allTable td:nth-child(18),#allTable th:nth-child(18){width:66px}
+#allTable td:nth-child(19),#allTable th:nth-child(19){width:78px}
+#allTable td:nth-child(20),#allTable th:nth-child(20){width:44px}
+#allTable td:nth-child(21),#allTable th:nth-child(21){width:74px}
+
+/* Auf kleineren Bildschirmen bleibt horizontales Scrollen möglich */
+@media(max-width:1350px){
+ #allTable table{min-width:1320px!important}
+}
+
+
+/* v0.7.62 – zusammengeführte Fangreisen beim Bearbeiten */
+#entryForm.editing-mode .source-trips-panel .source-trip-choice.is-selected{
+ box-shadow:0 0 0 2px rgba(14,125,161,.12);
+}
+#entryForm.editing-mode .source-trips-panel:after{
+ content:"Beim Bearbeiten bleiben alle zu dieser Lieferung gehörenden Fangreisen angehakt.";
+ display:block;
+ margin-top:7px;
+ font-size:.62rem;
+ color:#607783;
+ font-weight:700;
 }
 
 </style>
@@ -2074,7 +2158,7 @@ body{zoom:1.10!important}
 </style>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.52 · Standalone · Archiv nach Auslaufen sortiert</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.64 · Standalone · Bearbeiten 4+5 Anzeige korrigiert</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2117,8 +2201,9 @@ body{zoom:1.10!important}
 </select></div>
 <div><label>Kistenzahl gefangen</label><input id="pendingQuantity" inputmode="decimal" min="0" placeholder="später möglich" step="0.5" type="number"/></div>
 <div><label>Geschätzte kg pro Kiste</label><input id="pendingKgPerCrate" min="0.5" step="0.5" type="number"/></div>
-<div><label>Geschätztes Lebendgewicht</label><input id="pendingTotalKg" inputmode="numeric" min="0" step="1" type="number" value="0"/></div>
+<div class="dashboard-estimated-field"><label>Geschätztes Gewicht</label><input id="pendingTotalKg" inputmode="numeric" min="0" step="1" type="number" value="0"/></div>
 <div class="dashboard-trip-note"><label>Bemerkung</label><input id="pendingNote" placeholder="optional"/></div>
+<div class="dashboard-live-field calculated-live-field"><label>Lebendgewicht</label><input id="pendingLiveWeight" readonly="" value="0 kg"/><small id="pendingLiveWeightHint">Pro Kiste 1 kg mehr</small></div>
 </div>
 <input id="pendingQuantityType" type="hidden" value="crates"/>
 <input id="pendingStorageLocation" type="hidden" value=""/>
@@ -2132,8 +2217,8 @@ body{zoom:1.10!important}
 <div class="dashboard-open-trips">
 <div class="dashboard-open-trips-head">
 <div>
-<div class="dashboard-open-trips-title">Offene Fangreisen</div>
-<div class="dashboard-open-trips-subtitle">Noch nicht vollständig als Lieferung abgeschlossen</div>
+<div class="dashboard-open-trips-title">Offene / beendete Fangreisen</div>
+<div class="dashboard-open-trips-subtitle">Offen = noch unterwegs · Beendet = eingelaufen, aber noch nicht als Lieferung abgeschlossen</div>
 </div>
 <span class="pill dashboard-open-count" id="pendingCount">0 offen</span>
 </div>
@@ -2187,7 +2272,7 @@ body{zoom:1.10!important}
 </select></div>
 <div class="manual-crates-field compact-meta-field"><label>Kisten gefangen</label><input id="manualCrates" inputmode="decimal" min="0" step="0.5" type="number"/></div>
 <div class="manual-crates-field compact-meta-field kg-per-crate-field"><label>Geschätzte kg pro Kiste</label><input id="entryBoxWeightMeta" inputmode="decimal" min="0.5" step="0.5" type="number"/></div>
-<div class="estimated-live-field"><label>Geschätztes Lebendgewicht</label><input id="estimatedLiveWeightMeta" inputmode="numeric" min="0" step="1" type="number" value="0"/></div>
+<div class="estimated-live-field"><label>Geschätztes Gewicht</label><input id="estimatedLiveWeightMeta" inputmode="numeric" min="0" step="1" type="number" value="0"/></div>
 <div class="remark-meta-field"><label>Bemerkung</label><input id="note" placeholder="optional"/></div>
 <div class="entry-date-search-field">
 <label>Gespeicherte Lieferung suchen</label>
@@ -2196,6 +2281,7 @@ body{zoom:1.10!important}
 <button class="btn secondary" id="entryDateSearch" type="button">Suchen</button>
 </div>
 </div>
+<div class="entry-live-field calculated-live-field"><label>Lebendgewicht</label><input id="liveWeightMeta" readonly="" value="0 kg"/><small id="liveWeightMetaHint">Pro Kiste 1 kg mehr</small></div>
 </div>
 <div class="source-trips-panel">
 <div class="source-trips-head">
@@ -2217,22 +2303,22 @@ body{zoom:1.10!important}
 <div class="entryrow entry-product-row">
 <strong>Sorte 1</strong>
 <div><label>Gewicht kg</label><input class="weight-quick calc" id="w1" inputmode="decimal" min="0" step="0.01" type="number"/></div>
-<div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p1" min="0" readonly="" step="0.01" type="number"/></div>
+<div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p1" min="0" readonly="" step="0.05" type="number"/></div>
 </div>
 <div class="entryrow entry-product-row">
 <strong>Sorte 2</strong>
 <div><label>Gewicht kg</label><input class="weight-quick calc" id="w2" inputmode="decimal" min="0" step="0.01" type="number"/></div>
-<div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p2" min="0" readonly="" step="0.01" type="number"/></div>
+<div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p2" min="0" readonly="" step="0.05" type="number"/></div>
 </div>
 <div class="entryrow entry-product-row">
 <strong>Sorte 3</strong>
 <div><label>Gewicht kg</label><input class="weight-quick calc" id="w3" inputmode="decimal" min="0" step="0.01" type="number"/></div>
-<div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p3" min="0" readonly="" step="0.01" type="number"/></div>
+<div class="price-window"><label>Preis €/kg</label><input class="calc price-input price-quick locked" id="p3" min="0" readonly="" step="0.05" type="number"/></div>
 </div>
 <div class="entryrow entry-product-row sieve-entry-row">
 <strong>Sieb</strong>
 <div><label>Gewicht kg</label><input class="weight-quick calc" id="waste" inputmode="decimal" min="0" step="0.01" type="number"/></div>
-<div><label>kg je vCatch-Kiste</label><input class="calc vcatch-weight-input" id="entryBoxWeight" inputmode="decimal" min="0.1" step="0.1" type="number"/></div>
+
 <div><label>Sieb-Anteil</label><input id="wasteShare" readonly=""/></div>
 </div><div class="actions entry-actions-under">
 <button class="btn primary" id="entrySaveButton" type="submit">Lieferung speichern</button>
@@ -2240,7 +2326,7 @@ body{zoom:1.10!important}
 </div>
 <!-- Versteckte Kompatibilitätsfelder für bestehende Berechnung -->
 <div class="hidden">
-<input id="saleWeight"/><input id="totalCatch"/><input id="boxExact"/><input id="boxWhole"/>
+<input id="saleWeight"/><input id="totalCatch"/><input id="boxExact"/><input id="boxWhole"/><input id="entryBoxWeight" type="hidden" value="17"/>
 <input id="avgPrice"/><input id="grandRevenue"/><label id="wageLabel"></label><input id="wageShare"/>
 <div id="priceText"></div>
 </div>
@@ -2261,12 +2347,13 @@ body{zoom:1.10!important}
 <div class="entry-right-stack"><div class="vcatch-panel">
 <div class="vcatch-panel-head"><strong>vCatch-Anlandeerklärung</strong><div class="vcatch-panel-sub">Diese Werte sind für die Anlandeerklärung besonders wichtig.</div></div>
 <div class="vcatch-grid">
-<div class="vcatch-focus"><span>Lebendgewicht geschätzt</span><strong id="liveWeightText">–</strong><small id="liveWeightHint">aus Herkunftsreisen</small></div>
+<div class="vcatch-focus"><span>Geschätztes Gewicht</span><strong id="estimatedWeightText">–</strong><small id="estimatedWeightHint">aus Fangreise(n)</small></div>
+<div class="vcatch-focus"><span>Lebendgewicht</span><strong id="liveWeightText">–</strong><small id="liveWeightHint">Pro Kiste 1 kg mehr</small></div>
 <div><span>Produktgewicht inkl. Sieb</span><strong id="totalCatchText">0 kg</strong></div>
 <div class="sales-weight-highlight"><span>Produktgewicht</span><strong id="saleWeightText">0 kg</strong></div>
 <div><span>Sieb</span><strong id="wasteText">0 kg</strong><small id="wastePercentText">0,00 % Anteil</small></div>
 <div><span>kg je vCatch-Kiste</span><strong id="boxWeightLiveText">17,00 kg</strong></div>
-<div class="box-input-highlight"><span>vCatch-Kisten gerundet</span><input id="vcatchBoxesRounded" class="vcatch-boxes-input" inputmode="numeric" min="0" step="1" type="number" value="0"/><small id="boxExactText">0,00 rechnerisch</small></div>
+<div class="box-input-highlight"><span>vCatch-Kisten gerundet</span><input id="vcatchBoxesRounded" class="vcatch-boxes-input" inputmode="numeric" min="0" step="1" type="number" value="0" readonly=""/><small id="boxExactText">0,00 rechnerisch</small></div>
 <div><span>Gelöschte Kisten</span><strong id="manualCratesText">0</strong></div>
 </div>
 </div>
@@ -2286,7 +2373,7 @@ body{zoom:1.10!important}
 </section>
 <section class="view" id="settings">
 <div class="grid g2">
-<div class="card"><h2>Einstellungen</h2><div class="grid g2"><div><label>Standard-Schiff / Lieferant</label><input id="setSupplier"/></div><div><label>Lohnanteil %</label><input id="setWage" max="100" min="0" step="0.1" type="number"/></div><div><label>Standard kg je vCatch-Kiste (Fallback)</label><input id="setBoxWeight" min=".1" step=".1" type="number"/></div><div><label>Rundung ganze Kisten</label><select id="setBoxRounding"><option value="nearest">kaufmännisch</option><option value="up">immer aufrunden</option><option value="down">immer abrunden</option></select></div></div><div class="actions"><button class="btn primary" id="saveSettings" type="button">Einstellungen speichern</button></div><div class="status" id="settingsStatus"></div></div>
+<div class="card"><h2>Einstellungen</h2><div class="grid g2"><div><label>Standard-Schiff / Lieferant</label><input id="setSupplier"/></div><div><label>Lohnanteil %</label><input id="setWage" max="100" min="0" step="0.1" type="number"/></div><input id="setBoxWeight" type="hidden" value="17"/><div><label>Rundung ganze Kisten</label><select id="setBoxRounding"><option value="nearest">kaufmännisch</option><option value="up">immer aufrunden</option><option value="down">immer abrunden</option></select></div></div><div class="actions"><button class="btn primary" id="saveSettings" type="button">Einstellungen speichern</button></div><div class="status" id="settingsStatus"></div></div>
 <div class="card firebase-sync-card">
 <h2>Firebase-Synchronisierung</h2>
 <div class="note">Die Lieferungen, offenen Fangreisen und Einstellungen werden mit dem Firebase-Projekt „Logbuch-Wochenplaner“ synchronisiert.</div>
@@ -2379,7 +2466,21 @@ function isoInfo(s){
  return {week,isoYear,monday,sunday,range:fmt(monday)+' – '+fmt(sunday)}
 }
 function weekNo(s){return isoInfo(s).week}
+function repairDeliveryTripIdForRecord(r){
+ if(!r)return r;
+ const ids=Array.isArray(r.sourceTripIds)?r.sourceTripIds:[];
+ const trips=ids.map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean);
+ if(r.deliveryTripId&&trips.some(t=>t.id===r.deliveryTripId))return r;
+ const exact=trips.find(t=>r.receipt&&r.departureAt&&t.deu===r.receipt&&t.departure===r.departureAt);
+ const byReceipt=trips.find(t=>r.receipt&&t.deu===r.receipt);
+ const byDeparture=trips.find(t=>r.departureAt&&t.departure===r.departureAt);
+ const found=exact||byReceipt||byDeparture||null;
+ if(found)r.deliveryTripId=found.id;
+ return r;
+}
+
 function normalize(r){
+ r=repairDeliveryTripIdForRecord(r);
  r.sorts=r.sorts||[{weight:0,price:0},{weight:0,price:0},{weight:0,price:0}];
  r.waste=Number(r.waste)||0;r.quality=Number(r.quality)||0;
  r.weight=r.sorts.reduce((a,s)=>a+(Number(s.weight)||0),0);
@@ -2449,8 +2550,12 @@ function liveWeightFromForm(){
   const deliveryId=$('deliveryTripId').value;
   const carryTrips=selectedTrips.filter(t=>!deliveryId||t.id!==deliveryId);
   const ownLive=n('estimatedLiveWeightMeta')>0?n('estimatedLiveWeightMeta'):(n('manualCrates')>0&&n('entryBoxWeightMeta')>0?n('manualCrates')*n('entryBoxWeightMeta'):0);
-  return $('reportType').value==='zero'?0:ownLive+carryTrips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
+  const carryKg=isAggregateEditMode()?0:carryTrips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
+  return $('reportType').value==='zero'?0:ownLive+carryKg;
 }
+function actualLiveWeightFromForm(){if($('reportType').value==='zero')return 0;const selectedTrips=pendingTrips.filter(t=>getSelectedTripIds().includes(t.id));const deliveryId=$('deliveryTripId').value;const carryTrips=selectedTrips.filter(t=>!deliveryId||t.id!==deliveryId);const crates=n('manualCrates')+(isAggregateEditMode()?0:carryTrips.reduce((sum,t)=>sum+pendingAmount(t),0));return wholeKg(wholeKg(liveWeightFromForm())+crates);}
+function updateEntryLiveWeight(){const estimated=wholeKg(liveWeightFromForm()),live=actualLiveWeightFromForm();if($('liveWeightMeta'))$('liveWeightMeta').value=num(live)+' kg';if($('liveWeightMetaHint')){const selectedTrips=pendingTrips.filter(t=>getSelectedTripIds().includes(t.id));const deliveryId=$('deliveryTripId').value;const carryTrips=selectedTrips.filter(t=>!deliveryId||t.id!==deliveryId);const crates=n('manualCrates')+(isAggregateEditMode()?0:carryTrips.reduce((sum,t)=>sum+pendingAmount(t),0));const rate=n('entryBoxWeightMeta');$('liveWeightMetaHint').textContent=(isAggregateEditMode()&&crates>0)?'Pro Kiste 1 kg mehr: '+num(estimated)+' kg + '+num(crates)+' kg = '+num(live)+' kg':(carryTrips.length===0&&crates>0&&rate>0)?'Pro Kiste 1 kg mehr: '+num(crates)+' × '+num2(rate+1)+' kg = '+num(live)+' kg':(crates>0?'Pro Kiste 1 kg mehr: '+num(estimated)+' kg + '+num(crates)+' kg = '+num(live)+' kg':'Pro Kiste 1 kg mehr');}}
+
 function formSortsForRecord(){
   const direct=isDirectProductReportType($('reportType').value), live=liveWeightFromForm();
   return [1,2,3].map(i=>({weight:direct?(i===1?live:0):n('w'+i),price:n('p'+i)}));
@@ -2468,14 +2573,14 @@ function currentFormRecord(){
     sorts:formSortsForRecord(),
     waste:n('waste'),
     quality:0,
-    manualCrates:n('manualCrates'),
+    manualCrates:ownCratesForSave(),
     sieveDate:isProductReportType($('reportType').value)?$('sieveDate').value:'',
     sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{}):[])),
     sourceProcessingMode:$('sourceProcessingMode').value,
     deliveryTripId:$('deliveryTripId').value,
     wageRate:Number(settings.wage)||0,
     estimatedKgPerCrate:n('entryBoxWeightMeta'),
-    estimatedLiveWeight:n('estimatedLiveWeightMeta'),
+    estimatedLiveWeight:ownEstimatedForSave(),
     boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,
     vcatchBoxesRounded:n('vcatchBoxesRounded'),
     updatedAt:new Date().toISOString()
@@ -2490,12 +2595,20 @@ function sourceCarryoverTripsForRecord(r){
 }
 function additionalSourceTripsForRecord(r){
  const trips=sourceTripsForRecord(r);
- const deliveryId=r.deliveryTripId||determineDeliveryTrip(trips)?.id||'';
- return trips.filter(t=>t.id!==deliveryId&&(!r.receipt||t.deu!==r.receipt));
+ const deliveryTrip=primarySourceTripForRecord(r);
+ return trips.filter(t=>!deliveryTrip||t.id!==deliveryTrip.id);
 }
 function primarySourceTripForRecord(r){
  const trips=sourceTripsForRecord(r);
- return trips.find(t=>t.id===r.deliveryTripId)||trips.find(t=>r.receipt&&t.deu===r.receipt)||trips.find(t=>t.departure===r.departureAt)||null;
+ const explicit=trips.find(t=>t.id===r.deliveryTripId);
+ if(explicit)return explicit;
+ const exact=trips.find(t=>r.receipt&&r.departureAt&&t.deu===r.receipt&&t.departure===r.departureAt);
+ if(exact)return exact;
+ const byReceipt=trips.find(t=>r.receipt&&t.deu===r.receipt);
+ if(byReceipt)return byReceipt;
+ const byDeparture=trips.find(t=>r.departureAt&&t.departure===r.departureAt);
+ if(byDeparture)return byDeparture;
+ return null;
 }
 function renderPrimaryDeuLink(r){
  const trip=primarySourceTripForRecord(r);
@@ -2511,11 +2624,10 @@ function liveWeightForRecord(r){
   const carryKg=sourceCarryoverTripsForRecord(r).reduce((sum,t)=>sum+pendingTotalKg(t),0);
   return ownKg+carryKg
 }
-function liveWeightTextForRecord(r){
-  if((r.reportType||'landed')==='zero')return '0,00 kg';
-  const value=liveWeightForRecord(r);
-  return value>0?num2(value)+' kg':'–'
-}
+function estimatedWeightTextForRecord(r){if((r.reportType||'landed')==='zero')return '0 kg';const value=wholeKg(liveWeightForRecord(r));return value>0?num(value)+' kg':'–'}
+function actualLiveWeightForRecord(r){if((r.reportType||'landed')==='zero')return 0;return wholeKg(wholeKg(liveWeightForRecord(r))+deletedCratesForRecord(r));}
+function liveWeightTextForRecord(r){if((r.reportType||'landed')==='zero')return '0 kg';const value=actualLiveWeightForRecord(r);return value>0?num(value)+' kg':'–'}
+function applyVcatchFromLiveRecord(r){const live=actualLiveWeightForRecord(r);r.boxWeight=17;r.boxes=live/17;r.vcatchBoxesRounded=Math.round(r.boxes);return r;}
 function estimatedKgPerCrateForRecord(r){
   if(Number(r.estimatedKgPerCrate)>0)return Number(r.estimatedKgPerCrate);
   const trips=sourceTripsForRecord(r);
@@ -2524,12 +2636,13 @@ function estimatedKgPerCrateForRecord(r){
   return crates>0?kg/crates:0;
 }
 function infoPanelSections(r, mode='saved'){
-  r=normalize(r);
+  r=applyVcatchFromLiveRecord(normalize(r));
   const isLive=mode==='live';
   const tripLabel=displayTripNumbersForRecord(r)||'–';
   const dateText=r.date?parseDate(r.date).toLocaleDateString('de-DE'):'–';
   const sourceTrips=sourceTripsForRecord(r);
-  const deliveryTrip=sourceTrips.find(t=>t.id===r.deliveryTripId)||determineDeliveryTrip(sourceTrips);
+  const deliveryTrip=primarySourceTripForRecord(r);
+  const estimatedWeightText=estimatedWeightTextForRecord(r);
   const liveWeightText=liveWeightTextForRecord(r);
   const meta=(label,value)=>`<div class="info-box"><span>${label}</span><strong>${value||'–'}</strong></div>`;
   const lineCard=(title,weight,middle,revenue,extra='',middleLabel='Preis')=>`<div class="info-line-card"><div class="info-line-head"><strong>${title}</strong>${extra?`<span class="info-line-pill">${extra}</span>`:''}</div><div class="info-line-values"><div class="info-mini"><span>Gewicht</span><strong>${weight}</strong></div><div class="info-mini"><span>${middleLabel}</span><strong>${middle}</strong></div><div class="info-mini"><span>Umsatz</span><strong>${revenue}</strong></div></div></div>`;
@@ -2538,7 +2651,8 @@ function infoPanelSections(r, mode='saved'){
   const summary = `
     <div class="info-summary-head">vCatch-Anlandeerklärung</div>
     <div class="info-summary-list vcatch-summary-list">
-      <div class="info-summary-row vcatch-focus-row"><span>Lebendgewicht geschätzt</span><strong>${liveWeightText}</strong></div>
+      <div class="info-summary-row vcatch-focus-row"><span>Geschätztes Gewicht</span><strong>${estimatedWeightText}</strong></div>
+      <div class="info-summary-row vcatch-focus-row"><span>Lebendgewicht</span><strong>${liveWeightText}</strong></div>
       <div class="info-summary-row"><span>Produktgewicht inkl. Sieb</span><strong>${isProductReportType(r.reportType)?num(r.catchWeight)+' kg':'–'}</strong></div>
       <div class="info-summary-row total-green"><span>Produktgewicht</span><strong>${hasProductWeight(r.reportType)?num(r.weight)+' kg':'–'}</strong></div>
       <div class="info-summary-row"><span>Sieb</span><strong>${isProductReportType(r.reportType)?num2(r.catchWeight?r.waste/r.catchWeight*100:0)+' % · '+num(r.waste)+' kg':'–'}</strong></div>
@@ -2553,7 +2667,7 @@ function infoPanelSections(r, mode='saved'){
       <div class="info-summary-row"><span>Bruttogewicht je Kiste</span><strong>${deletedCratesForRecord(r)>0?num2(r.catchWeight/deletedCratesForRecord(r))+' kg':'–'}</strong></div>
       <div class="info-summary-row total-net"><span>Nettogewicht je Kiste</span><strong>${deletedCratesForRecord(r)>0?num2(r.weight/deletedCratesForRecord(r))+' kg':'–'}</strong></div>
     </div>`;
-  const sources=sourceTrips.length?`<div class="info-source-box"><strong>Herkunftsreisen / DEU-Kontrolle</strong><div class="info-source-list">${sourceTrips.map(t=>`<button class="source-trip-link info-source-item" type="button" onclick="openSourceTrip('${t.id}')">${t.deu}${deliveryTrip&&t.id===deliveryTrip.id?' · Lieferreise':''}</button>`).join('')}</div></div>`:'';
+  const sources=sourceTrips.length?`<div class="info-source-box"><strong>Herkunftsreisen / DEU-Kontrolle</strong><div class="info-source-list">${sourceTrips.map(t=>`<button class="source-trip-link info-source-item" type="button" onclick="openSourceTrip('${t.id}')">Reise ${tripNumberForPending(t)} · ${t.deu}${deliveryTrip&&t.id===deliveryTrip.id?' · Lieferreise':' · Übernommene Reise'}</button>`).join('')}</div></div>`:'';
   const note=r.note?`<div class="info-note-box"><strong>Bemerkung</strong><div style="margin-top:6px"><button class="note-open-btn" type="button" onclick="openNote('${r.id}')">📝 Bemerkung öffnen</button></div></div>`:`<div class="info-note-box"><strong>Bemerkung</strong><div style="margin-top:6px"><em>Keine Bemerkung hinterlegt</em></div></div>`;
   const top = `
     <div class="info-panel">
@@ -2567,7 +2681,8 @@ function infoPanelSections(r, mode='saved'){
         ${meta('Siebdatum',isProductReportType(r.reportType)&&r.sieveDate?parseDate(r.sieveDate).toLocaleDateString('de-DE'):'–')}
         ${meta('Kisten gefangen',String(Number(r.manualCrates)||0))}
         ${meta('Geschätzte kg pro Kiste',estimatedKgPerCrateForRecord(r)>0?num2(estimatedKgPerCrateForRecord(r))+' kg':'–')}
-        ${meta('Geschätztes Lebendgewicht',liveWeightText)}
+        ${meta('Geschätztes Gewicht',estimatedWeightText)}
+        ${meta('Lebendgewicht',liveWeightText)}
         ${meta('Produktgewicht',hasProductWeight(r.reportType)?num(r.weight)+' kg':'–')}
       </div>
       ${isProductReportType(r.reportType)?`<div class="info-line-grid">${sortCards}${siebCard}</div>`:isDirectProductReportType(r.reportType)?`<div class="info-note-box"><strong>Keine Siebung</strong><div style="margin-top:5px">Das Produktgewicht entspricht vollständig dem geschätzten Lebendgewicht.</div></div>`:`<div class="info-note-box"><strong>Keine Siebergebnisse</strong><div style="margin-top:5px">Bei ${reportTypeLabel(r.reportType)} wird nur das geschätzte Lebendgewicht geführt.</div></div>`}
@@ -2602,6 +2717,10 @@ function updateInfoPanelFromForm(){
 let entrySyncSource='crates';
 function syncEntryCratesAndLive(source='crates'){
  const rate=roundHalf(n('entryBoxWeightMeta'));
+ if(isAggregateEditMode()){
+   updateEntryLiveWeight();
+   return;
+ }
  if(source==='live'){
   entrySyncSource='live';
   $('estimatedLiveWeightMeta').value=String(wholeKg(n('estimatedLiveWeightMeta')));
@@ -2615,32 +2734,34 @@ function syncEntryCratesAndLive(source='crates'){
   $('entryBoxWeightMeta').value=rate?String(rate):'';
   $('estimatedLiveWeightMeta').value=String(wholeKg(n('manualCrates')*rate));
  }
+ updateEntryLiveWeight();
 }
 function formCalc(){
+ if($('entryBoxWeight'))$('entryBoxWeight').value='17';
  const ws=[n('w1'),n('w2'),n('w3')], ps=[n('p1'),n('p2'),n('p3')], rev=ws.map((w,i)=>w*ps[i]), waste=n('waste'), sale=ws.reduce((a,b)=>a+b,0), catchW=sale+waste, total=rev.reduce((a,b)=>a+b,0), bw=n('entryBoxWeight')||Number(settings.boxWeight)||17;
  ['r1','r2','r3'].forEach((id,i)=>$(id).value=eur(rev[i]));
  $('saleWeight').value=kg(sale);$('totalCatch').value=kg(catchW);$('wasteShare').value=num(catchW?waste/catchW*100:0)+' %';
- const boxes=bw?catchW/bw:0;const roundedAuto=roundBoxes(boxes);$('boxExact').value=num2(boxes)+' Kisten';$('boxWhole').value=roundedAuto+' Kisten';
  const vcatchInput=$('vcatchBoxesRounded');
- if(vcatchInput.dataset.manual!=='1' || vcatchInput.value==='') vcatchInput.value=String(roundedAuto);
- $('boxExactText').textContent=num2(boxes)+' rechnerisch';
  $('avgPrice').value=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenue').value=eur(total);$('wageShare').value=eur(total*(Number(settings.wage)||0)/100);$('wageLabel').textContent='Lohnanteil ('+num(settings.wage)+' %)';
  $('priceText').textContent=ps.map((p,i)=>'S'+(i+1)+': '+num2(p)+' €').join(' · ');
  const selectedTrips=pendingTrips.filter(t=>getSelectedTripIds().includes(t.id));
  const deliveryId=$('deliveryTripId').value;
  const carryTrips=selectedTrips.filter(t=>!deliveryId||t.id!==deliveryId);
- const ownLive=n('estimatedLiveWeightMeta')>0?n('estimatedLiveWeightMeta'):(n('manualCrates')>0&&n('entryBoxWeightMeta')>0?n('manualCrates')*n('entryBoxWeightMeta'):0);
- const carryLive=carryTrips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
- const liveWeight=($('reportType').value==='zero')?0:(ownLive+carryLive);
- const deletedCrates=n('manualCrates')+carryTrips.reduce((sum,t)=>sum+pendingAmount(t),0);
- $('liveWeightText').textContent=liveWeight>0?num2(liveWeight)+' kg':'–';
- $('liveWeightHint').textContent=carryTrips.length
-   ?'Lieferreise + '+carryTrips.length+' Übertrag'+(carryTrips.length>1?'e':'')
-   :(liveWeight>0?'Kisten gefangen × geschätzte kg':'aus Herkunftsreisen');
+ const ownEstimated=n('estimatedLiveWeightMeta')>0?n('estimatedLiveWeightMeta'):(n('manualCrates')>0&&n('entryBoxWeightMeta')>0?n('manualCrates')*n('entryBoxWeightMeta'):0);
+ const carryEstimated=isAggregateEditMode()?0:carryTrips.reduce((sum,t)=>sum+pendingTotalKg(t),0);
+ const estimatedWeight=($('reportType').value==='zero')?0:wholeKg(ownEstimated+carryEstimated);
+ const deletedCrates=n('manualCrates')+(isAggregateEditMode()?0:carryTrips.reduce((sum,t)=>sum+pendingAmount(t),0));
+ const liveWeight=($('reportType').value==='zero')?0:wholeKg(estimatedWeight+deletedCrates);
+ const boxes=liveWeight/17,roundedAuto=Math.round(boxes);
+ $('boxExact').value=num2(boxes)+' Kisten';$('boxWhole').value=roundedAuto+' Kisten';vcatchInput.value=String(roundedAuto);vcatchInput.dataset.manual='0';
+ $('boxExactText').textContent=num2(boxes)+' rechnerisch · Lebendgewicht ÷ 17 kg';
+ if($('estimatedWeightText'))$('estimatedWeightText').textContent=estimatedWeight>0?num(estimatedWeight)+' kg':'–';
+ if($('estimatedWeightHint'))$('estimatedWeightHint').textContent=carryTrips.length?'Lieferreise + '+carryTrips.length+' Übertrag'+(carryTrips.length>1?'e':''):(estimatedWeight>0?'Kisten × geschätzte kg/Kiste':'aus Fangreise(n)');
+ $('liveWeightText').textContent=liveWeight>0?num(liveWeight)+' kg':'–';$('liveWeightHint').textContent=deletedCrates>0?'Pro Kiste 1 kg mehr':'aus Fangreise(n)';updateEntryLiveWeight();
  const isDeliveryReport=isProductReportType($('reportType').value);
  const isDirectProduct=isDirectProductReportType($('reportType').value);
  const displayedProductWeight=isDirectProduct?liveWeight:sale;
- $('saleWeightText').textContent=hasProductWeight($('reportType').value)?kg(displayedProductWeight):'–';$('wasteText').textContent=isDeliveryReport?kg(waste):'–';$('wastePercentText').textContent=isDeliveryReport?num(catchW?waste/catchW*100:0)+' % Anteil':'keine Siebung';$('totalCatchText').textContent=isDeliveryReport?kg(catchW):'–';$('boxWeightLiveText').textContent=isDeliveryReport?num2(bw)+' kg':'–';$('manualCratesText').textContent=num(deletedCrates);$('avgPriceText').textContent=isDeliveryReport?num2(sale?(total)/sale:0)+' €/kg':'–';$('grandRevenueText').textContent=isDeliveryReport?eur(total):'–';$('grossPerCrateText').textContent=isDeliveryReport&&deletedCrates>0?num2(catchW/deletedCrates)+' kg':'–';$('netPerCrateText').textContent=isDeliveryReport&&deletedCrates>0?num2(sale/deletedCrates)+' kg':'–';
+ $('saleWeightText').textContent=hasProductWeight($('reportType').value)?kg(displayedProductWeight):'–';$('wasteText').textContent=isDeliveryReport?kg(waste):'–';$('wastePercentText').textContent=isDeliveryReport?num(catchW?waste/catchW*100:0)+' % Anteil':'keine Siebung';$('totalCatchText').textContent=isDeliveryReport?kg(catchW):'–';$('boxWeightLiveText').textContent=isDeliveryReport?'17,00 kg':'–';$('manualCratesText').textContent=num(deletedCrates);$('avgPriceText').textContent=isDeliveryReport?num2(sale?(total)/sale:0)+' €/kg':'–';$('grandRevenueText').textContent=isDeliveryReport?eur(total):'–';$('grossPerCrateText').textContent=isDeliveryReport&&deletedCrates>0?num2(catchW/deletedCrates)+' kg':'–';$('netPerCrateText').textContent=isDeliveryReport&&deletedCrates>0?num2(sale/deletedCrates)+' kg':'–';
  $('kwPill').textContent=$('date').value?'KW '+weekNo($('date').value):'KW –';
  if(!updateInfoPanelFromForm() && savedRecordId) showSavedRecord(savedRecordId);
 }
@@ -2673,7 +2794,65 @@ function pendingUnit(t){return 'Kisten'}
 function pendingAmount(t){return Number(t.quantity!==undefined?t.quantity:t.crates)||0}
 function pendingKgPerCrate(t){return Number(t.kgPerCrate)||0}
 function pendingTotalKg(t){return Number(t.totalKg)||pendingAmount(t)*pendingKgPerCrate(t)}
+function pendingLiveWeight(t){return wholeKg(pendingTotalKg(t)+pendingAmount(t))}
+function pendingLiveWeightFromForm(){if(($('pendingStorageType')?.value||'landed')==='zero')return 0;return wholeKg(n('pendingTotalKg')+n('pendingQuantity'))}
+function updatePendingLiveWeight(){const live=pendingLiveWeightFromForm();if($('pendingLiveWeight'))$('pendingLiveWeight').value=num(live)+' kg';if($('pendingLiveWeightHint')){const crates=n('pendingQuantity'),rate=n('pendingKgPerCrate');$('pendingLiveWeightHint').textContent=(crates>0&&rate>0)?'Pro Kiste 1 kg mehr: '+num(crates)+' × '+num2(rate+1)+' kg = '+num(live)+' kg':'Pro Kiste 1 kg mehr';}}
+
 let pendingSyncSource='crates';
+
+let editingVirtualDeliveryTrip=null;
+
+function virtualDeliveryTripFromRecord(r){
+ if(!r||!r.departureAt)return null;
+ return {
+   id:'record:'+r.id,
+   virtualRecordId:r.id,
+   departure:r.departureAt||'',
+   returnAt:r.arrivalAt||'',
+   deu:r.receipt||'',
+   storageType:r.reportType||'landed',
+   quantity:Number(r.manualCrates)||0,
+   kgPerCrate:Number(r.estimatedKgPerCrate)||0,
+   totalKg:Number(r.estimatedLiveWeight)||0,
+   status:'completed',
+   completedBy:r.id
+ };
+}
+function sourceChoiceTripById(id){
+ if(editingVirtualDeliveryTrip&&editingVirtualDeliveryTrip.id===id)return editingVirtualDeliveryTrip;
+ return pendingTrips.find(t=>t.id===id)||null;
+}
+
+function selectedChoiceTrips(){
+ return getSelectedTripIds().map(id=>sourceChoiceTripById(id)).filter(Boolean);
+}
+function isAggregateEditMode(){
+ return !!$('editId').value && selectedChoiceTrips().length>1 && $('manualCrates')?.dataset.aggregateEdit==='1';
+}
+function aggregateCarryTrips(){
+ const deliveryId=$('deliveryTripId').value;
+ return selectedChoiceTrips().filter(t=>!deliveryId||t.id!==deliveryId);
+}
+function ownCratesForSave(){
+ if(!isAggregateEditMode())return n('manualCrates');
+ const delivery=sourceChoiceTripById($('deliveryTripId').value);
+ return delivery?Number(pendingAmount(delivery))||0:n('manualCrates');
+}
+function ownEstimatedForSave(){
+ if(!isAggregateEditMode())return n('estimatedLiveWeightMeta');
+ const delivery=sourceChoiceTripById($('deliveryTripId').value);
+ return delivery?Number(pendingTotalKg(delivery))||0:n('estimatedLiveWeightMeta');
+}
+
+function tripNumberForChoice(t){
+ if(!t)return '–';
+ if(t.virtualRecordId){
+   const year=tripYearFromDeparture(t.departure,t.returnAt||today());
+   return buildTripNumberMap(year).get('r:'+t.virtualRecordId)||'–';
+ }
+ return tripNumberForPending(t);
+}
+
 function updatePendingQuantityUi(source='crates'){
  const kgPer=roundHalf(n('pendingKgPerCrate'));
  if(source==='total'){
@@ -2686,6 +2865,7 @@ function updatePendingQuantityUi(source='crates'){
   $('pendingKgPerCrate').value=kgPer?String(kgPer):'';
   $('pendingTotalKg').value=String(wholeKg(n('pendingQuantity')*kgPer));
  }
+ updatePendingLiveWeight();
 }
 function setPendingEditState(active,label=''){
  const box=document.querySelector('.dashboard-pending'),banner=$('pendingEditBanner');
@@ -2761,7 +2941,22 @@ function buildTripNumberMap(year){
 }
 function effectiveSourceTripIds(r){
  const ids=new Set(Array.isArray(r.sourceTripIds)?r.sourceTripIds:[]);
+
+ // Übernommene Reisen, die beim Speichern mit dieser Lieferung abgeschlossen wurden.
  pendingTrips.forEach(t=>{if(t.completedBy===r.id)ids.add(t.id)});
+
+ // Die eigentliche Lieferreise gehört ebenfalls immer zur zusammengeführten Lieferung.
+ if(r.deliveryTripId&&pendingTrips.some(t=>t.id===r.deliveryTripId)){
+   ids.add(r.deliveryTripId);
+ }else{
+   // Rückwärtskompatibilität für ältere Datensätze ohne deliveryTripId:
+   // DEU + Auslaufzeit ist die sicherste Zuordnung.
+   const exact=pendingTrips.find(t=>r.receipt&&r.departureAt&&t.deu===r.receipt&&t.departure===r.departureAt);
+   const byReceipt=pendingTrips.find(t=>r.receipt&&t.deu===r.receipt);
+   const byDeparture=pendingTrips.find(t=>r.departureAt&&t.departure===r.departureAt);
+   const found=exact||byReceipt||byDeparture||null;
+   if(found)ids.add(found.id);
+ }
  return [...ids];
 }
 function displayTripNumbersForRecord(r){
@@ -2791,7 +2986,7 @@ function prospectiveTripNumbers(){
  const selected=getSelectedTripIds();
  const nums=[];
  selected.forEach(id=>{const n=map.get('p:'+id);if(n)nums.push(n)});
- const selectedTrips=selected.map(id=>pendingTrips.find(t=>t.id===id)).filter(Boolean);
+ const selectedTrips=selected.map(id=>sourceChoiceTripById(id)).filter(Boolean);
  const topMatchesSelected=selectedTrips.some(t=>t.departure===departure);
  if(departure&&!topMatchesSelected){
    const editId=$('editId').value;
@@ -2802,13 +2997,23 @@ function prospectiveTripNumbers(){
  return unique.length?unique.join('+'):'–';
 }
 function updateEntryTripNumber(){
- const el=$('entryTripNumber');if(el)el.value=prospectiveTripNumbers();
+ const el=$('entryTripNumber');if(!el)return;
+ const selected=selectedChoiceTrips();
+ if(selected.length===1){
+   el.value=tripNumberForChoice(selected[0])||'–';
+   return;
+ }
+ el.value=prospectiveTripNumbers();
 }
 function fmtDateTime(v){
  if(!v)return '–';
  return new Date(v).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
 }
 function openPendingTrips(){return pendingTrips.filter(t=>t.status!=='completed')}
+function pendingJourneyState(t){
+ return t?.returnAt?'Beendete Fangreise':'Offene Fangreise';
+}
+
 function getSelectedTripIds(){
  return [...document.querySelectorAll('.source-trip-check:checked')].map(x=>x.value)
 }
@@ -2841,31 +3046,57 @@ function addEarlierOnboardCarryovers(selectedTrip){
 function renderSourceTripChoices(selected=[]){
  const box=$('sourceTripChoices');if(!box)return;
  const selectedSet=new Set(selected||[]);
- const choices=pendingTrips.filter(t=>t.status!=='completed'||selectedSet.has(t.id));
- if(!choices.length){box.innerHTML='<div class="empty-source">Keine offenen Fangreisen vorhanden.</div>';$('selectedTripsCount').textContent='0 ausgewählt';$('sourceSummary').value='';return}
+ const isEdit=!!$('editId').value;
+
+ let choices;
+ if(isEdit){
+   // Beim Bearbeiten nur Reisen anzeigen, die fest zu dieser Lieferung gehören.
+   // Dadurch tauchen keine fremden aktuell offenen Reisen (z. B. Reise 18) auf.
+   choices=[...selectedSet].map(id=>sourceChoiceTripById(id)).filter(Boolean);
+ }else{
+   choices=pendingTrips.filter(t=>t.status!=='completed'||selectedSet.has(t.id));
+ }
+
+ if(!choices.length){
+   box.innerHTML='<div class="empty-source">Keine zugehörigen Fangreisen vorhanden.</div>';
+   $('selectedTripsCount').textContent='0 ausgewählt';
+   $('sourceSummary').value='';
+   return
+ }
+
  box.innerHTML=choices.map(t=>{
-  const selectable=!!t.returnAt||selectedSet.has(t.id);
+  const selectable=isEdit||!!t.returnAt||selectedSet.has(t.id);
+  const tripNo=tripNumberForChoice(t);
   return `<label class="source-trip-choice ${!selectable?'open-trip-warning':''}">
-   <input class="source-trip-check" type="checkbox" value="${t.id}" ${selected.includes(t.id)&&selectable?'checked':''} ${!selectable?'disabled':''}>
+   <input class="source-trip-check" type="checkbox" value="${t.id}" ${selectedSet.has(t.id)&&selectable?'checked':''} ${!selectable?'disabled':''}>
    <span class="source-trip-choice-content">
-    <span class="source-trip-choice-title">Reise ${tripNumberForPending(t)} · DEU ${t.deu}<span class="trip-role-slot" data-trip-id="${t.id}"></span></span>
+    <span class="source-trip-choice-title">${pendingJourneyState(t)} · Reise ${tripNo} · DEU ${t.deu}<span class="trip-role-slot" data-trip-id="${t.id}"></span></span>
     <span class="source-trip-choice-grid">
      <span><b>Aus:</b> ${fmtDateTime(t.departure)}</span>
      <span><b>Ein:</b> ${t.returnAt?fmtDateTime(t.returnAt):'<span class="open-trip-text">noch offen</span>'}</span>
      <span><b>Fang:</b> ${t.storageType==='onboard'?'An Bord':t.storageType==='coldstore'?'Kühlhaus':'Anlandung'}</span>
-     <span><b>Menge:</b> ${num(pendingAmount(t))} Kisten · ${num2(pendingTotalKg(t))} kg</span>
+     <span><b>Menge:</b> ${num(pendingAmount(t))} Kisten · geschätzt ${num(pendingTotalKg(t))} kg · lebend ${num(pendingLiveWeight(t))} kg</span>
      ${!selectable?'<span class="open-trip-note"><b>Hinweis:</b> Noch nicht eingelaufen – noch nicht für Anlandung/Lieferung verfügbar.</span>':''}
     </span>
    </span>
   </label>`;
  }).join('');
- box.querySelectorAll('.source-trip-check').forEach(c=>c.addEventListener('change',()=>{const t=pendingTrips.find(x=>x.id===c.value);if(c.checked)addEarlierOnboardCarryovers(t);updateSourceSummary()}));
+
+ box.querySelectorAll('.source-trip-check').forEach(c=>c.addEventListener('change',()=>{
+   const t=sourceChoiceTripById(c.value);
+   if(c.checked&&!isEdit&&t&&!t.virtualRecordId)addEarlierOnboardCarryovers(t);
+   updateSourceSummary();
+ }));
 }
+
 function updateSourceSummary(){
  const ids=getSelectedTripIds();
- const trips=pendingTrips.filter(t=>ids.includes(t.id)&&t.returnAt)
+ const trips=ids.map(id=>sourceChoiceTripById(id)).filter(t=>t&&t.returnAt)
    .sort((a,b)=>(a.departure||'').localeCompare(b.departure||''));
- const deliveryTrip=determineDeliveryTrip(trips);
+ const fixedDeliveryId=$('editId').value?$('deliveryTripId').value:'';
+ const deliveryTrip=(fixedDeliveryId&&trips.some(t=>t.id===fixedDeliveryId))
+   ?trips.find(t=>t.id===fixedDeliveryId)
+   :determineDeliveryTrip(trips);
  $('deliveryTripId').value=deliveryTrip?.id||'';
  $('selectedTripsCount').textContent=ids.length+' ausgewählt';
  $('sourceSummary').value=trips.length?trips.map(t=>t.deu+' ('+num(pendingAmount(t))+' Kisten / '+num2(pendingTotalKg(t))+' kg)').join(' + '):'';
@@ -2878,7 +3109,7 @@ function updateSourceSummary(){
 
  document.querySelectorAll('.source-trip-choice').forEach(card=>{
    const input=card.querySelector('.source-trip-check');
-   const t=pendingTrips.find(x=>x.id===input?.value);
+   const t=sourceChoiceTripById(input?.value);
    const checked=!!input?.checked;
    const isDelivery=checked&&deliveryTrip&&t?.id===deliveryTrip.id;
    const isCarry=checked&&!isDelivery;
@@ -2898,9 +3129,19 @@ function updateSourceSummary(){
    $('reportType').value=deliveryTrip.storageType||'landed';
    applyReportTypeUi();
 
-   $('manualCrates').value=pendingAmount(deliveryTrip)>0?String(roundHalf(pendingAmount(deliveryTrip))):'';
+   const aggregateEdit=!!$('editId').value&&trips.length>1;
+   if(aggregateEdit){
+     const totalCrates=trips.reduce((sum,t)=>sum+(Number(pendingAmount(t))||0),0);
+     const totalEstimated=wholeKg(trips.reduce((sum,t)=>sum+(Number(pendingTotalKg(t))||0),0));
+     $('manualCrates').value=String(roundHalf(totalCrates));
+     $('manualCrates').dataset.aggregateEdit='1';
+     $('estimatedLiveWeightMeta').value=String(totalEstimated);
+   }else{
+     $('manualCrates').value=pendingAmount(deliveryTrip)>0?String(roundHalf(pendingAmount(deliveryTrip))):'';
+     delete $('manualCrates').dataset.aggregateEdit;
+     $('estimatedLiveWeightMeta').value=String(wholeKg(pendingTotalKg(deliveryTrip)));
+   }
    $('entryBoxWeightMeta').value=pendingKgPerCrate(deliveryTrip)>0?String(roundHalf(pendingKgPerCrate(deliveryTrip))):'';
-   $('estimatedLiveWeightMeta').value=String(wholeKg(pendingTotalKg(deliveryTrip)));
    entrySyncSource='live';
 
    const landingDate=(deliveryTrip.returnAt||deliveryTrip.departure||'').slice(0,10);
@@ -2911,11 +3152,11 @@ function updateSourceSummary(){
    }
    syncEntryCratesAndLive('live');
 
-   const carryNumbers=trips.filter(t=>t.id!==deliveryTrip.id).map(t=>tripNumberForPending(t)).filter(Boolean).join('+');
+   const carryNumbers=trips.filter(t=>t.id!==deliveryTrip.id).map(t=>tripNumberForChoice(t)).filter(Boolean).join('+');
    const modeText=trips.length>1?'Zusammen gesiebt / gemeinsame Lieferung':'Getrennt gesiebt / einzelne Reise';
    const label=trips.length>1
-     ? 'In Arbeit: Reise '+prospectiveTripNumbers()+' · Lieferreise '+tripNumberForPending(deliveryTrip)+' · Übertrag '+(carryNumbers||'–')
-     : 'In Arbeit: Reise '+tripNumberForPending(deliveryTrip)+' · '+deliveryTrip.deu;
+     ? 'In Arbeit: Reise '+prospectiveTripNumbers()+' · Lieferreise '+tripNumberForChoice(deliveryTrip)+' · Übertrag '+(carryNumbers||'–')
+     : 'In Arbeit: Reise '+tripNumberForChoice(deliveryTrip)+' · '+deliveryTrip.deu;
    $('workModeBanner').textContent=label+' · '+modeText;
    $('workModeBanner').classList.remove('hidden');
    $('entryForm').classList.add('work-in-progress');
@@ -2934,18 +3175,23 @@ function updateSourceSummary(){
 function renderSourceTripsSaved(r){
  const trips=additionalSourceTripsForRecord(r);
  if(!trips.length)return '';
- return `<div class="saved-line source-saved"><span>Übernommene Reise(n)</span><strong>${trips.map(t=>`<button class="source-trip-link" type="button" onclick="openSourceTrip('${t.id}')">${t.deu}</button>`).join('')}</strong></div>`;
+ return `<div class="saved-line source-saved"><span>Übernommene Reise(n)</span><strong>${trips.map(t=>`<button class="source-trip-link" type="button" onclick="openSourceTrip('${t.id}')">Reise ${tripNumberForPending(t)} · ${t.deu}</button>`).join('')}</strong></div>`;
 }
 function renderSourceTripsList(r){
  const trips=additionalSourceTripsForRecord(r);
  if(!trips.length)return '–';
- return `<span class="list-source-stack">${trips.map(t=>`<button class="source-trip-link list-source-link" type="button" onclick="openSourceTrip('${t.id}')">${t.deu}</button>`).join('')}</span>`;
+ return `<span class="list-source-stack">${trips.map(t=>`<button class="source-trip-link list-source-link" type="button" onclick="openSourceTrip('${t.id}')">R${tripNumberForPending(t)} · ${t.deu}</button>`).join('')}</span>`;
 }
 function renderPendingTrips(){
  const wrap=$('pendingCards');if(!wrap)return;
  const section=document.querySelector('.dashboard-open-trips');
  const open=openPendingTrips();
- $('pendingCount').textContent=open.length+' offen';
+ const openCount=open.filter(t=>!t.returnAt).length;
+ const endedCount=open.filter(t=>!!t.returnAt).length;
+ $('pendingCount').textContent=[
+   openCount?openCount+' offen':'',
+   endedCount?endedCount+' beendet':''
+ ].filter(Boolean).join(' · ')||'0 offen';
 
  if(!open.length){
    section?.classList.add('is-empty');
@@ -2956,9 +3202,9 @@ function renderPendingTrips(){
 
  section?.classList.remove('is-empty');
  wrap.innerHTML=open.map(t=>`<div class="pending-card dashboard-trip-card">
-  <div class="pending-card-head"><strong>Reise ${tripNumberForPending(t)} · ${t.deu}</strong><span class="status-badge ${t.storageType}">${pendingTypeLabel(t.storageType)}</span></div>
+  <div class="pending-card-head"><strong>${pendingJourneyState(t)} · Reise ${tripNumberForPending(t)} · ${t.deu}</strong><span class="status-badge ${t.storageType}">${pendingTypeLabel(t.storageType)}</span></div>
   <div class="dashboard-trip-card-line"><b>Aus:</b> ${fmtDateTime(t.departure)}<br><b>Ein:</b> ${t.returnAt?fmtDateTime(t.returnAt):'<span class="trip-still-open">noch unterwegs</span>'}</div>
-  <div class="dashboard-trip-card-line"><b>${num(pendingAmount(t))} Kisten</b> · ${num2(pendingKgPerCrate(t))} kg geschätzt/Kiste · <b>${num2(pendingTotalKg(t))} kg</b></div>
+  <div class="dashboard-trip-card-line"><b>${num(pendingAmount(t))} Kisten</b> · ${num2(pendingKgPerCrate(t))} kg geschätzt/Kiste · <b>Geschätzt: ${num(pendingTotalKg(t))} kg</b> · <b>Lebendgewicht: ${num(pendingLiveWeight(t))} kg</b></div>
   ${t.note?`<div class="pending-note">${t.note}</div>`:''}
   <div class="actions dashboard-trip-actions"><button class="btn primary take-trip-btn" onclick="takePendingToDelivery('${t.id}')">Für Lieferung übernehmen</button><button class="btn secondary" onclick="editPending('${t.id}')">Bearbeiten</button><button class="btn danger" onclick="deletePending('${t.id}')">Löschen</button></div>
  </div>`).join('');
@@ -2970,6 +3216,7 @@ function resetPendingForm(){
  $('pendingQuantityType').value='crates';
  $('pendingKgPerCrate').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';
  $('pendingTotalKg').value='0';
+ updatePendingLiveWeight();
  setPendingEditState(false);
  $('pendingTripNumber').value='–';
  updatePendingQuantityUi();
@@ -3019,6 +3266,7 @@ function editPending(id){
  $('pendingNote').value=t.note||'';
  pendingSyncSource='total';
  setPendingEditState(true,'Reise '+tripNumberForPending(t)+' · '+t.deu);
+ updatePendingLiveWeight();
  updatePendingTripNumber();
  document.querySelector('.dashboard-pending').classList.add('pending-edit-focus');
  window.scrollTo({top:Math.max(0,document.querySelector('.dashboard-pending').getBoundingClientRect().top+window.scrollY-70),behavior:'smooth'});
@@ -3036,7 +3284,8 @@ function openSourceTrip(id){
   <div class="saved-line"><span>Eingelaufen</span><strong>${fmtDateTime(t.returnAt)}</strong></div>
   <div class="saved-line"><span>Kistenzahl</span><strong>${num(pendingAmount(t))} Kisten</strong></div>
   <div class="saved-line"><span>Geschätzte kg pro Kiste</span><strong>${pendingKgPerCrate(t)>0?num2(pendingKgPerCrate(t))+' kg':'–'}</strong></div>
-  <div class="saved-line"><span>kg gesamt</span><strong>${num2(pendingTotalKg(t))} kg</strong></div>
+  <div class="saved-line"><span>Geschätztes Gewicht</span><strong>${num(pendingTotalKg(t))} kg</strong></div>
+  <div class="saved-line"><span>Lebendgewicht</span><strong>${num(pendingLiveWeight(t))} kg</strong></div>
   <div class="saved-line"><span>Meldungsart</span><strong>${pendingTypeLabel(t.storageType)}</strong></div>
   <div class="saved-line"><span>Lagerort</span><strong>${t.storageLocation||'–'}</strong></div>
   <div class="saved-line"><span>Status</span><strong>${t.status==='completed'?'Abgeschlossen':'Offen'}</strong></div>
@@ -3066,10 +3315,13 @@ function shiftEntryDate(days){
  const d=parseDate($('date').value||today());d.setDate(d.getDate()+days);$('date').value=dateKey(d);formCalc();
 }
 function formatPriceInput(el){
- if(el.value!==''&&!Number.isNaN(Number(el.value)))el.value=Number(el.value).toFixed(2);
+ if(el.value!==''&&!Number.isNaN(Number(el.value))){
+   const rounded=Math.round(Number(el.value)*20)/20;
+   el.value=rounded.toFixed(2);
+ }
 }
 
-function resetForm(){
+function resetForm(){editingVirtualDeliveryTrip=null;if($('manualCrates'))delete $('manualCrates').dataset.aggregateEdit;
  clearEntryValidation();
  $('entryForm').reset();$('editId').value='';$('deliveryTripId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value=today();$('reportType').value='landed';$('entryForm').classList.remove('zero-report');$('entryForm').classList.remove('non-delivery-report');$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value=today();$('sieveDate').disabled=false;$('sieveDateField').classList.remove('is-disabled');$('sieveDate').value=today();$('note').value='';$('manualCrates').disabled=false;$('manualCrates').value='';entrySyncSource='crates';$('entryBoxWeightMeta').disabled=false;$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';if($('estimatedLiveWeightMeta'))$('estimatedLiveWeightMeta').value='0';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
  ['w1','w2','w3','waste'].forEach(id=>{$(id).disabled=false;$(id).value=''});latestPrices().forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
@@ -3206,11 +3458,21 @@ function renderDashboard(){
  const currentPrices=latestPrices();
  $('weekPriceStrip').innerHTML=`
   <div class="week-price-title">Aktuelle Preise</div>
-  ${[1,2,3].map((n,i)=>`<label class="week-price-edit"><span>Sorte ${n}</span><input id="dashPrice${n}" type="number" min="0" step="0.01" value="${Number(currentPrices[i]||0).toFixed(2)}"><small>€/kg</small></label>`).join('')}
+  ${[1,2,3].map((n,i)=>`<label class="week-price-edit"><span>Sorte ${n}</span><input id="dashPrice${n}" type="number" min="0" step="0.05" value="${Number(currentPrices[i]||0).toFixed(2)}"><small>€/kg</small></label>`).join('')}
   <button class="btn primary week-price-save" id="saveWeekPrices" type="button">Preise übernehmen</button>`;
+ [1,2,3].forEach(i=>{
+   const el=$('dashPrice'+i);
+   if(el){
+     el.addEventListener('change',()=>formatPriceInput(el));
+     el.addEventListener('blur',()=>formatPriceInput(el));
+   }
+ });
  $('saveWeekPrices').onclick=()=>{
-   settings.lastPrices=[1,2,3].map(i=>Number($('dashPrice'+i).value)||0);
-   settings.lastPrices.forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
+   settings.lastPrices=[1,2,3].map(i=>Math.round((Number($('dashPrice'+i).value)||0)*20)/20);
+   settings.lastPrices.forEach((p,i)=>{
+     $('p'+(i+1)).value=Number(p).toFixed(2);
+     $('dashPrice'+(i+1)).value=Number(p).toFixed(2);
+   });
    persist();formCalc();
    const btn=$('saveWeekPrices');btn.textContent='Gespeichert ✓';
    setTimeout(()=>{btn.textContent='Preise übernehmen'},1200);
@@ -3355,12 +3617,12 @@ function renderDashboard(){
 function table(arr){
  if(!arr.length)return '<table><tr><td class="empty">Noch keine Lieferungen vorhanden.</td></tr></table>';
  return `<table><thead><tr>
-  <th>Reise-Nr.</th><th>KW</th><th>Auslaufdatum</th><th>Einlaufen</th><th>Anlandedatum</th><th>DEU-Nummer</th><th>Meldungsart</th>
-  <th class="grp-a grp-a-start">S1 kg</th><th class="grp-a">S2 kg</th><th class="grp-a">S3 kg</th><th class="grp-a">Produktgewicht</th><th class="grp-a">Sieb kg / %</th><th class="grp-a grp-a-end">vCatch-Kisten</th>
-  <th class="grp-b grp-b-start">Kisten manuell</th><th class="grp-b">Brutto je Kiste</th><th class="grp-b grp-b-end">Netto je Kiste</th>
-  <th>Umsatz</th><th>Lohn</th><th title="Übernommene Reisen">Ü-Reise(n)</th><th>Bem.</th><th>Aktion</th>
+  <th>Reise-Nr.</th><th>KW</th><th>Auslaufen</th><th>Einlaufen</th><th>Anlandung</th><th>DEU-Nummer</th><th>Meldungsart</th>
+  <th class="grp-a grp-a-start">S1 kg</th><th class="grp-a">S2 kg</th><th class="grp-a">S3 kg</th><th class="grp-a">Produktgewicht</th><th class="grp-a">Sieb kg / %</th><th class="grp-a grp-a-end">vCatch</th>
+  <th class="grp-b grp-b-start">Kisten</th><th class="grp-b">Brutto/K.</th><th class="grp-b grp-b-end">Netto/K.</th>
+  <th>Umsatz</th><th>Lohn</th><th title="Übernommene Reisen">Ü-Reise</th><th>Bem.</th><th>Aktion</th>
  </tr></thead><tbody>${arr.map(r=>{
-   r=normalize(r);
+   r=applyVcatchFromLiveRecord(normalize(r));
    const landing=r.supplier||r.date;
    return `<tr>
     <td class="trip-number-cell">${displayTripNumbersForRecord(r)}</td>
@@ -3376,7 +3638,7 @@ function table(arr){
     <td class="grp-a">${num(r.sorts[2].weight)}</td>
     <td class="grp-a list-sales-weight">${kg(r.weight)}</td>
     <td class="grp-a">${num(r.waste)} kg / ${num2(r.catchWeight?r.waste/r.catchWeight*100:0)} %</td>
-    <td class="grp-a grp-a-end">${Number(r.vcatchBoxesRounded)||0}</td>
+    <td class="grp-a grp-a-end">${Math.round(actualLiveWeightForRecord(r)/17)}</td>
 
     <td class="grp-b grp-b-start">${Number(r.manualCrates)||0}</td>
     <td class="grp-b">${deletedCratesForRecord(r)>0?num2(r.catchWeight/deletedCratesForRecord(r))+' kg':'–'}</td>
@@ -3448,7 +3710,7 @@ function validateEntryForm(){
  if(type!=='zero'){
    if(n('manualCrates')<=0)required.push(['manualCrates','Kistenzahl fehlt']);
    if(n('entryBoxWeightMeta')<=0)required.push(['entryBoxWeightMeta','Geschätzte kg pro Kiste fehlen']);
-   if(n('estimatedLiveWeightMeta')<=0)required.push(['estimatedLiveWeightMeta','Geschätztes Lebendgewicht fehlt']);
+   if(n('estimatedLiveWeightMeta')<=0)required.push(['estimatedLiveWeightMeta','Geschätztes Gewicht fehlt']);
  }
  if(isProductReportType(type)){
    if(!$('sieveDate').value)required.push(['sieveDate','Siebdatum fehlt']);
@@ -3501,7 +3763,8 @@ $('pendingForm').addEventListener('submit',e=>{
  e.preventDefault();
  storePendingTrip({keepForm:false});
 });
-// v0.7.52: Archiv nach vollständigem Auslaufzeitpunkt absteigend; letzte Reise oben.\n$('entryForm').addEventListener('submit',e=>{e.preventDefault();if(!validateEntryForm())return;const r=normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),reportType:$('reportType').value,note:$('note').value.trim(),sorts:formSortsForRecord(),waste:isDirectProductReportType($('reportType').value)?0:n('waste'),quality:0,manualCrates:n('manualCrates'),sieveDate:isProductReportType($('reportType').value)?$('sieveDate').value:'',sourceTripIds:(getSelectedTripIds().length?getSelectedTripIds():($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{})):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),estimatedLiveWeight:n('estimatedLiveWeightMeta'),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()});const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();const wasEdit=i>=0;status('formStatus',wasEdit?(r.reportType==='zero'?'Nullmeldung aktualisiert.':'Lieferung aktualisiert.'):(r.reportType==='zero'?'Nullmeldung gespeichert.':'Lieferung gespeichert.'));resetForm();flashSaved($('entryForm'));showSavedRecord(r.id)});
+// v0.7.57: vCatch-Archivfenster – Laufzeitfehler beim Zeilenklick behoben.
+$('entryForm').addEventListener('submit',e=>{e.preventDefault();if(!validateEntryForm())return;const r=applyVcatchFromLiveRecord(normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),reportType:$('reportType').value,note:$('note').value.trim(),sorts:formSortsForRecord(),waste:isDirectProductReportType($('reportType').value)?0:n('waste'),quality:0,manualCrates:ownCratesForSave(),sieveDate:isProductReportType($('reportType').value)?$('sieveDate').value:'',sourceTripIds:(getSelectedTripIds().filter(id=>!id.startsWith('record:')).length?getSelectedTripIds().filter(id=>!id.startsWith('record:')):($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{}).filter(id=>!id.startsWith('record:'))):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value.startsWith('record:')?'':$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),estimatedLiveWeight:ownEstimatedForSave(),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()}));const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();const wasEdit=i>=0;status('formStatus',wasEdit?(r.reportType==='zero'?'Nullmeldung aktualisiert.':'Lieferung aktualisiert.'):(r.reportType==='zero'?'Nullmeldung gespeichert.':'Lieferung gespeichert.'));resetForm();flashSaved($('entryForm'));showSavedRecord(r.id)});
 function editRecord(id){
  const r=records.find(x=>x.id===id);if(!r)return;
  show('entry');$('editId').value=r.id;$('formTitle').textContent='Lieferung bearbeiten';
@@ -3509,7 +3772,28 @@ function editRecord(id){
  $('editModeBanner').classList.remove('hidden');$('cancelEdit').classList.remove('hidden');$('entryForm').classList.add('editing-mode');
  $('date').value=r.date;$('deliveryTripId').value=r.deliveryTripId||'';$('departureAt').value=r.departureAt||'';$('arrivalAt').value=r.arrivalAt||'';$('supplier').value=r.supplier||r.date||'';$('receipt').value=r.receipt||'';$('reportType').value=r.reportType||'landed';$('sieveDate').value=r.sieveDate||r.date||'';$('manualCrates').value=Number(r.manualCrates)||'';$('note').value=r.note||'';$('entryBoxWeight').value=Number(r.boxWeight||settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=estimatedKgPerCrateForRecord(r)>0?Number(estimatedKgPerCrateForRecord(r)).toFixed(2):'';$('estimatedLiveWeightMeta').value=String(wholeKg(Number(r.estimatedLiveWeight)>0?Number(r.estimatedLiveWeight):(Number(r.manualCrates)||0)*estimatedKgPerCrateForRecord(r)));$('vcatchBoxesRounded').value=String(Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes));$('vcatchBoxesRounded').dataset.manual=Number.isFinite(Number(r.vcatchBoxesRounded))?'1':'0';
  r.sorts.forEach((s,i)=>{$('w'+(i+1)).value=s.weight;$('p'+(i+1)).value=Number(s.price||0).toFixed(2)});
- $('waste').value=r.waste||'';renderSourceTripChoices(effectiveSourceTripIds(r));$('sourceProcessingMode').value=r.sourceProcessingMode||'single';savedRecordId=r.id;showSavedRecord(r.id);applyReportTypeUi();formCalc();updateInfoPanelFromForm();updateEntryTripNumber();setEntryEditDirty(false);scrollTo({top:0,behavior:'smooth'})
+ $('waste').value=r.waste||'';
+ let editTripIds=effectiveSourceTripIds(r).filter(id=>pendingTrips.some(t=>t.id===id));
+
+ // Wenn die eigentliche Lieferreise nicht mehr als pendingTrip existiert,
+ // wird sie aus dem Lieferdatensatz rekonstruiert (z. B. Reise 5 bei Reise 4+5).
+ editingVirtualDeliveryTrip=recordRepresentsOwnTrip(r)?virtualDeliveryTripFromRecord(r):null;
+ if(editingVirtualDeliveryTrip){
+   editTripIds=[...new Set([...editTripIds,editingVirtualDeliveryTrip.id])];
+   $('deliveryTripId').value=editingVirtualDeliveryTrip.id;
+ }
+
+ renderSourceTripChoices(editTripIds);
+ $('sourceProcessingMode').value=editTripIds.length>1?'combined':(r.sourceProcessingMode||'single');
+ savedRecordId=r.id;
+ showSavedRecord(r.id);
+ applyReportTypeUi();
+
+ // Alle zur Lieferung gehörenden Fangreisen bleiben beim Bearbeiten angehakt.
+ // updateSourceSummary nutzt dabei die bereits gespeicherte Lieferreise.
+ updateSourceSummary();
+
+ formCalc();updateInfoPanelFromForm();updateEntryTripNumber();setEntryEditDirty(false);scrollTo({top:0,behavior:'smooth'})
 }
 function removeRecord(id){if(confirm('Diese Lieferung wirklich löschen?')){records=records.filter(r=>r.id!==id);refresh()}}
 window.editRecord=editRecord;window.removeRecord=removeRecord;window.openNote=openNote;window.editPending=editPending;window.deletePending=deletePending;window.openSourceTrip=openSourceTrip;window.takePendingToDelivery=takePendingToDelivery;
@@ -3543,8 +3827,8 @@ $('deleteMonthQuality').onclick=()=>{const {y,m,key}=selectedQualityContext();co
 $('cancelMonthQuality').onclick=()=>{const {y,m,key}=selectedQualityContext();$('monthQualityInput').value=Number(settings.monthlyQuality[key]||0).toFixed(2);status('monthQualityStatus','Änderung für '+months[m]+' '+y+' verworfen.')};
 $('backToTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
 $('prevWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()-7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('nextWeek').onclick=()=>{const d=parseDate($('dashDate').value||today());d.setDate(d.getDate()+7);$('dashDate').value=dateKey(d);$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);renderDashboard()};$('listYear').onchange=renderList;$('listMonth').onchange=renderList;$('search').oninput=renderList;
-function renderSettings(){$('setSupplier').value=settings.supplier;$('setWage').value=settings.wage;$('setBoxWeight').value=settings.boxWeight;$('setBoxRounding').value=settings.boxRounding}
-$('saveSettings').onclick=()=>{settings={supplier:$('setSupplier').value.trim(),wage:n('setWage'),boxWeight:n('setBoxWeight')||17,boxRounding:$('setBoxRounding').value,monthlyQuality:settings.monthlyQuality||{},lastPrices:Array.isArray(settings.lastPrices)?settings.lastPrices:[0,0,0],lastEstimatedKgPerCrate:Number(settings.lastEstimatedKgPerCrate)||0,dashboardDateBasis:settings.dashboardDateBasis==='sieve'?'sieve':'landing'};refresh();formCalc();status('settingsStatus','Einstellungen gespeichert.')};
+function renderSettings(){$('setSupplier').value=settings.supplier;$('setWage').value=settings.wage;$('setBoxWeight').value='17';$('setBoxRounding').value=settings.boxRounding}
+$('saveSettings').onclick=()=>{settings={supplier:$('setSupplier').value.trim(),wage:n('setWage'),boxWeight:17,boxRounding:$('setBoxRounding').value,monthlyQuality:settings.monthlyQuality||{},lastPrices:Array.isArray(settings.lastPrices)?settings.lastPrices:[0,0,0],lastEstimatedKgPerCrate:Number(settings.lastEstimatedKgPerCrate)||0,dashboardDateBasis:settings.dashboardDateBasis==='sieve'?'sieve':'landing'};refresh();formCalc();status('settingsStatus','Einstellungen gespeichert.')};
 function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
 
 function excelSerialToDate(v){
@@ -3670,7 +3954,7 @@ $('importExcel2025').onclick=()=>{
  status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
 };
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.52-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.52-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.64-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.64-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -3695,7 +3979,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=normalize(r);return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.52-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.64-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -3765,21 +4049,20 @@ $('dashDate').value=today();resetForm();fillSelectors();$('dashYear').value=pars
     const source=records.find(x=>String(x.id)===String(id));
     if(!source)return;
 
-    const r=normalize(source);
+    let r=normalize(source);
     ensureVcatchModal750();
 
     const tripLabel=typeof displayTripNumbersForRecord==='function'
       ? (displayTripNumbersForRecord(r)||'–') : '–';
-    const boxWeight=Number(r.boxWeight)||Number(settings?.boxWeight)||17;
+    r=applyVcatchFromLiveRecord(r);
+    const boxWeight=17;
     const sieveKg=Number(r.waste)||0;
-    const sieveCrates=boxWeight>0?Math.round(sieveKg/boxWeight):0;
     const productKg=Number(r.weight)||((r.sorts||[]).reduce((s,x)=>s+(Number(x?.weight)||0),0));
     const catchKg=Number(r.catchWeight)||(productKg+sieveKg);
-    const vcatchCrates=Number(r.vcatchBoxesRounded)||0;
+    const vcatchCrates=Math.round(actualLiveWeightForRecord(r)/17);
     const caughtCrates=Number(r.manualCrates)||0;
-    const liveKg=typeof liveWeightForRecord==='function'
-      ? Number(liveWeightForRecord(r))||0
-      : Number(r.estimatedLiveWeight)||0;
+    const estimatedKg=wholeKg(Number(liveWeightForRecord(r))||0);
+    const liveKg=Number(actualLiveWeightForRecord(r))||0;
     const normal=typeof infoPanelSections==='function'?infoPanelSections(r,'saved'):null;
 
     const grid=(label,value,focus='')=>
@@ -3794,16 +4077,12 @@ $('dashDate').value=today();resetForm();fillSelectors();$('dashYear').value=pars
         ${grid('DEU-Nr.',escape750(r.receipt||'–'),'focus')}
         ${grid('vCatch-Kisten',`${vcatchCrates} Kisten`,'focus')}
         ${grid('Kisten gefangen',`${num(caughtCrates)} Kisten`)}
-        ${grid('Lebendgewicht',liveKg>0?`${num2(liveKg)} kg`:'–')}
+        ${grid('Geschätztes Gewicht',estimatedKg>0?`${num(estimatedKg)} kg`:'–')}
+        ${grid('Lebendgewicht',liveKg>0?`${num(liveKg)} kg`:'–','focus')}
         ${grid('Produktgewicht',`${num(productKg)} kg`,'product')}
         ${grid('Sieb',`${num(sieveKg)} kg`,'sieve')}
-        ${grid('Sieb-Kisten',`${sieveCrates} Kisten`,'sieve')}
-        ${grid('kg je Kiste',`${num2(boxWeight)} kg`)}
+        ${grid('kg je vCatch-Kiste','17,00 kg')}
         ${grid('Produktgewicht inkl. Sieb',`${num(catchKg)} kg`)}
-      </div>
-      <div class="vcatch-read-rule">
-        Sieb-Kisten: ${num2(sieveKg)} kg ÷ ${num2(boxWeight)} kg/Kiste =
-        ${num2(boxWeight>0?sieveKg/boxWeight:0)} → <b>${sieveCrates} Kisten</b> (normal gerundet)
       </div>
       ${normal?.top?`<div class="vcatch-read-details">
         <div class="vcatch-read-subtitle">Lieferdetails</div>${normal.top}
@@ -3875,7 +4154,7 @@ const firebaseConfig = {
   appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
 };
 
-const APP_VERSION = "0.7.52-standalone";
+const APP_VERSION = "0.7.64-standalone";
 const SYNC_META_KEY = "krabben_firebase_sync_meta_v3";
 const DEVICE_KEY = "krabben_device_id_v1";
 const bridge = window.KrabbenCloudBridge;
