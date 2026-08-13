@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.64 Standalone</title>
+<title>Krabben-Lieferungen v0.7.72 Standalone</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1976,7 +1976,7 @@ body{zoom:1.10!important}
 @supports not (zoom:1){body{transform:scale(1.10)!important;transform-origin:top left!important;width:90.91%!important}}
 
 
-/* v0.7.64 Standalone: sichere Reiseübernahme und Mobilansicht */
+/* v0.7.72 Standalone: sichere Reiseübernahme und Mobilansicht */
 .source-mode-row:has(#sourceProcessingMode[value="combined"]){border-color:#b47d00!important}
 #sourceProcessingMode{pointer-events:none;background:#fffdf5!important}
 #sourceProcessingMode option{color:#173847}
@@ -1985,7 +1985,7 @@ body{zoom:1.10!important}
 @media(max-width:760px){
  body{zoom:1!important}
  @supports not (zoom:1){body{transform:none!important;width:100%!important}}
- header{position:sticky!important;top:0!important}
+ header{position:static!important;top:auto!important}
  .header{gap:7px!important}
  .backup-badge,.sync-badge{min-width:0!important;padding:4px 6px!important}
  .tabs{width:100%;display:grid!important;grid-template-columns:repeat(2,1fr)!important}
@@ -2104,6 +2104,261 @@ body{zoom:1.10!important}
  font-weight:700;
 }
 
+
+/* v0.7.66 – Wochen-Navigation + Mobilansicht */
+.week-price-nav-row{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) auto;
+ gap:10px;
+ align-items:end;
+ margin-bottom:10px;
+}
+.week-price-nav-row .week-price-strip{
+ margin:0!important;
+ min-width:0;
+ padding:7px 9px!important;
+ gap:6px!important;
+}
+.week-nav-next-to-prices{
+ display:flex;
+ align-items:end;
+ gap:6px;
+ white-space:nowrap;
+}
+.week-nav-next-to-prices .btn{padding:7px 9px;min-width:auto}
+.week-today-btn{
+ background:#e8f4ec!important;
+ color:#195f40!important;
+ border:1px solid #9bc8ae!important;
+}
+@media(max-width:760px){
+ header{position:static!important;top:auto!important}
+ #monthTable .month-quick-grid .mq-rowhead{
+  position:static!important;
+  left:auto!important;
+  z-index:auto!important;
+ }
+ #monthTable .month-quick-grid{
+  grid-template-columns:145px repeat(12,minmax(100px,1fr))!important;
+ }
+ #monthTable .month-quick-grid .mq-rowhead{
+  min-width:145px!important;
+  padding-left:6px!important;
+  padding-right:6px!important;
+ }
+ .week-price-nav-row{grid-template-columns:1fr!important;gap:6px!important}
+ .week-nav-next-to-prices{justify-content:flex-end;width:100%}
+ .week-nav-next-to-prices .btn{flex:1}
+}
+
+
+/* v0.7.72 – Hinweis für nicht aktuelle Woche entfällt; Farbmarkierung reicht */
+#weekNotCurrent,
+.week-not-current{
+ display:none!important;
+}
+
+
+/* v0.7.72 – vCatch-Lieferdetails in 3 Spalten:
+   Spalte 1 = linke Detailfelder
+   Spalte 2 = rechte Detailfelder
+   Spalte 3 = Sorte 1/2/3 + Sieb */
+.vcatch-read-details .info-panel{
+ display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:6px!important;
+ align-items:start!important;
+}
+.vcatch-read-details .info-state,
+.vcatch-read-details .info-titlebar,
+.vcatch-read-details .info-line-help,
+.vcatch-read-details .info-source-box,
+.vcatch-read-details .info-note-box{
+ grid-column:1/-1!important;
+}
+.vcatch-read-details .info-meta-grid{
+ grid-column:1 / span 2!important;
+ display:grid!important;
+ grid-template-columns:1fr 1fr!important;
+ gap:5px!important;
+ align-self:start!important;
+}
+.vcatch-read-details .info-line-grid{
+ grid-column:3!important;
+ display:grid!important;
+ grid-template-columns:1fr!important;
+ gap:5px!important;
+ align-self:start!important;
+}
+.vcatch-read-details .info-box{
+ min-height:38px!important;
+ padding:5px 8px!important;
+}
+.vcatch-read-details .info-box span{
+ font-size:.58rem!important;
+ line-height:1.02!important;
+ margin-bottom:1px!important;
+}
+.vcatch-read-details .info-box strong{
+ font-size:.78rem!important;
+ line-height:1.04!important;
+}
+.vcatch-read-details .info-line-card{
+ padding:5px 6px!important;
+ gap:4px!important;
+}
+.vcatch-read-details .info-line-head strong{
+ font-size:.78rem!important;
+ line-height:1.03!important;
+}
+.vcatch-read-details .info-mini{
+ padding:4px 5px!important;
+}
+.vcatch-read-details .info-mini span{
+ font-size:.52rem!important;
+ line-height:1!important;
+ margin-bottom:1px!important;
+}
+.vcatch-read-details .info-mini strong{
+ font-size:.72rem!important;
+ line-height:1.02!important;
+}
+
+/* Auf kleineren Displays wieder umbrechen */
+@media(max-width:1100px){
+ .vcatch-read-details .info-panel{
+  grid-template-columns:1fr 1fr!important;
+ }
+ .vcatch-read-details .info-meta-grid{
+  grid-column:1 / -1!important;
+ }
+ .vcatch-read-details .info-line-grid{
+  grid-column:1 / -1!important;
+  grid-template-columns:1fr!important;
+ }
+}
+@media(max-width:760px){
+ .vcatch-read-details .info-panel{
+  grid-template-columns:1fr!important;
+ }
+ .vcatch-read-details .info-meta-grid{
+  grid-column:1!important;
+  grid-template-columns:1fr 1fr!important;
+ }
+ .vcatch-read-details .info-line-grid{
+  grid-column:1!important;
+  grid-template-columns:1fr!important;
+ }
+}
+@media(max-width:520px){
+ .vcatch-read-details .info-meta-grid{
+  grid-template-columns:1fr!important;
+ }
+}
+
+
+/* v0.7.72 – dritte Spalte mit Sorte 1/2/3/Sieb immer untereinander */
+.vcatch-read-details .info-line-grid > *{
+ width:100%!important;
+}
+
+
+/* v0.7.72 – dritte Spalte wirklich untereinander:
+   Sorte 1, Sorte 2, Sorte 3, Sieb als vertikale Liste */
+.vcatch-read-details .info-panel{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(320px,.95fr)!important;
+  gap:8px!important;
+  align-items:start!important;
+}
+.vcatch-read-details .info-state,
+.vcatch-read-details .info-titlebar,
+.vcatch-read-details .info-line-help,
+.vcatch-read-details .info-source-box,
+.vcatch-read-details .info-note-box{
+  grid-column:1 / -1!important;
+}
+.vcatch-read-details .info-meta-grid{
+  grid-column:1 / span 2!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:6px!important;
+  align-self:start!important;
+}
+.vcatch-read-details .info-line-grid{
+  grid-column:3!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:6px!important;
+  align-self:start!important;
+}
+.vcatch-read-details .info-line-grid > .info-line-card{
+  width:100%!important;
+  margin:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+}
+.vcatch-read-details .info-line-card{
+  padding:6px 7px!important;
+  border-radius:8px!important;
+  gap:4px!important;
+}
+.vcatch-read-details .info-line-head{
+  gap:4px!important;
+}
+.vcatch-read-details .info-line-head strong{
+  font-size:.82rem!important;
+  line-height:1.04!important;
+}
+.vcatch-read-details .info-line-values{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:5px!important;
+}
+.vcatch-read-details .info-mini{
+  padding:5px 6px!important;
+  border-radius:7px!important;
+}
+.vcatch-read-details .info-mini span{
+  font-size:.54rem!important;
+  line-height:1!important;
+  margin-bottom:1px!important;
+}
+.vcatch-read-details .info-mini strong{
+  font-size:.74rem!important;
+  line-height:1.03!important;
+}
+@media(max-width:1150px){
+  .vcatch-read-details .info-panel{
+    grid-template-columns:1fr 1fr!important;
+  }
+  .vcatch-read-details .info-meta-grid{
+    grid-column:1 / -1!important;
+  }
+  .vcatch-read-details .info-line-grid{
+    grid-column:1 / -1!important;
+    display:flex!important;
+    flex-direction:column!important;
+  }
+}
+@media(max-width:760px){
+  .vcatch-read-details .info-panel{
+    grid-template-columns:1fr!important;
+  }
+  .vcatch-read-details .info-meta-grid{
+    grid-column:1!important;
+    grid-template-columns:1fr 1fr!important;
+  }
+  .vcatch-read-details .info-line-grid{
+    grid-column:1!important;
+  }
+}
+@media(max-width:520px){
+  .vcatch-read-details .info-meta-grid{
+    grid-template-columns:1fr!important;
+  }
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
@@ -2155,10 +2410,341 @@ body{zoom:1.10!important}
  .vcatch-read-item{padding:7px}
  .vcatch-read-item strong{font-size:.82rem}
 }
+
+/* v0.7.65 – vCatch-Info kompakter */
+.vcatch-read-card{
+ width:min(920px,95vw)!important;
+ max-height:88vh!important;
+}
+.vcatch-read-head{
+ padding:10px 14px!important;
+ gap:8px!important;
+}
+.vcatch-read-head strong{
+ font-size:1rem!important;
+ line-height:1.15!important;
+}
+.vcatch-read-head small{
+ font-size:.78rem!important;
+ margin-top:1px!important;
+}
+.vcatch-read-head button{
+ padding:6px 9px!important;
+ border-radius:7px!important;
+}
+.vcatch-read-body{
+ padding:10px!important;
+}
+.vcatch-read-primary{
+ display:grid!important;
+ grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:8px!important;
+}
+.vcatch-read-item{
+ padding:8px 10px!important;
+ border-radius:11px!important;
+}
+.vcatch-read-item small,
+.vcatch-read-item .label{
+ font-size:.7rem!important;
+ line-height:1.1!important;
+}
+.vcatch-read-item strong{
+ font-size:.78rem!important;
+ line-height:1.1!important;
+}
+.vcatch-read-details{
+ margin-top:8px!important;
+ padding-top:8px!important;
+}
+.vcatch-read-subtitle{
+ font-size:.7rem!important;
+ margin-bottom:4px!important;
+}
+.vcatch-read-details .saved-card,
+.vcatch-read-details .saved-record,
+.vcatch-read-details .info-grid,
+.vcatch-read-details .info-source-box{
+ margin-top:8px!important;
+}
+.vcatch-read-details .saved-title,
+.vcatch-read-details .saved-line span,
+.vcatch-read-details .saved-line strong{
+ font-size:.82rem!important;
+}
+.vcatch-read-details .saved-line{
+ padding:6px 10px!important;
+ min-height:auto!important;
+}
+@media(max-width:900px){
+ .vcatch-read-card{
+  width:min(96vw,860px)!important;
+  max-height:90vh!important;
+ }
+}
+@media(max-width:700px){
+ .vcatch-read-card{width:98vw!important;max-height:93vh!important}
+ .vcatch-read-primary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .vcatch-read-body{padding:9px!important}
+}
+
+
+/* v0.7.72 – vCatch-Info deutlich kompakter */
+.vcatch-read-modal{
+ padding:8px!important;
+ align-items:flex-start!important;
+}
+.vcatch-read-card{
+ width:min(1080px,97vw)!important;
+ max-height:94vh!important;
+ margin-top:8px!important;
+ border-radius:12px!important;
+ overflow:auto!important;
+}
+.vcatch-read-head{
+ padding:8px 12px!important;
+ min-height:auto!important;
+}
+.vcatch-read-head strong{
+ font-size:1rem!important;
+ line-height:1.05!important;
+}
+.vcatch-read-head small{
+ font-size:.72rem!important;
+ line-height:1.05!important;
+ margin-top:1px!important;
+}
+.vcatch-read-head button{
+ padding:5px 8px!important;
+ min-height:32px!important;
+}
+.vcatch-read-body{
+ padding:8px!important;
+}
+.vcatch-read-primary{
+ grid-template-columns:repeat(6,minmax(0,1fr))!important;
+ gap:5px!important;
+}
+.vcatch-read-item{
+ padding:5px 7px!important;
+ border-radius:8px!important;
+ min-height:0!important;
+}
+.vcatch-read-item span{
+ font-size:.60rem!important;
+ line-height:1.05!important;
+ margin:0!important;
+}
+.vcatch-read-item strong{
+ margin-top:1px!important;
+ font-size:.78rem!important;
+ line-height:1.08!important;
+}
+.vcatch-read-details{
+ margin-top:7px!important;
+ padding-top:6px!important;
+ border-top-width:1px!important;
+}
+.vcatch-read-subtitle{
+ font-size:.66rem!important;
+ line-height:1!important;
+ margin-bottom:4px!important;
+}
+.vcatch-read-details .saved-wrap,
+.vcatch-read-details .saved-card,
+.vcatch-read-details .info-card,
+.vcatch-read-details .info-section{
+ margin-top:5px!important;
+ gap:5px!important;
+}
+.vcatch-read-details .saved-head,
+.vcatch-read-details .saved-title{
+ padding:6px 8px!important;
+ min-height:0!important;
+}
+.vcatch-read-details .saved-title,
+.vcatch-read-details .saved-head strong{
+ font-size:.82rem!important;
+ line-height:1.1!important;
+}
+.vcatch-read-details .saved-grid,
+.vcatch-read-details .info-grid{
+ gap:5px!important;
+}
+.vcatch-read-details .saved-line,
+.vcatch-read-details .info-line,
+.vcatch-read-details .info-item{
+ padding:5px 7px!important;
+ min-height:0!important;
+ border-radius:7px!important;
+}
+.vcatch-read-details .saved-line span,
+.vcatch-read-details .saved-line strong,
+.vcatch-read-details .info-line span,
+.vcatch-read-details .info-line strong,
+.vcatch-read-details .info-item span,
+.vcatch-read-details .info-item strong{
+ font-size:.72rem!important;
+ line-height:1.08!important;
+}
+.vcatch-read-rule{
+ display:none!important;
+}
+
+/* Auf normalen Desktopbreiten möglichst 6 Kennzahlen nebeneinander */
+@media(max-width:1100px){
+ .vcatch-read-primary{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ }
+}
+@media(max-width:800px){
+ .vcatch-read-card{
+  width:98vw!important;
+  max-height:95vh!important;
+  margin-top:3px!important;
+ }
+ .vcatch-read-primary{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ }
+ .vcatch-read-body{
+  padding:6px!important;
+ }
+}
+@media(max-width:520px){
+ .vcatch-read-primary{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ }
+ .vcatch-read-item{
+  padding:5px 6px!important;
+ }
+}
+
+
+/* v0.7.72 – unterer Bereich der vCatch-Info deutlich kompakter */
+.vcatch-read-details .vcatch-read-subtitle{
+ font-size:.62rem!important;
+ margin-bottom:3px!important;
+}
+.vcatch-read-details .info-box{
+ min-height:40px!important;
+ padding:5px 8px!important;
+ border-radius:8px!important;
+}
+.vcatch-read-details .info-box span{
+ font-size:.58rem!important;
+ margin-bottom:1px!important;
+ line-height:1.02!important;
+}
+.vcatch-read-details .info-box strong{
+ font-size:.78rem!important;
+ line-height:1.06!important;
+}
+.vcatch-read-details .info-summary-head{
+ padding:4px 0 3px!important;
+ margin-top:4px!important;
+ font-size:.62rem!important;
+ line-height:1.02!important;
+}
+.vcatch-read-details .info-summary-row{
+ padding:5px 7px!important;
+ font-size:.73rem!important;
+ min-height:0!important;
+}
+.vcatch-read-details .info-summary-row span{
+ font-size:.64rem!important;
+ line-height:1.02!important;
+}
+.vcatch-read-details .info-summary-row strong{
+ font-size:.78rem!important;
+ line-height:1.04!important;
+}
+.vcatch-read-details .info-summary-row small{
+ font-size:.58rem!important;
+ line-height:1!important;
+}
+.vcatch-read-details .info-line-grid{
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:5px!important;
+}
+.vcatch-read-details .info-line-card{
+ padding:6px!important;
+ border-radius:8px!important;
+ gap:4px!important;
+}
+.vcatch-read-details .info-line-head{
+ gap:5px!important;
+}
+.vcatch-read-details .info-line-head strong{
+ font-size:.82rem!important;
+ line-height:1.04!important;
+}
+.vcatch-read-details .info-line-pill{
+ padding:2px 6px!important;
+ font-size:.58rem!important;
+ line-height:1!important;
+}
+.vcatch-read-details .info-line-values{
+ gap:4px!important;
+}
+.vcatch-read-details .info-mini{
+ padding:4px 5px!important;
+ border-radius:7px!important;
+}
+.vcatch-read-details .info-mini span{
+ font-size:.53rem!important;
+ margin-bottom:1px!important;
+ line-height:1!important;
+}
+.vcatch-read-details .info-mini strong{
+ font-size:.74rem!important;
+ line-height:1.03!important;
+}
+.vcatch-read-details .info-source-box,
+.vcatch-read-details .info-note-box{
+ padding:6px 8px!important;
+ border-radius:8px!important;
+}
+.vcatch-read-details .info-source-box span,
+.vcatch-read-details .info-note-box span{
+ font-size:.60rem!important;
+ line-height:1.02!important;
+}
+.vcatch-read-details .info-source-box strong,
+.vcatch-read-details .info-note-box strong{
+ font-size:.76rem!important;
+ line-height:1.04!important;
+}
+.vcatch-read-details .info-source-list{
+ gap:4px!important;
+ margin-top:4px!important;
+}
+.vcatch-read-details .info-source-chip,
+.vcatch-read-details .info-tag,
+.vcatch-read-details .source-chip{
+ padding:2px 6px!important;
+ border-radius:999px!important;
+ font-size:.58rem!important;
+ line-height:1!important;
+}
+.vcatch-read-details .saved-wrap,
+.vcatch-read-details .saved-card,
+.vcatch-read-details .info-card,
+.vcatch-read-details .info-section{
+ margin-top:4px!important;
+}
+@media(max-width:800px){
+ .vcatch-read-details .info-line-grid{
+  grid-template-columns:1fr!important;
+ }
+ .vcatch-read-details .info-box{
+  min-height:36px!important;
+ }
+}
+
 </style>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.64 · Standalone · Bearbeiten 4+5 Anzeige korrigiert</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.72 · Standalone · vCatch dritte Spalte untereinander</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2226,10 +2812,17 @@ body{zoom:1.10!important}
 </div>
 </div>
 </div>
-<div class="card dashboard-section" id="weekSection"><div class="week-title-row week-view-tools"><div class="dashboard-part-title"><h2><span class="dashboard-part-number">2</span>Wochenübersicht <span class="pill" id="weekPill">KW –</span></h2></div><div class="dashboard-date-basis"><label for="dashboardDateBasis">Auswertung nach</label><select id="dashboardDateBasis"><option value="landing">Anlandedatum</option><option value="sieve">Siebdatum / Abrechnungsdatum</option></select></div><div class="week-nav-buttons"><button class="btn secondary" id="prevWeek" type="button">← KW</button><button class="btn secondary" id="nextWeek" type="button">KW →</button></div></div>
+<div class="card dashboard-section" id="weekSection"><div class="week-title-row week-view-tools"><div class="dashboard-part-title"><h2><span class="dashboard-part-number">2</span>Wochenübersicht <span class="pill" id="weekPill">KW –</span></h2></div><div class="dashboard-date-basis"><label for="dashboardDateBasis">Auswertung nach</label><select id="dashboardDateBasis"><option value="landing">Anlandedatum</option><option value="sieve">Siebdatum / Abrechnungsdatum</option></select></div></div>
 <div class="date-basis-note" id="dateBasisNote"></div>
 <div class="week-summary" id="weekSummary"></div>
-<div class="week-price-strip" id="weekPriceStrip"></div>
+<div class="week-price-nav-row">
+  <div class="week-price-strip" id="weekPriceStrip"></div>
+  <div class="week-nav-buttons week-nav-next-to-prices">
+    <button class="btn secondary" id="prevWeek" type="button">← KW</button>
+    <button class="btn secondary week-today-btn" id="weekTodayBtn" type="button">Heute</button>
+    <button class="btn secondary" id="nextWeek" type="button">KW →</button>
+  </div>
+</div>
 <div class="tablewrap"><div class="weekgrid" id="weekGrid"></div></div>
 </div>
 <div class="card dashboard-section" id="monthSection">
@@ -3454,7 +4047,7 @@ function renderDashboard(){
    <div class="week-summary-item"><span>Gesamt-kg</span><strong>${kg(wt.sale)}</strong></div>
    <div class="week-summary-item"><span>Wochenumsatz</span><strong>${eur(wt.revenue)}</strong></div>
    <div class="week-summary-item"><span>Lohn</span><strong>${eur(wt.wage)}</strong></div>
-   ${isCurrentWeek?'':'<div class="week-history-note">Ausgewählte Woche – nicht die aktuelle Woche</div>'}`;
+   `;
  const currentPrices=latestPrices();
  $('weekPriceStrip').innerHTML=`
   <div class="week-price-title">Aktuelle Preise</div>
@@ -3820,7 +4413,9 @@ $('reportType').addEventListener('change',()=>{applyReportTypeUi();clearEntryVal
  const dash=document.querySelector('#dashboard');
  dash.classList.remove('today-focus');void dash.offsetWidth;dash.classList.add('today-focus');
  setTimeout(()=>dash.classList.remove('today-focus'),1600);
- };$('dashboardDateBasis').onchange=()=>{settings.dashboardDateBasis=$('dashboardDateBasis').value==='sieve'?'sieve':'landing';persist();renderDashboard()};$('dashboardYearSelect').onchange=()=>{$('dashYear').value=$('dashboardYearSelect').value;const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashYear').onchange=()=>{const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashWeekSelect').onchange=()=>setDashboardWeek($('dashYear').value,$('dashWeekSelect').value);$('monthSelect').onchange=renderDashboard;$('monthYearSelect').onchange=()=>{$('dashYear').value=$('monthYearSelect').value;const currentMonth=Number($('monthSelect').value)||0;const d=new Date(Number($('monthYearSelect').value),currentMonth,1,12);$('dashDate').value=dateKey(d);renderDashboard()};
+ };
+ $('weekTodayBtn').onclick=()=>{$('todayBtn').click()};
+ $('dashboardDateBasis').onchange=()=>{settings.dashboardDateBasis=$('dashboardDateBasis').value==='sieve'?'sieve':'landing';persist();renderDashboard()};$('dashboardYearSelect').onchange=()=>{$('dashYear').value=$('dashboardYearSelect').value;const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashYear').onchange=()=>{const weeks=weeksInIsoYear(Number($('dashYear').value));const wanted=Math.min(Number($('dashWeekSelect').value)||1,weeks.length);$('dashDate').value=dateKey(weeks[wanted-1].monday);renderDashboard()};$('dashWeekSelect').onchange=()=>setDashboardWeek($('dashYear').value,$('dashWeekSelect').value);$('monthSelect').onchange=renderDashboard;$('monthYearSelect').onchange=()=>{$('dashYear').value=$('monthYearSelect').value;const currentMonth=Number($('monthSelect').value)||0;const d=new Date(Number($('monthYearSelect').value),currentMonth,1,12);$('dashDate').value=dateKey(d);renderDashboard()};
 const selectedQualityContext=()=>{const y=Number($('monthYearSelect').value||$('dashYear').value),m=Number($('monthSelect').value)||0;return {y,m,key:y+'-'+m}};
 $('saveMonthQuality').onclick=()=>{const {y,m,key}=selectedQualityContext();settings.monthlyQuality[key]=n('monthQualityInput');persist();renderDashboard();status('monthQualityStatus','Qualitätszuschlag für '+months[m]+' '+y+' gespeichert.')};
 $('deleteMonthQuality').onclick=()=>{const {y,m,key}=selectedQualityContext();const value=Number(settings.monthlyQuality[key]||0);if(!value){$('monthQualityInput').value='0.00';status('monthQualityStatus','Für '+months[m]+' '+y+' ist kein Qualitätszuschlag gespeichert.');return}if(!confirm('Qualitätszuschlag für '+months[m]+' '+y+' wirklich löschen?'))return;delete settings.monthlyQuality[key];persist();renderDashboard();status('monthQualityStatus','Qualitätszuschlag für '+months[m]+' '+y+' gelöscht.')};
@@ -3954,7 +4549,7 @@ $('importExcel2025').onclick=()=>{
  status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
 };
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.64-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.64-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.72-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.67-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -3979,7 +4574,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.64-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.72-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -4154,7 +4749,7 @@ const firebaseConfig = {
   appId: "1:590029495141:web:6d8271bd76d81fe0c39f8c"
 };
 
-const APP_VERSION = "0.7.64-standalone";
+const APP_VERSION = "0.7.67-standalone";
 const SYNC_META_KEY = "krabben_firebase_sync_meta_v3";
 const DEVICE_KEY = "krabben_device_id_v1";
 const bridge = window.KrabbenCloudBridge;
