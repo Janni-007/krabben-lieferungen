@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.72 Standalone</title>
+<title>Krabben-Lieferungen v0.7.73 Standalone</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1976,7 +1976,7 @@ body{zoom:1.10!important}
 @supports not (zoom:1){body{transform:scale(1.10)!important;transform-origin:top left!important;width:90.91%!important}}
 
 
-/* v0.7.72 Standalone: sichere Reiseübernahme und Mobilansicht */
+/* v0.7.73 Standalone: sichere Reiseübernahme und Mobilansicht */
 .source-mode-row:has(#sourceProcessingMode[value="combined"]){border-color:#b47d00!important}
 #sourceProcessingMode{pointer-events:none;background:#fffdf5!important}
 #sourceProcessingMode option{color:#173847}
@@ -2152,14 +2152,14 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.72 – Hinweis für nicht aktuelle Woche entfällt; Farbmarkierung reicht */
+/* v0.7.73 – Hinweis für nicht aktuelle Woche entfällt; Farbmarkierung reicht */
 #weekNotCurrent,
 .week-not-current{
  display:none!important;
 }
 
 
-/* v0.7.72 – vCatch-Lieferdetails in 3 Spalten:
+/* v0.7.73 – vCatch-Lieferdetails in 3 Spalten:
    Spalte 1 = linke Detailfelder
    Spalte 2 = rechte Detailfelder
    Spalte 3 = Sorte 1/2/3 + Sieb */
@@ -2257,13 +2257,13 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.72 – dritte Spalte mit Sorte 1/2/3/Sieb immer untereinander */
+/* v0.7.73 – dritte Spalte mit Sorte 1/2/3/Sieb immer untereinander */
 .vcatch-read-details .info-line-grid > *{
  width:100%!important;
 }
 
 
-/* v0.7.72 – dritte Spalte wirklich untereinander:
+/* v0.7.73 – dritte Spalte wirklich untereinander:
    Sorte 1, Sorte 2, Sorte 3, Sieb als vertikale Liste */
 .vcatch-read-details .info-panel{
   display:grid!important;
@@ -2357,6 +2357,83 @@ body{zoom:1.10!important}
   .vcatch-read-details .info-meta-grid{
     grid-template-columns:1fr!important;
   }
+}
+
+
+/* v0.7.73 – Gesamtgewicht zur direkten Kontrolle über Sorte 2 + Sorte 3 */
+.entry-left-stack .price-edit-head{
+ display:grid!important;
+ grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ align-items:center!important;
+ gap:10px!important;
+}
+.price-edit-copy{
+ grid-column:1!important;
+ min-width:0;
+}
+.product-weight-control{
+ grid-column:2 / span 2!important;
+ display:grid;
+ grid-template-columns:auto auto;
+ justify-content:center;
+ align-items:baseline;
+ column-gap:10px;
+ row-gap:1px;
+ padding:6px 14px;
+ border:2px solid #78b89a;
+ border-radius:10px;
+ background:#e7f4ec;
+ text-align:center;
+ color:#164f38;
+ min-height:48px;
+}
+.product-weight-control span{
+ font-size:.70rem;
+ font-weight:900;
+}
+.product-weight-control strong{
+ font-size:1.12rem;
+ font-weight:950;
+ white-space:nowrap;
+}
+.product-weight-control small{
+ grid-column:1 / -1;
+ font-size:.58rem;
+ color:#5e7469;
+ font-weight:700;
+}
+.entry-left-stack .price-edit-head #togglePrices{
+ grid-column:4!important;
+ justify-self:end;
+}
+
+@media(max-width:1100px){
+ .entry-left-stack .price-edit-head{
+  grid-template-columns:1fr 1fr!important;
+ }
+ .price-edit-copy{
+  grid-column:1!important;
+ }
+ .product-weight-control{
+  grid-column:2!important;
+ }
+ .entry-left-stack .price-edit-head #togglePrices{
+  grid-column:1 / -1!important;
+  justify-self:end;
+ }
+}
+@media(max-width:700px){
+ .entry-left-stack .price-edit-head{
+  grid-template-columns:1fr!important;
+ }
+ .price-edit-copy,
+ .product-weight-control,
+ .entry-left-stack .price-edit-head #togglePrices{
+  grid-column:1!important;
+ }
+ .product-weight-control{
+  width:100%;
+ }
 }
 
 </style>
@@ -2489,7 +2566,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.72 – vCatch-Info deutlich kompakter */
+/* v0.7.73 – vCatch-Info deutlich kompakter */
 .vcatch-read-modal{
  padding:8px!important;
  align-items:flex-start!important;
@@ -2620,7 +2697,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.72 – unterer Bereich der vCatch-Info deutlich kompakter */
+/* v0.7.73 – unterer Bereich der vCatch-Info deutlich kompakter */
 .vcatch-read-details .vcatch-read-subtitle{
  font-size:.62rem!important;
  margin-bottom:3px!important;
@@ -2744,7 +2821,7 @@ body{zoom:1.10!important}
 </style>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.72 · Standalone · vCatch dritte Spalte untereinander</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.73 · Standalone · Gesamtgewicht Kontrollanzeige</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2890,7 +2967,12 @@ body{zoom:1.10!important}
 <hr style="border:0;border-top:1px solid var(--line);margin:17px 0"/>
 <div class="entry-main-grid"><div class="entry-left-stack">
 <div class="price-edit-head">
-<div><strong>Gewichte und Preise</strong><div class="price-memory-note">Die zuletzt übernommenen Preise bleiben bei jeder neuen Lieferung stehen.</div><div class="layout-helper-note">Gewichte hier schnell eingeben. vCatch-Daten und Umsätze rechts.</div></div>
+<div class="price-edit-copy"><strong>Gewichte und Preise</strong><div class="price-memory-note">Die zuletzt übernommenen Preise bleiben bei jeder neuen Lieferung stehen.</div><div class="layout-helper-note">Gewichte hier schnell eingeben. vCatch-Daten und Umsätze rechts.</div></div>
+<div class="product-weight-control" aria-live="polite">
+  <span>Gesamtgewicht</span>
+  <strong id="productWeightControl">0 kg</strong>
+  <small>Sorte 1 + 2 + 3 · ohne Sieb</small>
+</div>
 <button class="btn secondary" id="togglePrices" type="button">Preise ändern</button>
 </div>
 <div class="entryrow entry-product-row">
@@ -3333,7 +3415,7 @@ function formCalc(){
  if($('entryBoxWeight'))$('entryBoxWeight').value='17';
  const ws=[n('w1'),n('w2'),n('w3')], ps=[n('p1'),n('p2'),n('p3')], rev=ws.map((w,i)=>w*ps[i]), waste=n('waste'), sale=ws.reduce((a,b)=>a+b,0), catchW=sale+waste, total=rev.reduce((a,b)=>a+b,0), bw=n('entryBoxWeight')||Number(settings.boxWeight)||17;
  ['r1','r2','r3'].forEach((id,i)=>$(id).value=eur(rev[i]));
- $('saleWeight').value=kg(sale);$('totalCatch').value=kg(catchW);$('wasteShare').value=num(catchW?waste/catchW*100:0)+' %';
+ $('saleWeight').value=kg(sale);if($('productWeightControl'))$('productWeightControl').textContent=kg(sale);$('totalCatch').value=kg(catchW);$('wasteShare').value=num(catchW?waste/catchW*100:0)+' %';
  const vcatchInput=$('vcatchBoxesRounded');
  $('avgPrice').value=num2(sale?(total)/sale:0)+' €/kg';$('grandRevenue').value=eur(total);$('wageShare').value=eur(total*(Number(settings.wage)||0)/100);$('wageLabel').textContent='Lohnanteil ('+num(settings.wage)+' %)';
  $('priceText').textContent=ps.map((p,i)=>'S'+(i+1)+': '+num2(p)+' €').join(' · ');
@@ -4549,7 +4631,7 @@ $('importExcel2025').onclick=()=>{
  status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
 };
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.72-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.67-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.73-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.67-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -4574,7 +4656,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.72-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.73-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
