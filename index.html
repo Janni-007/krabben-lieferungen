@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.73 Standalone</title>
+<title>Krabben-Lieferungen v0.7.74 Standalone</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1976,7 +1976,7 @@ body{zoom:1.10!important}
 @supports not (zoom:1){body{transform:scale(1.10)!important;transform-origin:top left!important;width:90.91%!important}}
 
 
-/* v0.7.73 Standalone: sichere Reiseübernahme und Mobilansicht */
+/* v0.7.74 Standalone: sichere Reiseübernahme und Mobilansicht */
 .source-mode-row:has(#sourceProcessingMode[value="combined"]){border-color:#b47d00!important}
 #sourceProcessingMode{pointer-events:none;background:#fffdf5!important}
 #sourceProcessingMode option{color:#173847}
@@ -2152,14 +2152,14 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.73 – Hinweis für nicht aktuelle Woche entfällt; Farbmarkierung reicht */
+/* v0.7.74 – Hinweis für nicht aktuelle Woche entfällt; Farbmarkierung reicht */
 #weekNotCurrent,
 .week-not-current{
  display:none!important;
 }
 
 
-/* v0.7.73 – vCatch-Lieferdetails in 3 Spalten:
+/* v0.7.74 – vCatch-Lieferdetails in 3 Spalten:
    Spalte 1 = linke Detailfelder
    Spalte 2 = rechte Detailfelder
    Spalte 3 = Sorte 1/2/3 + Sieb */
@@ -2257,13 +2257,13 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.73 – dritte Spalte mit Sorte 1/2/3/Sieb immer untereinander */
+/* v0.7.74 – dritte Spalte mit Sorte 1/2/3/Sieb immer untereinander */
 .vcatch-read-details .info-line-grid > *{
  width:100%!important;
 }
 
 
-/* v0.7.73 – dritte Spalte wirklich untereinander:
+/* v0.7.74 – dritte Spalte wirklich untereinander:
    Sorte 1, Sorte 2, Sorte 3, Sieb als vertikale Liste */
 .vcatch-read-details .info-panel{
   display:grid!important;
@@ -2360,7 +2360,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.73 – Gesamtgewicht zur direkten Kontrolle über Sorte 2 + Sorte 3 */
+/* v0.7.74 – Gesamtgewicht zur direkten Kontrolle über Sorte 2 + Sorte 3 */
 .entry-left-stack .price-edit-head{
  display:grid!important;
  grid-template-columns:repeat(4,minmax(0,1fr))!important;
@@ -2434,6 +2434,27 @@ body{zoom:1.10!important}
  .product-weight-control{
   width:100%;
  }
+}
+
+
+/* v0.7.74 – Monatslohn in Abschnitt 3 */
+.month-quick-grid .mq-wage-head,
+.month-quick-grid .mq-wage{
+ background:#e8f1f7!important;
+ color:#244d61!important;
+ font-weight:900!important;
+}
+
+
+/* v0.7.74 – laufende Fangreise im Dashboard nur anzeigen; Bearbeitungsfarbe erst nach Klick auf Bearbeiten */
+.dashboard-pending-form.pending-preview-mode .dashboard-trip-grid{
+ opacity:1!important;
+}
+.dashboard-pending-form.pending-preview-mode input[readonly],
+.dashboard-pending-form.pending-preview-mode select:disabled{
+ background:#f7fbfc!important;
+ color:#17384a!important;
+ opacity:1!important;
 }
 
 </style>
@@ -2566,7 +2587,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.73 – vCatch-Info deutlich kompakter */
+/* v0.7.74 – vCatch-Info deutlich kompakter */
 .vcatch-read-modal{
  padding:8px!important;
  align-items:flex-start!important;
@@ -2697,7 +2718,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.73 – unterer Bereich der vCatch-Info deutlich kompakter */
+/* v0.7.74 – unterer Bereich der vCatch-Info deutlich kompakter */
 .vcatch-read-details .vcatch-read-subtitle{
  font-size:.62rem!important;
  margin-bottom:3px!important;
@@ -2821,7 +2842,7 @@ body{zoom:1.10!important}
 </style>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.73 · Standalone · Gesamtgewicht Kontrollanzeige</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.74 · Standalone · Eingabe- und Monatskorrekturen</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2863,7 +2884,7 @@ body{zoom:1.10!important}
 <option value="zero">Nullmeldung</option>
 </select></div>
 <div><label>Kistenzahl gefangen</label><input id="pendingQuantity" inputmode="decimal" min="0" placeholder="später möglich" step="0.5" type="number"/></div>
-<div><label>Geschätzte kg pro Kiste</label><input id="pendingKgPerCrate" min="0.5" step="0.5" type="number"/></div>
+<div><label>Geschätzte kg pro Kiste</label><input id="pendingKgPerCrate" inputmode="decimal" placeholder="z. B. 15,5" type="text"/></div>
 <div class="dashboard-estimated-field"><label>Geschätztes Gewicht</label><input id="pendingTotalKg" inputmode="numeric" min="0" step="1" type="number" value="0"/></div>
 <div class="dashboard-trip-note"><label>Bemerkung</label><input id="pendingNote" placeholder="optional"/></div>
 <div class="dashboard-live-field calculated-live-field"><label>Lebendgewicht</label><input id="pendingLiveWeight" readonly="" value="0 kg"/><small id="pendingLiveWeightHint">Pro Kiste 1 kg mehr</small></div>
@@ -2933,6 +2954,7 @@ body{zoom:1.10!important}
 <div><label>DEU-Nummer</label><input id="receipt" placeholder="z. B. DEU-..."/></div>
 <div class="sieve-date-field" id="sieveDateField"><label>Siebdatum</label><input id="sieveDate" type="date"/></div>
 <div class="report-type-field"><label>Meldungsart</label><select id="reportType">
+<option value="">Bitte wählen</option>
 <option value="landed">Anlandung</option>
 <option value="coldstore">Hafen-Kühlhaus</option>
 <option value="onboard">An Bord gelassen</option>
@@ -3102,8 +3124,14 @@ body{zoom:1.10!important}
 </div>
 <script>
 const KEY='krabben_lieferungen_v010', SETTINGS='krabben_lieferungen_settings_v010';
-const $=id=>document.getElementById(id), n=id=>Number($(id).value)||0;
-const roundHalf=x=>Math.round((Number(x)||0)*2)/2;
+const $=id=>document.getElementById(id);
+const localeNumber=x=>{
+ const raw=String(x??'').trim().replace(',','.');
+ const value=Number(raw);
+ return Number.isFinite(value)?value:0;
+};
+const n=id=>localeNumber($(id)?.value);
+const roundHalf=x=>Math.round(localeNumber(x)*2)/2;
 const wholeKg=x=>Math.round(Number(x)||0);
 const eur=x=>new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'}).format(x||0);
 const num=x=>new Intl.NumberFormat('de-DE',{maximumFractionDigits:2}).format(x||0);
@@ -3192,7 +3220,7 @@ function isDirectProductReportType(value){return ['selfMarketing','selfConsumpti
 function hasProductWeight(value){return isProductReportType(value)||isDirectProductReportType(value)}
 function pendingTypeLabel(value){return reportTypeLabel(value)}
 function applyReportTypeUi(){
- const type=$('reportType')?.value||'landed';
+ const type=$('reportType')?.value||'';
  const isDelivery=isProductReportType(type);
  const isZero=type==='zero';
  $('entryForm')?.classList.toggle('zero-report',isZero);
@@ -3764,6 +3792,31 @@ function renderSourceTripChoices(selected=[]){
  }));
 }
 
+
+function clearNewDeliveryTripFields(){
+ if($('editId').value)return;
+ $('deliveryTripId').value='';
+ $('departureAt').value='';
+ $('arrivalAt').value='';
+ $('supplier').value='';
+ $('date').value='';
+ $('receipt').value='';
+ $('reportType').value='';
+ $('sieveDate').disabled=true;
+ $('sieveDateField').classList.add('is-disabled');
+ $('sieveDate').value='';
+ $('manualCrates').disabled=false;
+ $('manualCrates').value='';
+ delete $('manualCrates').dataset.aggregateEdit;
+ $('entryBoxWeightMeta').disabled=false;
+ $('entryBoxWeightMeta').value='';
+ $('estimatedLiveWeightMeta').disabled=false;
+ $('estimatedLiveWeightMeta').value='';
+ $('liveWeightMeta').value='';
+ $('liveWeightMetaHint').textContent='Pro Kiste 1 kg mehr';
+ $('entryTripNumber').value='–';
+}
+
 function updateSourceSummary(){
  const ids=getSelectedTripIds();
  const trips=ids.map(id=>sourceChoiceTripById(id)).filter(t=>t&&t.returnAt)
@@ -3820,7 +3873,7 @@ function updateSourceSummary(){
    entrySyncSource='live';
 
    const landingDate=(deliveryTrip.returnAt||deliveryTrip.departure||'').slice(0,10);
-   if(landingDate){
+   if(landingDate&&!$('editId').value){
      $('supplier').value=landingDate;
      $('date').value=landingDate;
      if(isProductReportType($('reportType').value))$('sieveDate').value=landingDate;
@@ -3843,6 +3896,7 @@ function updateSourceSummary(){
    $('deliveryTripId').value='';
    $('workModeBanner').classList.add('hidden');
    $('entryForm').classList.remove('work-in-progress');
+   if(!$('editId').value)clearNewDeliveryTripFields();
  }
  updateEntryTripNumber();
  formCalc();
@@ -3872,6 +3926,7 @@ function renderPendingTrips(){
    section?.classList.add('is-empty');
    wrap.innerHTML='<div class="empty-source compact-empty">Keine offenen Fangreisen.</div>';
    renderSourceTripChoices();
+   setPendingPreviewMode(false);
    return;
  }
 
@@ -3884,17 +3939,64 @@ function renderPendingTrips(){
   <div class="actions dashboard-trip-actions"><button class="btn primary take-trip-btn" onclick="takePendingToDelivery('${t.id}')">Für Lieferung übernehmen</button><button class="btn secondary" onclick="editPending('${t.id}')">Bearbeiten</button><button class="btn danger" onclick="deletePending('${t.id}')">Löschen</button></div>
  </div>`).join('');
  renderSourceTripChoices();
+ syncActiveOpenTripPreview();
 }
+
+function setPendingPreviewMode(active,tripId=''){
+ const form=$('pendingForm');
+ if(!form)return;
+ form.dataset.previewTripId=active?tripId:'';
+ form.classList.toggle('pending-preview-mode',active);
+ ['pendingDeparture','pendingDeu','pendingReturn','pendingQuantity','pendingKgPerCrate','pendingTotalKg','pendingNote'].forEach(id=>{
+   const el=$(id);if(el)el.readOnly=active;
+ });
+ if($('pendingStorageType'))$('pendingStorageType').disabled=active;
+ if($('pendingRemember'))$('pendingRemember').disabled=active;
+ if($('pendingSave'))$('pendingSave').disabled=active;
+ if($('pendingReset'))$('pendingReset').disabled=active;
+}
+function fillPendingFormFromTrip(t){
+ if(!t)return;
+ $('pendingTripNumber').value=tripNumberForPending(t);
+ $('pendingDeparture').value=t.departure||'';
+ $('pendingDeu').value=t.deu||'';
+ $('pendingReturn').value=t.returnAt||'';
+ $('pendingStorageType').value=t.storageType||'landed';
+ $('pendingQuantityType').value='crates';
+ $('pendingQuantity').value=pendingAmount(t)>0?String(pendingAmount(t)):'';
+ $('pendingKgPerCrate').value=pendingKgPerCrate(t)>0?String(pendingKgPerCrate(t)).replace('.',','):'';
+ $('pendingTotalKg').value=String(wholeKg(pendingTotalKg(t)));
+ $('pendingNote').value=t.note||'';
+ pendingSyncSource='total';
+ updatePendingLiveWeight();
+}
+function syncActiveOpenTripPreview(){
+ if(!$('pendingForm'))return;
+ const editActive=!!$('pendingEditId').value&&!$('pendingEditBanner').classList.contains('hidden');
+ if(editActive)return;
+ const active=openPendingTrips().find(t=>!t.returnAt);
+ if(!active){
+   setPendingPreviewMode(false);
+   return;
+ }
+ $('pendingEditId').value='';
+ setPendingEditState(false);
+ fillPendingFormFromTrip(active);
+ setPendingPreviewMode(true,active.id);
+}
+
 function resetPendingForm(){
+ setPendingPreviewMode(false);
  $('pendingForm').reset();$('pendingEditId').value='';
  $('pendingStorageType').value='landed';
  $('pendingQuantityType').value='crates';
- $('pendingKgPerCrate').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';
+ $('pendingKgPerCrate').value=Number(settings.lastEstimatedKgPerCrate||0)>0?String(Number(settings.lastEstimatedKgPerCrate)).replace('.',','):'';
  $('pendingTotalKg').value='0';
  updatePendingLiveWeight();
  setPendingEditState(false);
  $('pendingTripNumber').value='–';
  updatePendingQuantityUi();
+ syncActiveOpenTripPreview();
 }
 function takePendingToDelivery(id){
  const t=pendingTrips.find(x=>x.id===id);if(!t)return;
@@ -3929,6 +4031,7 @@ function takePendingToDelivery(id){
 function editPending(id){
  const t=pendingTrips.find(x=>x.id===id);if(!t)return;
  show('dashboard');
+ setPendingPreviewMode(false);
  $('pendingEditId').value=t.id;
  $('pendingDeparture').value=t.departure;
  $('pendingDeu').value=t.deu;
@@ -3936,7 +4039,7 @@ function editPending(id){
  $('pendingStorageType').value=t.storageType||'landed';
  $('pendingQuantityType').value='crates';
  $('pendingQuantity').value=pendingAmount(t);
- $('pendingKgPerCrate').value=pendingKgPerCrate(t).toFixed(1);
+ $('pendingKgPerCrate').value=pendingKgPerCrate(t)>0?String(pendingKgPerCrate(t)).replace('.',','):'';
  $('pendingTotalKg').value=String(wholeKg(pendingTotalKg(t)));
  $('pendingNote').value=t.note||'';
  pendingSyncSource='total';
@@ -3998,9 +4101,9 @@ function formatPriceInput(el){
 
 function resetForm(){editingVirtualDeliveryTrip=null;if($('manualCrates'))delete $('manualCrates').dataset.aggregateEdit;
  clearEntryValidation();
- $('entryForm').reset();$('editId').value='';$('deliveryTripId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value=today();$('reportType').value='landed';$('entryForm').classList.remove('zero-report');$('entryForm').classList.remove('non-delivery-report');$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value=today();$('sieveDate').disabled=false;$('sieveDateField').classList.remove('is-disabled');$('sieveDate').value=today();$('note').value='';$('manualCrates').disabled=false;$('manualCrates').value='';entrySyncSource='crates';$('entryBoxWeightMeta').disabled=false;$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=Number(settings.lastEstimatedKgPerCrate||0)>0?Number(settings.lastEstimatedKgPerCrate).toFixed(1):'';if($('estimatedLiveWeightMeta'))$('estimatedLiveWeightMeta').value='0';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
- ['w1','w2','w3','waste'].forEach(id=>{$(id).disabled=false;$(id).value=''});latestPrices().forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
- [1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=true;e.classList.add('locked')});$('togglePrices').textContent='Preise ändern';renderSourceTripChoices();formCalc();updateEntryTripNumber();showSavedRecord(savedRecordId);setEntryEditDirty(false);setTimeout(()=>$('w1').focus(),50)
+ $('entryForm').reset();$('editId').value='';$('deliveryTripId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value='';$('reportType').value='';$('entryForm').classList.remove('zero-report');$('entryForm').classList.add('non-delivery-report');$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value='';$('sieveDate').disabled=true;$('sieveDateField').classList.add('is-disabled');$('sieveDate').value='';$('note').value='';$('manualCrates').disabled=false;$('manualCrates').value='';entrySyncSource='crates';$('entryBoxWeightMeta').disabled=false;$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value='';if($('estimatedLiveWeightMeta'))$('estimatedLiveWeightMeta').value='';if($('liveWeightMeta'))$('liveWeightMeta').value='';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
+ ['w1','w2','w3','waste'].forEach(id=>{$(id).disabled=true;$(id).value=''});latestPrices().forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
+ [1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=true;e.classList.add('locked')});$('togglePrices').textContent='Preise ändern';renderSourceTripChoices();clearNewDeliveryTripFields();formCalc();updateEntryTripNumber();showSavedRecord(savedRecordId);setEntryEditDirty(false)
 }
 function cancelEditMode(){resetForm();showSavedRecord(savedRecordId)}
 function searchDeliveryByDate(){
@@ -4280,6 +4383,7 @@ function renderDashboard(){
   summaryRow('Qualitätszuschlag','mq-quality-head','mq-quality',mi=>eur(Number(settings.monthlyQuality[calendarYear+'-'+mi]||0)));
   summaryRow('Summe inkl. Qualitätszuschlag','mq-grand-head','mq-grand',mi=>eur(totals(dashboardFiltered(calendarYear,String(mi))).revenue+Number(settings.monthlyQuality[calendarYear+'-'+mi]||0)));
   summaryRow('Gesamt-kg','mq-weight-head','mq-weight',mi=>kg(totals(dashboardFiltered(calendarYear,String(mi))).sale));
+  summaryRow('Lohn','mq-wage-head','mq-wage',mi=>eur(totals(dashboardFiltered(calendarYear,String(mi))).wage));
   grid+='</div>';
   $('monthTable').innerHTML=grid;
   document.querySelectorAll('.mq-month-link').forEach(cell=>cell.addEventListener('click',()=>{$('monthSelect').value=cell.dataset.month;renderDashboard()}));
@@ -4346,7 +4450,7 @@ function renderBackupBadge(){const el=$('backupVersionBadge');if(!el)return;el.t
 
 function collectPendingTripFromForm(){
  const quantity=Number($('pendingQuantity').value)||0;
- const kgPerCrate=Number($('pendingKgPerCrate').value)||0;
+ const kgPerCrate=n('pendingKgPerCrate');
  return {
   id:$('pendingEditId').value||crypto.randomUUID(),
   departure:$('pendingDeparture').value,
@@ -4402,10 +4506,17 @@ function validateEntryForm(){
 }
 function entryHasUnsavedInput(){return !!($('editId').value||$('departureAt').value||$('arrivalAt').value||$('receipt').value.trim()||n('manualCrates')||n('w1')||n('w2')||n('w3')||n('waste')||getSelectedTripIds().length)}
 function cancelEntryInput(){if(entryHasUnsavedInput()&&!confirm('Ungespeicherte Änderungen wirklich verwerfen?'))return;clearEntryValidation();resetForm();showSavedRecord(savedRecordId)}
-function pendingHasUnsavedInput(){return !!($('pendingEditId').value||$('pendingDeparture').value||$('pendingDeu').value.trim()||$('pendingReturn').value||n('pendingQuantity')||n('pendingTotalKg')||$('pendingNote').value.trim())}
+function pendingHasUnsavedInput(){if($('pendingForm')?.dataset.previewTripId)return false;return !!($('pendingEditId').value||$('pendingDeparture').value||$('pendingDeu').value.trim()||$('pendingReturn').value||n('pendingQuantity')||n('pendingTotalKg')||$('pendingNote').value.trim())}
 function cancelPendingInput(){if(pendingHasUnsavedInput()&&!confirm('Ungespeicherte Änderungen wirklich verwerfen?'))return;resetPendingForm();status('pendingStatus','Eingabe abgebrochen.');}
 
 function storePendingTrip({keepForm=false}={}){
+ const activeOpen=openPendingTrips().find(t=>!t.returnAt);
+ const editId=$('pendingEditId').value;
+ if(activeOpen&&activeOpen.id!==editId){
+  status('pendingStatus','Reise '+tripNumberForPending(activeOpen)+' ist noch unterwegs. Erst diese Reise beenden.',false);
+  syncActiveOpenTripPreview();
+  return;
+ }
  if(!$('pendingDeparture').value || !$('pendingDeu').value.trim()){
   $('pendingForm').reportValidity();
   return;
@@ -4631,7 +4742,7 @@ $('importExcel2025').onclick=()=>{
  status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
 };
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.73-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.67-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.74-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.67-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -4656,7 +4767,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.73-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.74-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
