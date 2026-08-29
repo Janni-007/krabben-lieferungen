@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.74 Standalone</title>
+<title>Krabben-Lieferungen v0.7.78 Standalone</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1976,7 +1976,7 @@ body{zoom:1.10!important}
 @supports not (zoom:1){body{transform:scale(1.10)!important;transform-origin:top left!important;width:90.91%!important}}
 
 
-/* v0.7.74 Standalone: sichere Reiseübernahme und Mobilansicht */
+/* v0.7.78 Standalone: sichere Reiseübernahme und Mobilansicht */
 .source-mode-row:has(#sourceProcessingMode[value="combined"]){border-color:#b47d00!important}
 #sourceProcessingMode{pointer-events:none;background:#fffdf5!important}
 #sourceProcessingMode option{color:#173847}
@@ -2152,14 +2152,14 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.74 – Hinweis für nicht aktuelle Woche entfällt; Farbmarkierung reicht */
+/* v0.7.78 – Hinweis für nicht aktuelle Woche entfällt; Farbmarkierung reicht */
 #weekNotCurrent,
 .week-not-current{
  display:none!important;
 }
 
 
-/* v0.7.74 – vCatch-Lieferdetails in 3 Spalten:
+/* v0.7.78 – vCatch-Lieferdetails in 3 Spalten:
    Spalte 1 = linke Detailfelder
    Spalte 2 = rechte Detailfelder
    Spalte 3 = Sorte 1/2/3 + Sieb */
@@ -2257,13 +2257,13 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.74 – dritte Spalte mit Sorte 1/2/3/Sieb immer untereinander */
+/* v0.7.78 – dritte Spalte mit Sorte 1/2/3/Sieb immer untereinander */
 .vcatch-read-details .info-line-grid > *{
  width:100%!important;
 }
 
 
-/* v0.7.74 – dritte Spalte wirklich untereinander:
+/* v0.7.78 – dritte Spalte wirklich untereinander:
    Sorte 1, Sorte 2, Sorte 3, Sieb als vertikale Liste */
 .vcatch-read-details .info-panel{
   display:grid!important;
@@ -2360,7 +2360,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.74 – Gesamtgewicht zur direkten Kontrolle über Sorte 2 + Sorte 3 */
+/* v0.7.78 – Gesamtgewicht zur direkten Kontrolle über Sorte 2 + Sorte 3 */
 .entry-left-stack .price-edit-head{
  display:grid!important;
  grid-template-columns:repeat(4,minmax(0,1fr))!important;
@@ -2402,9 +2402,24 @@ body{zoom:1.10!important}
  color:#5e7469;
  font-weight:700;
 }
-.entry-left-stack .price-edit-head #togglePrices{
+.entry-left-stack .price-edit-head .entry-price-actions{
  grid-column:4!important;
  justify-self:end;
+ display:flex;
+ flex-direction:column;
+ align-items:flex-end;
+ gap:5px;
+}
+.entry-left-stack .price-edit-head #togglePrices{justify-self:end;}
+.price-scope-select{
+ max-width:210px;
+ padding:5px 7px;
+ border:1px solid #c8d6dc;
+ border-radius:8px;
+ background:#fff;
+ color:#244d61;
+ font-size:.68rem;
+ font-weight:800;
 }
 
 @media(max-width:1100px){
@@ -2437,7 +2452,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.74 – Monatslohn in Abschnitt 3 */
+/* v0.7.78 – Monatslohn in Abschnitt 3 */
 .month-quick-grid .mq-wage-head,
 .month-quick-grid .mq-wage{
  background:#e8f1f7!important;
@@ -2446,7 +2461,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.74 – laufende Fangreise im Dashboard nur anzeigen; Bearbeitungsfarbe erst nach Klick auf Bearbeiten */
+/* v0.7.78 – laufende Fangreise im Dashboard nur anzeigen; Bearbeitungsfarbe erst nach Klick auf Bearbeiten */
 .dashboard-pending-form.pending-preview-mode .dashboard-trip-grid{
  opacity:1!important;
 }
@@ -2455,6 +2470,28 @@ body{zoom:1.10!important}
  background:#f7fbfc!important;
  color:#17384a!important;
  opacity:1!important;
+}
+
+
+/* v0.7.78 – Datum/Uhrzeit in Lieferung erfassen vollständig sichtbar */
+@media(min-width:1251px){
+ .entry-meta-grid{
+  grid-template-columns:
+   72px
+   minmax(175px,1.18fr)
+   minmax(175px,1.18fr)
+   minmax(125px,.82fr)
+   minmax(125px,.82fr)
+   minmax(145px,.95fr)
+   minmax(145px,.95fr)
+   90px
+   115px
+   minmax(155px,1fr)!important;
+ }
+ #departureAt,#arrivalAt{
+  min-width:175px!important;
+  font-variant-numeric:tabular-nums;
+ }
 }
 
 </style>
@@ -2587,7 +2624,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.74 – vCatch-Info deutlich kompakter */
+/* v0.7.78 – vCatch-Info deutlich kompakter */
 .vcatch-read-modal{
  padding:8px!important;
  align-items:flex-start!important;
@@ -2718,7 +2755,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.74 – unterer Bereich der vCatch-Info deutlich kompakter */
+/* v0.7.78 – unterer Bereich der vCatch-Info deutlich kompakter */
 .vcatch-read-details .vcatch-read-subtitle{
  font-size:.62rem!important;
  margin-bottom:3px!important;
@@ -2842,7 +2879,7 @@ body{zoom:1.10!important}
 </style>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.74 · Standalone · Eingabe- und Monatskorrekturen</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.78 · Standalone · Preisleiste an Wochenübersicht gekoppelt</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -2995,7 +3032,13 @@ body{zoom:1.10!important}
   <strong id="productWeightControl">0 kg</strong>
   <small>Sorte 1 + 2 + 3 · ohne Sieb</small>
 </div>
+<div class="entry-price-actions">
+<select class="price-scope-select hidden" id="entryPriceScope" aria-label="Gültigkeit der Preisänderung">
+<option value="single">Nur diese Lieferung</option>
+<option value="week">Ganze Preiswoche (Sa–Fr)</option>
+</select>
 <button class="btn secondary" id="togglePrices" type="button">Preise ändern</button>
+</div>
 </div>
 <div class="entryrow entry-product-row">
 <strong>Sorte 1</strong>
@@ -3203,6 +3246,89 @@ function normalize(r){
  return r
 }
 records=records.map(normalize);persist();
+
+
+function dealerPriceWeekInfo(dateValue){
+ const d=parseDate(dateValue||today());
+ const start=new Date(d);
+ start.setHours(12,0,0,0);
+ start.setDate(start.getDate()-((start.getDay()+1)%7)); // Samstag
+ const end=new Date(start);
+ end.setDate(start.getDate()+6); // Freitag
+ const monday=new Date(start);
+ monday.setDate(start.getDate()+2);
+ const iso=isoInfo(dateKey(monday));
+ return {
+   start:dateKey(start),
+   end:dateKey(end),
+   week:iso.week,
+   isoYear:iso.isoYear,
+   monday:dateKey(monday)
+ };
+}
+function dealerWeekPrices(dateValue){
+ const info=dealerPriceWeekInfo(dateValue);
+ const inWeek=records
+  .filter(r=>(r.date||'')>=info.start&&(r.date||'')<=info.end)
+  .sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.departureAt||'').localeCompare(b.departureAt||''));
+ if(inWeek.length)return recordPrices(inWeek[0]);
+ const prior=records
+  .filter(r=>(r.date||'')<info.start)
+  .sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.departureAt||'').localeCompare(a.departureAt||''));
+ if(prior.length)return recordPrices(prior[0]);
+ return latestPrices();
+}
+function applyPricesToDealerWeek(dateValue,newPrices,{excludeId=''}={}){
+ const info=dealerPriceWeekInfo(dateValue);
+ const normalizedNew=newPrices.map(p=>Math.round((Number(p)||0)*20)/20);
+ let changed=0;
+ records.forEach(r=>{
+   const date=r.date||'';
+   if(r.id===excludeId||date<info.start||date>info.end)return;
+   r.sorts=(r.sorts||[]).map((sort,i)=>i<3?{...sort,price:normalizedNew[i]}:sort);
+   r.updatedAt=new Date().toISOString();
+   changed++;
+ });
+ return {changed,info};
+}
+
+function recordPrices(r){
+ r=normalize(r);
+ return (r.sorts||[]).slice(0,3).map(x=>Math.round((Number(x.price)||0)*20)/20);
+}
+function priceSetsEqual(a,b){
+ return [0,1,2].every(i=>Math.abs((Number(a?.[i])||0)-(Number(b?.[i])||0))<0.001);
+}
+function priceStartBaseline(startDate){
+ const forward=records.filter(r=>(r.date||'')>=startDate).sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.departureAt||'').localeCompare(b.departureAt||''));
+ if(forward.length)return recordPrices(forward[0]);
+ const prior=records.filter(r=>(r.date||'')<startDate).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.departureAt||'').localeCompare(a.departureAt||''));
+ if(prior.length)return recordPrices(prior[0]);
+ return latestPrices();
+}
+function applyPricesAsPeriod(startDate,newPrices,baselinePrices,{excludeId=''}={}){
+ const normalizedNew=newPrices.map(p=>Math.round((Number(p)||0)*20)/20);
+ const normalizedBase=(baselinePrices||[]).map(p=>Math.round((Number(p)||0)*20)/20);
+ const ordered=records
+  .filter(r=>(r.date||'')>=startDate)
+  .sort((a,b)=>(a.date||'').localeCompare(b.date||'')||(a.departureAt||'').localeCompare(b.departureAt||''));
+ let changed=0;
+ let periodStarted=false;
+ for(const r of ordered){
+   if(r.id===excludeId)continue;
+   const current=recordPrices(r);
+   if(!periodStarted){
+     if(priceSetsEqual(current,normalizedBase))periodStarted=true;
+     else break;
+   }
+   if(!priceSetsEqual(current,normalizedBase))break; // nächste bereits vorhandene Preisperiode bleibt bestehen
+   r.sorts=(r.sorts||[]).map((sort,i)=>i<3?{...sort,price:normalizedNew[i]}:sort);
+   r.updatedAt=new Date().toISOString();
+   changed++;
+ }
+ return changed;
+}
+
 function latestPrices(){
  const stored=Array.isArray(settings.lastPrices)?settings.lastPrices.map(v=>Number(v)||0):[0,0,0];
  if(stored.some(v=>v>0))return stored;
@@ -3851,10 +3977,12 @@ function updateSourceSummary(){
  if(trips.length&&deliveryTrip){
    // Die Hauptreise wird bei jeder Auswahl zuverlässig vollständig in die Kopfdaten
    // übernommen. Damit bleiben keine Werte der zuvor ausgewählten Reise stehen.
-   $('departureAt').value=deliveryTrip.departure||'';
-   $('arrivalAt').value=deliveryTrip.returnAt||'';
-   $('receipt').value=deliveryTrip.deu||'';
-   $('reportType').value=deliveryTrip.storageType||'landed';
+   if(!$('editId').value){
+     $('departureAt').value=deliveryTrip.departure||'';
+     $('arrivalAt').value=deliveryTrip.returnAt||'';
+     $('receipt').value=deliveryTrip.deu||'';
+     $('reportType').value=deliveryTrip.storageType||'landed';
+   }
    applyReportTypeUi();
 
    const aggregateEdit=!!$('editId').value&&trips.length>1;
@@ -4101,7 +4229,7 @@ function formatPriceInput(el){
 
 function resetForm(){editingVirtualDeliveryTrip=null;if($('manualCrates'))delete $('manualCrates').dataset.aggregateEdit;
  clearEntryValidation();
- $('entryForm').reset();$('editId').value='';$('deliveryTripId').value='';$('formTitle').textContent='Neue Lieferung';$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value='';$('reportType').value='';$('entryForm').classList.remove('zero-report');$('entryForm').classList.add('non-delivery-report');$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value='';$('sieveDate').disabled=true;$('sieveDateField').classList.add('is-disabled');$('sieveDate').value='';$('note').value='';$('manualCrates').disabled=false;$('manualCrates').value='';entrySyncSource='crates';$('entryBoxWeightMeta').disabled=false;$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value='';if($('estimatedLiveWeightMeta'))$('estimatedLiveWeightMeta').value='';if($('liveWeightMeta'))$('liveWeightMeta').value='';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
+ $('entryForm').reset();$('editId').value='';$('deliveryTripId').value='';$('formTitle').textContent='Neue Lieferung';if($('entryPriceScope')){$('entryPriceScope').classList.add('hidden');$('entryPriceScope').value='single';}$('editModeBanner').classList.add('hidden');$('cancelEdit').classList.add('hidden');$('entryForm').classList.remove('editing-mode');$('entryForm').classList.remove('work-in-progress');$('workModeBanner').classList.add('hidden');$('date').value='';$('reportType').value='';$('entryForm').classList.remove('zero-report');$('entryForm').classList.add('non-delivery-report');$('departureAt').value='';$('arrivalAt').value='';$('sourceProcessingMode').value='single';$('supplier').value='';$('sieveDate').disabled=true;$('sieveDateField').classList.add('is-disabled');$('sieveDate').value='';$('note').value='';$('manualCrates').disabled=false;$('manualCrates').value='';entrySyncSource='crates';$('entryBoxWeightMeta').disabled=false;$('entryBoxWeight').value=Number(settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value='';if($('estimatedLiveWeightMeta'))$('estimatedLiveWeightMeta').value='';if($('liveWeightMeta'))$('liveWeightMeta').value='';$('vcatchBoxesRounded').dataset.manual='0';$('vcatchBoxesRounded').value='';
  ['w1','w2','w3','waste'].forEach(id=>{$(id).disabled=true;$(id).value=''});latestPrices().forEach((p,i)=>$('p'+(i+1)).value=Number(p).toFixed(2));
  [1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=true;e.classList.add('locked')});$('togglePrices').textContent='Preise ändern';renderSourceTripChoices();clearNewDeliveryTripFields();formCalc();updateEntryTripNumber();showSavedRecord(savedRecordId);setEntryEditDirty(false)
 }
@@ -4233,11 +4361,20 @@ function renderDashboard(){
    <div class="week-summary-item"><span>Wochenumsatz</span><strong>${eur(wt.revenue)}</strong></div>
    <div class="week-summary-item"><span>Lohn</span><strong>${eur(wt.wage)}</strong></div>
    `;
- const currentPrices=latestPrices();
+ const priceEffectiveDate=$('dashDate').value||dateKey(planMonday);
+ // v0.7.78: Preisleiste folgt der aktuell angezeigten Wochenübersicht.
+ // Die Preisberechnung je Lieferung bleibt weiter Händlerregel Sa–Fr.
+ const displayedWeekInfo=isoInfo(dateKey(planMonday));
+ const displayedPriceAnchor=dateKey(planMonday);
+ const dealerWeek=dealerPriceWeekInfo(displayedPriceAnchor);
+ const currentPrices=dealerWeekPrices(displayedPriceAnchor);
+ const dealerStart=parseDate(dealerWeek.start).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit'});
+ const dealerEnd=parseDate(dealerWeek.end).toLocaleDateString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric'});
  $('weekPriceStrip').innerHTML=`
-  <div class="week-price-title">Aktuelle Preise</div>
+  <div class="week-price-title">Preise KW ${displayedWeekInfo.week}/${displayedWeekInfo.isoYear}</div>
+  <div class="week-price-effective">${dealerStart} – ${dealerEnd} · Sa–Fr</div>
   ${[1,2,3].map((n,i)=>`<label class="week-price-edit"><span>Sorte ${n}</span><input id="dashPrice${n}" type="number" min="0" step="0.05" value="${Number(currentPrices[i]||0).toFixed(2)}"><small>€/kg</small></label>`).join('')}
-  <button class="btn primary week-price-save" id="saveWeekPrices" type="button">Preise übernehmen</button>`;
+  <button class="btn primary week-price-save" id="saveWeekPrices" type="button">Preiswoche übernehmen</button>`;
  [1,2,3].forEach(i=>{
    const el=$('dashPrice'+i);
    if(el){
@@ -4246,14 +4383,20 @@ function renderDashboard(){
    }
  });
  $('saveWeekPrices').onclick=()=>{
-   settings.lastPrices=[1,2,3].map(i=>Math.round((Number($('dashPrice'+i).value)||0)*20)/20);
+   const selectedDate=displayedPriceAnchor;
+   const newPrices=[1,2,3].map(i=>Math.round((Number($('dashPrice'+i).value)||0)*20)/20);
+   const result=applyPricesToDealerWeek(selectedDate,newPrices);
+   settings.lastPrices=newPrices;
    settings.lastPrices.forEach((p,i)=>{
      $('p'+(i+1)).value=Number(p).toFixed(2);
      $('dashPrice'+(i+1)).value=Number(p).toFixed(2);
    });
-   persist();formCalc();
-   const btn=$('saveWeekPrices');btn.textContent='Gespeichert ✓';
-   setTimeout(()=>{btn.textContent='Preise übernehmen'},1200);
+   persist();formCalc();renderDashboard();
+   const btn=$('saveWeekPrices');
+   if(btn){
+     btn.textContent=result.changed?`${result.changed} Lieferung${result.changed===1?'':'en'} in KW ${result.info.week} geändert ✓`:`Preis KW ${result.info.week} gespeichert ✓`;
+     setTimeout(()=>{if($('saveWeekPrices'))$('saveWeekPrices').textContent='Preiswoche übernehmen'},1600);
+   }
  };
  $('prevWeek').textContent='← KW '+(info.week>1?info.week-1:weeksInIsoYear(info.isoYear-1).length);
  $('nextWeek').textContent='KW '+(info.week<weeksInIsoYear(info.isoYear).length?info.week+1:1)+' →';
@@ -4550,10 +4693,57 @@ $('pendingForm').addEventListener('submit',e=>{
  storePendingTrip({keepForm:false});
 });
 // v0.7.57: vCatch-Archivfenster – Laufzeitfehler beim Zeilenklick behoben.
-$('entryForm').addEventListener('submit',e=>{e.preventDefault();if(!validateEntryForm())return;const r=applyVcatchFromLiveRecord(normalize({id:$('editId').value||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),reportType:$('reportType').value,note:$('note').value.trim(),sorts:formSortsForRecord(),waste:isDirectProductReportType($('reportType').value)?0:n('waste'),quality:0,manualCrates:ownCratesForSave(),sieveDate:isProductReportType($('reportType').value)?$('sieveDate').value:'',sourceTripIds:(getSelectedTripIds().filter(id=>!id.startsWith('record:')).length?getSelectedTripIds().filter(id=>!id.startsWith('record:')):($('editId').value?(effectiveSourceTripIds(records.find(x=>x.id===$('editId').value)||{}).filter(id=>!id.startsWith('record:'))):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value.startsWith('record:')?'':$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),estimatedLiveWeight:ownEstimatedForSave(),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()}));const i=records.findIndex(x=>x.id===r.id);if(i>=0)records[i]=r;else records.push(r);settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);settings.boxWeight=r.boxWeight;if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}savedRecordId=r.id;refresh();const wasEdit=i>=0;status('formStatus',wasEdit?(r.reportType==='zero'?'Nullmeldung aktualisiert.':'Lieferung aktualisiert.'):(r.reportType==='zero'?'Nullmeldung gespeichert.':'Lieferung gespeichert.'));resetForm();flashSaved($('entryForm'));showSavedRecord(r.id)});
+$('entryForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ if(!validateEntryForm())return;
+ const existingId=$('editId').value;
+ const original=existingId?records.find(x=>x.id===existingId):null;
+ const originalPrices=original?recordPrices(original):null;
+ const priceScope=existingId&&$('entryPriceScope')?$('entryPriceScope').value:'single';
+ const r=applyVcatchFromLiveRecord(normalize({id:existingId||crypto.randomUUID(),date:$('date').value,departureAt:$('departureAt').value,arrivalAt:$('arrivalAt').value,supplier:$('supplier').value.trim(),receipt:$('receipt').value.trim(),reportType:$('reportType').value,note:$('note').value.trim(),sorts:formSortsForRecord(),waste:isDirectProductReportType($('reportType').value)?0:n('waste'),quality:0,manualCrates:ownCratesForSave(),sieveDate:isProductReportType($('reportType').value)?$('sieveDate').value:'',sourceTripIds:(getSelectedTripIds().filter(id=>!id.startsWith('record:')).length?getSelectedTripIds().filter(id=>!id.startsWith('record:')):(existingId?(effectiveSourceTripIds(records.find(x=>x.id===existingId)||{}).filter(id=>!id.startsWith('record:'))):[])),sourceProcessingMode:$('sourceProcessingMode').value,deliveryTripId:$('deliveryTripId').value.startsWith('record:')?'':$('deliveryTripId').value,wageRate:Number(settings.wage)||0,estimatedKgPerCrate:n('entryBoxWeightMeta'),estimatedLiveWeight:ownEstimatedForSave(),boxWeight:n('entryBoxWeight')||Number(settings.boxWeight)||17,vcatchBoxesRounded:n('vcatchBoxesRounded'),updatedAt:new Date().toISOString()}));
+ const i=records.findIndex(x=>x.id===r.id);
+ if(i>=0)records[i]=r;else records.push(r);
+ let propagated=0;
+ let propagatedWeek=null;
+ if(i>=0&&priceScope==='week'&&originalPrices&&!priceSetsEqual(originalPrices,recordPrices(r))){
+   const priceWeekResult=applyPricesToDealerWeek(r.date,recordPrices(r),{excludeId:r.id});
+   propagated=priceWeekResult.changed;
+   propagatedWeek=priceWeekResult.info;
+ }
+ settings.lastPrices=r.sorts.map(s=>Number(s.price)||0);
+ settings.boxWeight=r.boxWeight;
+ if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);
+
+ // v0.7.78: Bei einer bearbeiteten Lieferung müssen Auslauf-/Einlaufzeit
+ // auch in der verknüpften Lieferreise aktualisiert werden. Sonst würde
+ // beim nächsten Öffnen wieder die alte Zeit aus pendingTrips erscheinen.
+ if(i>=0){
+   const linkedTripId=(r.deliveryTripId&&pendingTrips.some(t=>t.id===r.deliveryTripId))
+     ?r.deliveryTripId
+     :((original?.deliveryTripId&&pendingTrips.some(t=>t.id===original.deliveryTripId))
+       ?original.deliveryTripId
+       :(r.sourceTripIds||[]).find(id=>pendingTrips.some(t=>t.id===id)));
+   if(linkedTripId){
+     pendingTrips=pendingTrips.map(t=>t.id===linkedTripId?{
+       ...t,
+       departure:r.departureAt||t.departure||'',
+       returnAt:r.arrivalAt||'',
+       updatedAt:new Date().toISOString()
+     }:t);
+   }
+ }
+
+ if(r.sourceTripIds.length){pendingTrips=pendingTrips.map(t=>r.sourceTripIds.includes(t.id)?{...t,status:'completed',completedBy:r.id,completedAt:new Date().toISOString()}:t)}
+ savedRecordId=r.id;
+ refresh();
+ const wasEdit=i>=0;
+ const baseMsg=wasEdit?(r.reportType==='zero'?'Nullmeldung aktualisiert.':'Lieferung aktualisiert.'):(r.reportType==='zero'?'Nullmeldung gespeichert.':'Lieferung gespeichert.');
+ status('formStatus',propagated?baseMsg+` Preise zusätzlich für ${propagated} weitere Lieferung${propagated===1?'':'en'} der Preis-KW ${propagatedWeek.week}/${propagatedWeek.isoYear} geändert.`:baseMsg);
+ resetForm();flashSaved($('entryForm'));showSavedRecord(r.id)
+});
 function editRecord(id){
  const r=records.find(x=>x.id===id);if(!r)return;
- show('entry');$('editId').value=r.id;$('formTitle').textContent='Lieferung bearbeiten';
+ show('entry');$('editId').value=r.id;$('formTitle').textContent='Lieferung bearbeiten';if($('entryPriceScope')){$('entryPriceScope').classList.remove('hidden');$('entryPriceScope').value='week';}
  $('editModeBanner').textContent='Bearbeitungsmodus – Änderungen noch nicht gespeichert: '+parseDate(r.date).toLocaleDateString('de-DE')+' · KW '+weekNo(r.date)+(r.receipt?' · '+r.receipt:'');
  $('editModeBanner').classList.remove('hidden');$('cancelEdit').classList.remove('hidden');$('entryForm').classList.add('editing-mode');
  $('date').value=r.date;$('deliveryTripId').value=r.deliveryTripId||'';$('departureAt').value=r.departureAt||'';$('arrivalAt').value=r.arrivalAt||'';$('supplier').value=r.supplier||r.date||'';$('receipt').value=r.receipt||'';$('reportType').value=r.reportType||'landed';$('sieveDate').value=r.sieveDate||r.date||'';$('manualCrates').value=Number(r.manualCrates)||'';$('note').value=r.note||'';$('entryBoxWeight').value=Number(r.boxWeight||settings.boxWeight||17).toFixed(1);$('entryBoxWeightMeta').value=estimatedKgPerCrateForRecord(r)>0?Number(estimatedKgPerCrateForRecord(r)).toFixed(2):'';$('estimatedLiveWeightMeta').value=String(wholeKg(Number(r.estimatedLiveWeight)>0?Number(r.estimatedLiveWeight):(Number(r.manualCrates)||0)*estimatedKgPerCrateForRecord(r)));$('vcatchBoxesRounded').value=String(Number.isFinite(Number(r.vcatchBoxesRounded))?Number(r.vcatchBoxesRounded):roundBoxes(r.boxes));$('vcatchBoxesRounded').dataset.manual=Number.isFinite(Number(r.vcatchBoxesRounded))?'1':'0';
@@ -4591,7 +4781,17 @@ document.querySelectorAll('.price-quick').forEach((e,i,a)=>{
  e.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&!e.readOnly){ev.preventDefault();formatPriceInput(e);const next=a[i+1];if(next&&!next.readOnly){next.focus();next.select()}else{$('togglePrices').click();$('w1').focus();$('w1').select()}}});
  e.addEventListener('blur',()=>formatPriceInput(e));
 });
-$('togglePrices').onclick=()=>{const locked=$('p1').readOnly;[1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=!locked;e.classList.toggle('locked',!locked)});$('togglePrices').textContent=locked?'Preise übernehmen':'Preise ändern';if(locked){$('p1').focus();$('p1').select()}else{settings.lastPrices=[n('p1'),n('p2'),n('p3')];persist();formCalc()}};
+$('togglePrices').onclick=()=>{
+ const locked=$('p1').readOnly;
+ [1,2,3].forEach(i=>{const e=$('p'+i);e.readOnly=!locked;e.classList.toggle('locked',!locked)});
+ $('togglePrices').textContent=locked?'Preise übernehmen':'Preise ändern';
+ if($('editId').value&&$('entryPriceScope'))$('entryPriceScope').classList.remove('hidden');
+ if(locked){$('p1').focus();$('p1').select()}
+ else{
+   settings.lastPrices=[n('p1'),n('p2'),n('p3')];
+   persist();formCalc();
+ }
+};
 $('entryForm').addEventListener('input',()=>{if($('editId').value)setEntryEditDirty(true)});
 $('entryForm').addEventListener('change',()=>{if($('editId').value)setEntryEditDirty(true)});
 $('reportType').addEventListener('change',()=>{applyReportTypeUi();clearEntryValidation();updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('resetForm').onclick=cancelEntryInput;$('pendingReset').onclick=cancelPendingInput;$('pendingQuantity').oninput=()=>updatePendingQuantityUi('crates');$('pendingKgPerCrate').oninput=()=>updatePendingQuantityUi(pendingSyncSource==='total'?'total':'crates');$('pendingTotalKg').oninput=()=>updatePendingQuantityUi('total');$('pendingDeparture').addEventListener('input',updatePendingTripNumber);$('pendingDeu').addEventListener('input',updatePendingTripNumber);$('cancelEdit').onclick=cancelEntryInput;$('entryBoxWeight').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='0';formCalc()});$('entryBoxWeightMeta').addEventListener('input',()=>{syncEntryCratesAndLive('rate');formCalc()});$('vcatchBoxesRounded').addEventListener('input',()=>{$('vcatchBoxesRounded').dataset.manual='1';updateInfoPanelFromForm()||showSavedRecord(savedRecordId)});$('manualCrates').addEventListener('input',()=>{syncEntryCratesAndLive('crates');formCalc()});$('estimatedLiveWeightMeta').addEventListener('input',()=>{syncEntryCratesAndLive('live');formCalc()});['pendingQuantity','pendingKgPerCrate','manualCrates','entryBoxWeightMeta'].forEach(id=>$(id).addEventListener('blur',()=>{if($(id).value!=='')$(id).value=String(roundHalf($(id).value));id.startsWith('pending')?updatePendingQuantityUi(pendingSyncSource):syncEntryCratesAndLive(entrySyncSource);formCalc()}));['pendingTotalKg','estimatedLiveWeightMeta'].forEach(id=>$(id).addEventListener('blur',()=>{if($(id).value!=='')$(id).value=String(wholeKg($(id).value));id==='pendingTotalKg'?updatePendingQuantityUi('total'):syncEntryCratesAndLive('live');formCalc()}));document.querySelectorAll('#entryForm input,#entryForm select').forEach(el=>el.addEventListener('input',()=>{el.classList.remove('field-error');el.parentElement?.querySelector('.field-error-message')?.remove()}));$('departureAt').addEventListener('input',()=>{updateEntryTripNumber();updateInfoPanelFromForm()});$('arrivalAt').addEventListener('change',()=>{if($('arrivalAt').value){const d=$('arrivalAt').value.slice(0,10);$('supplier').value=d;if(isProductReportType($('reportType').value))$('sieveDate').value=d;$('date').value=d;}formCalc();});$('entryDateSearch').onclick=searchDeliveryByDate;$('supplier').addEventListener('input',()=>{if(isProductReportType($('reportType').value))$('sieveDate').value=$('supplier').value;updateInfoPanelFromForm();});['receipt','note','arrivalAt','sieveDate','date','sourceProcessingMode'].forEach(id=>$(id).addEventListener('input',()=>{updateInfoPanelFromForm()||showSavedRecord(savedRecordId)}));$('savedPrev').onclick=()=>moveSavedRecord(-1);$('savedLast').onclick=showLastSavedRecord;$('savedEdit').onclick=editSavedRecord;$('savedNext').onclick=()=>moveSavedRecord(1);$('closeNoteModal').onclick=closeNote;$('closeSourceTripModal').onclick=closeSourceTrip;$('sourceTripModal').addEventListener('click',e=>{if(e.target===$('sourceTripModal'))closeSourceTrip()});$('noteModal').addEventListener('click',e=>{if(e.target===$('noteModal'))closeNote()});$('dashDate').onchange=()=>{$('dashYear').value=String(isoInfo($('dashDate').value).isoYear);$('monthSelect').value=parseDate($('dashDate').value).getMonth();renderDashboard()};$('todayBtn').onclick=()=>{
@@ -4742,7 +4942,7 @@ $('importExcel2025').onclick=()=>{
  status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
 };
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.74-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.67-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.78-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.67-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
@@ -4767,7 +4967,7 @@ $('importJson').onchange=async e=>{
  }
  e.target.value='';
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.74-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.78-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -5283,3 +5483,16 @@ document.addEventListener('input',e=>{
 setTimeout(syncWasteShareMirror,0);
 </script>
 </body></html>
+
+<style>
+@media(max-width:700px){
+ .entry-price-actions{width:100%!important;align-items:stretch!important}
+ .price-scope-select{max-width:none!important;width:100%!important}
+}
+.week-price-effective{
+ font-size:.68rem;
+ font-weight:800;
+ color:#57727d;
+ white-space:nowrap;
+}
+</style>
