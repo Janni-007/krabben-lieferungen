@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Krabben-Lieferungen v0.7.80 Standalone</title>
+<title>Krabben-Lieferungen v0.7.81 Standalone</title>
 <style>
 :root{--bg:#eef4f7;--card:#fff;--ink:#173042;--muted:#667b87;--line:#d4e0e6;--blue:#0f6f91;--blue2:#0a526d;--green:#167a59;--red:#b43a3a;--amber:#a36b00;--shadow:0 7px 22px rgba(20,54,72,.09)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;font-size:13px}
@@ -1976,7 +1976,7 @@ body{zoom:1.10!important}
 @supports not (zoom:1){body{transform:scale(1.10)!important;transform-origin:top left!important;width:90.91%!important}}
 
 
-/* v0.7.80 Standalone: sichere Reiseübernahme und Mobilansicht */
+/* v0.7.81 Standalone: sichere Reiseübernahme und Mobilansicht */
 .source-mode-row:has(#sourceProcessingMode[value="combined"]){border-color:#b47d00!important}
 #sourceProcessingMode{pointer-events:none;background:#fffdf5!important}
 #sourceProcessingMode option{color:#173847}
@@ -2152,14 +2152,14 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.80 – Hinweis für nicht aktuelle Woche entfällt; Farbmarkierung reicht */
+/* v0.7.81 – Hinweis für nicht aktuelle Woche entfällt; Farbmarkierung reicht */
 #weekNotCurrent,
 .week-not-current{
  display:none!important;
 }
 
 
-/* v0.7.80 – vCatch-Lieferdetails in 3 Spalten:
+/* v0.7.81 – vCatch-Lieferdetails in 3 Spalten:
    Spalte 1 = linke Detailfelder
    Spalte 2 = rechte Detailfelder
    Spalte 3 = Sorte 1/2/3 + Sieb */
@@ -2257,13 +2257,13 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.80 – dritte Spalte mit Sorte 1/2/3/Sieb immer untereinander */
+/* v0.7.81 – dritte Spalte mit Sorte 1/2/3/Sieb immer untereinander */
 .vcatch-read-details .info-line-grid > *{
  width:100%!important;
 }
 
 
-/* v0.7.80 – dritte Spalte wirklich untereinander:
+/* v0.7.81 – dritte Spalte wirklich untereinander:
    Sorte 1, Sorte 2, Sorte 3, Sieb als vertikale Liste */
 .vcatch-read-details .info-panel{
   display:grid!important;
@@ -2360,7 +2360,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.80 – Gesamtgewicht zur direkten Kontrolle über Sorte 2 + Sorte 3 */
+/* v0.7.81 – Gesamtgewicht zur direkten Kontrolle über Sorte 2 + Sorte 3 */
 .entry-left-stack .price-edit-head{
  display:grid!important;
  grid-template-columns:repeat(4,minmax(0,1fr))!important;
@@ -2452,7 +2452,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.80 – Monatslohn in Abschnitt 3 */
+/* v0.7.81 – Monatslohn in Abschnitt 3 */
 .month-quick-grid .mq-wage-head,
 .month-quick-grid .mq-wage{
  background:#e8f1f7!important;
@@ -2461,7 +2461,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.80 – laufende Fangreise im Dashboard nur anzeigen; Bearbeitungsfarbe erst nach Klick auf Bearbeiten */
+/* v0.7.81 – laufende Fangreise im Dashboard nur anzeigen; Bearbeitungsfarbe erst nach Klick auf Bearbeiten */
 .dashboard-pending-form.pending-preview-mode .dashboard-trip-grid{
  opacity:1!important;
 }
@@ -2473,7 +2473,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.80 – Datum/Uhrzeit in Lieferung erfassen vollständig sichtbar */
+/* v0.7.81 – Datum/Uhrzeit in Lieferung erfassen vollständig sichtbar */
 @media(min-width:1251px){
  .entry-meta-grid{
   grid-template-columns:
@@ -2624,7 +2624,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.80 – vCatch-Info deutlich kompakter */
+/* v0.7.81 – vCatch-Info deutlich kompakter */
 .vcatch-read-modal{
  padding:8px!important;
  align-items:flex-start!important;
@@ -2755,7 +2755,7 @@ body{zoom:1.10!important}
 }
 
 
-/* v0.7.80 – unterer Bereich der vCatch-Info deutlich kompakter */
+/* v0.7.81 – unterer Bereich der vCatch-Info deutlich kompakter */
 .vcatch-read-details .vcatch-read-subtitle{
  font-size:.62rem!important;
  margin-bottom:3px!important;
@@ -2879,7 +2879,7 @@ body{zoom:1.10!important}
 </style>
 </head>
 <body>
-<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.80 · Standalone · Backup-Import mit sicherem Neustart</div></div>
+<header><div class="header"><div><h1>🦐 Krabben-Lieferungen</h1><div class="version">Version 0.7.81 · Standalone · Firebase-Neustart nach Backup korrigiert</div></div>
 <div class="backup-badge"><span>Backup</span><strong id="backupVersionBadge">–</strong></div><div class="sync-badge" id="syncBadge"><span>Cloud-Sync</span><strong id="syncStatusText">Startet …</strong></div><nav class="tabs"><button class="tab active" data-view="dashboard">Dashboard</button><button class="tab" data-view="entry">Lieferung erfassen</button><button class="tab" data-view="list">Lieferungen</button><button class="tab" data-view="settings">Einstellungen &amp; Backup</button></nav></div></header>
 <main>
 <section class="view active" id="dashboard">
@@ -4362,7 +4362,7 @@ function renderDashboard(){
    <div class="week-summary-item"><span>Lohn</span><strong>${eur(wt.wage)}</strong></div>
    `;
  const priceEffectiveDate=$('dashDate').value||dateKey(planMonday);
- // v0.7.80: Preisleiste folgt der aktuell angezeigten Wochenübersicht.
+ // v0.7.81: Preisleiste folgt der aktuell angezeigten Wochenübersicht.
  // Die Preisberechnung je Lieferung bleibt weiter Händlerregel Sa–Fr.
  const displayedWeekInfo=isoInfo(dateKey(planMonday));
  const displayedPriceAnchor=dateKey(planMonday);
@@ -4714,7 +4714,7 @@ $('entryForm').addEventListener('submit',e=>{
  settings.boxWeight=r.boxWeight;
  if(Number(r.estimatedKgPerCrate)>0)settings.lastEstimatedKgPerCrate=Number(r.estimatedKgPerCrate);
 
- // v0.7.80: Bei einer bearbeiteten Lieferung müssen Auslauf-/Einlaufzeit
+ // v0.7.81: Bei einer bearbeiteten Lieferung müssen Auslauf-/Einlaufzeit
  // auch in der verknüpften Lieferreise aktualisiert werden. Sonst würde
  // beim nächsten Öffnen wieder die alte Zeit aus pendingTrips erscheinen.
  if(i>=0){
@@ -4942,7 +4942,7 @@ $('importExcel2025').onclick=()=>{
  status('excelStatus',added?`${added} Lieferungen aus den eingebauten Daten 2025 importiert. ${duplicates} bereits vorhandene Lieferungen wurden übersprungen. Die Ansicht steht jetzt auf 2025.`:'Alle eingebauten Lieferungen 2025 sind bereits vorhanden. Die Ansicht wurde auf 2025 gestellt.');
 };
 $('removeExcelImports').onclick=()=>{const count=records.filter(r=>String(r.note||'').startsWith('Import Excel')).length;if(!count){status('excelStatus','Es sind keine Excel-Importdaten vorhanden.');return}if(confirm(count+' importierte Excel-Lieferungen wirklich entfernen?')){records=records.filter(r=>!String(r.note||'').startsWith('Import Excel'));refresh();status('excelStatus',count+' Excel-Importdatensätze entfernt.')}};
-$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.80-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.80-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
+$('exportJson').onclick=()=>download('Krabben_Backup_v0.7.81-Standalone_'+today()+'.json',JSON.stringify({app:'Krabben-Lieferungen',version:'0.7.81-standalone',backupDate:new Date().toISOString(),settings,records,pendingTrips},null,2),'application/json');
 $('importJson').onchange=async e=>{
  const input=e.target;
  const file=input.files&&input.files[0];
@@ -4972,7 +4972,7 @@ $('importJson').onchange=async e=>{
      const safetyKey='krabben_backup_safety_v080';
      localStorage.setItem(safetyKey,JSON.stringify({
        app:'Krabben-Lieferungen',
-       version:'0.7.80-safety',
+       version:'0.7.81-safety',
        backupDate:new Date().toISOString(),
        settings,
        records,
@@ -5015,7 +5015,7 @@ $('importJson').onchange=async e=>{
    input.value='';
  }
 };
-$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.80-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
+$('exportCsv').onclick=()=>{const rows=[['Datum','KW','Meldungsart','Sorte1 kg','Sorte1 Preis','Sorte2 kg','Sorte2 Preis','Sorte3 kg','Sorte3 Preis','Sieb kg','Produktgewicht inkl. Sieb kg','kg je vCatch-Kiste','Kisten rechnerisch','Kisten gerundet','Umsatz','Lohnanteil'],...records.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>{r=applyVcatchFromLiveRecord(normalize(r));return [r.date,weekNo(r.date),reportTypeLabel(r.reportType),r.sorts[0].weight,r.sorts[0].price,r.sorts[1].weight,r.sorts[1].price,r.sorts[2].weight,r.sorts[2].price,r.waste,r.catchWeight,r.boxWeight,r.boxes,Number(r.vcatchBoxesRounded)||0,r.total,r.wage]})];download('Krabben_Lieferungen_v0.7.81-Standalone_'+today()+'.csv','\ufeff'+rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\n'),'text/csv;charset=utf-8')};
 
 window.KrabbenCloudBridge={
  getState:()=>({
@@ -5445,7 +5445,10 @@ window.addEventListener("krabben-local-change",scheduleUpload);
 $id("googleSignInBtn").onclick=async()=>{
   try{
     setSyncUi("syncing","Anmeldung …","Google-Anmeldung wird geöffnet");
-    await signInWithPopup(auth,provider);
+    const result=await signInWithPopup(auth,provider);
+    if(result?.user){
+      await initializeSyncForUser(result.user,{forceChoice:true});
+    }
   }catch(err){
     console.error(err);
     setSyncUi("error","Anmeldung fehlgeschlagen",firebaseErrorText(err));
@@ -5472,11 +5475,16 @@ $id("reconnectBtn").onclick=()=>{
 };
 $id("uploadLocalBtn").onclick=async()=>{
   if(!currentUser){bridge.showMessage("Bitte zuerst mit Google anmelden.",false);return}
+  if(!cloudRef){
+    await initializeSyncForUser(currentUser,{forceChoice:true});
+    if(!cloudRef){bridge.showMessage("Cloud-Verbindung ist noch nicht bereit.",false);return}
+  }
   if(confirm("Lokale Daten wirklich in die Cloud schreiben? Der bisherige Cloud-Stand wird vorher lokal gesichert.")){
     if(latestCloudState)saveSafetyCopy("cloud_vor_upload",latestCloudState);
     initialized=true;
     localStorage.removeItem('krabben_backup_import_pending');
     await uploadState("Lokale Daten werden hochgeladen");
+    startRealtimeListener();
   }
 };
 $id("downloadCloudBtn").onclick=async()=>{
@@ -5532,11 +5540,17 @@ setPersistence(auth,browserLocalPersistence)
   .catch(err=>console.warn("Persistence:",err))
   .finally(()=>{
     onAuthStateChanged(auth,user=>{
-      updateAuthUi(user);
       const pendingBackupRaw=localStorage.getItem('krabben_backup_import_pending');
-      if(pendingBackupRaw){
+
+      // Immer die normale Firebase-Initialisierung laufen lassen, damit
+      // Auth, cloudRef, Buttons und Geräteanzeige sauber aufgebaut werden.
+      initializeSyncForUser(user).then(()=>{
+        if(!pendingBackupRaw)return;
+
         let meta={};
         try{meta=JSON.parse(pendingBackupRaw)||{}}catch{}
+
+        // Nach Backup-Import niemals automatisch hochladen oder Cloud übernehmen.
         initialized=false;
         stopRealtime();
         setSyncUi("syncing","Backup lokal geladen","Cloud noch unverändert – bitte Datenstand auswählen");
@@ -5544,9 +5558,11 @@ setPersistence(auth,browserLocalPersistence)
           `Backup lokal geladen: ${meta.records??'–'} Lieferungen · ${meta.pending??'–'} Fangreisen. Wenn dieser Stand richtig ist, „Lokale Daten hochladen“ wählen.`,
           true
         );
-        return;
-      }
-      initializeSyncForUser(user);
+      }).catch(err=>{
+        console.error(err);
+        setSyncUi("error","Fehler",firebaseErrorText(err));
+        bridge.showMessage("Firebase-Verbindung fehlgeschlagen: "+firebaseErrorText(err),false);
+      });
     });
   });
 
